@@ -1,14 +1,6 @@
 {
   "name": "xavai-web",
   "version": "1.0.0",
-  "description": "XavAi Web App",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "engines": {
     "node": "24.x"
   }
