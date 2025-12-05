@@ -7,22 +7,31 @@ if (!API_KEY) {
 }
 
 const genAI = new GoogleGenerativeAI(API_KEY);
-// GANTI MODEL KE YANG LEBIH STABIL
-const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') return res.status(405).json({ error: 'Method Not Allowed' });
 
     try {
-        const { prompt } = req.body;
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
-        const text = response.text();
+        console.log("INFO: Sedang mencari daftar model yang tersedia...");
+        
+        // Ini adalah perintah detektifnya
+        const response = await genAI.listModels();
+        const models = response.models;
 
-        res.status(200).json({ type: "text", data: text });
+        console.log("SUKSES: Daftar model ditemukan!");
+        
+        // Cetak daftar model ke log Vercel
+        models.forEach(model => {
+            console.log(`- Nama Model: ${model.name}, Versi API: ${model.version}, Metode: ${model.supportedGenerationMethods.join(', ')}`);
+        });
+
+        res.status(200).json({ 
+            type: "text", 
+            data: "Detektif selesai bekerja. Silakan cek log Vercel untuk melihat daftar model yang tersedia." 
+        });
 
     } catch (error) {
-        console.error("Backend Error:", error);
-        res.status(500).json({ error: `Terjadi kesalahan: ${error.message}` });
+        console.error("ERROR: Detektif gagal bekerja:", error.message);
+        res.status(500).json({ error: `Detektif gagal: ${error.message}` });
     }
 };
