@@ -3,235 +3,236 @@
 <head>
     <meta charset="UTF-8">
     <title>GusOfcXD 404</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #000; color: #0f0; font-family: 'Share Tech Mono', monospace; margin: 0; height: 100vh; display: flex; flex-direction: column; overflow: hidden; position: relative; }
-        body::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: repeating-linear-gradient(rgba(0, 255, 0, 0.05) 0px, transparent 1px, transparent 2px, rgba(0, 255, 0, 0.05) 3px); pointer-events: none; z-index: 1; }
-        .main-container { width: 100%; max-width: 900px; height: 100%; max-height: 850px; margin: auto; display: flex; flex-direction: column; background-color: rgba(10, 10, 10, 0.9); border: 1px solid #0f0; box-shadow: 0 0 25px rgba(0, 255, 0, 0.5), inset 0 0 15px rgba(0, 255, 0, 0.1); position: relative; z-index: 2; }
-        .header { padding: 15px 25px; background-color: #111; border-bottom: 2px solid #0f0; display: flex; justify-content: space-between; align-items: center; }
-        .header-title { font-family: 'Orbitron', sans-serif; font-size: 1.8em; font-weight: 700; color: #0f0; text-shadow: 0 0 10px #0f0, 0 0 20px #0a0; letter-spacing: 2px; animation: glitch-text 3s infinite; }
-        @keyframes glitch-text { 0%, 100% { text-shadow: 0 0 10px #0f0, 0 0 20px #0a0; } 25% { text-shadow: -2px 0 #f0f, 2px 0 #0ff; } 50% { text-shadow: 2px 0 #f0f, -2px 0 #0ff; } 75% { text-shadow: 0 0 10px #0f0, 0 0 20px #0a0; } }
-        .menu-btn { background: none; border: none; color: #0f0; font-size: 2em; cursor: pointer; padding: 0 10px; transition: transform 0.2s; }
-        .menu-btn:hover { transform: scale(1.2); }
-        .content-wrapper { display: flex; flex-grow: 1; overflow: hidden; }
-        .chat-history { width: 280px; background-color: #111; border-right: 1px solid #0f0; padding: 20px; overflow-y: auto; transform: translateX(-100%); position: absolute; height: 100%; transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
-        .chat-history.open { transform: translateX(0); }
-        .history-title { font-family: 'Orbitron', sans-serif; font-size: 1.2em; color: #0f0; margin-bottom: 20px; text-align: center; }
-        .history-list { list-style: none; padding: 0; margin: 0; }
-        .history-item { background-color: #0a0a0a; border: 1px solid #050; padding: 12px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s; border-radius: 4px; }
-        .history-item:hover { background-color: #0f0; color: #000; transform: translateX(5px); }
-        .chat-window { flex-grow: 1; display: flex; flex-direction: column; padding: 20px; overflow-y: auto; }
-        .chat-window::-webkit-scrollbar { width: 8px; }
-        .chat-window::-webkit-scrollbar-track { background: #111; }
-        .chat-window::-webkit-scrollbar-thumb { background: #0f0; }
-        .message { display: flex; margin-bottom: 20px; animation: msg-appear 0.5s ease-out; }
-        @keyframes msg-appear { from { opacity: 0; transform: translateY(20px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
-        .msg-avatar { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; margin-right: 15px; flex-shrink: 0; border: 2px solid; }
-        .bot-avatar { background: #111; border-color: #0f0; color: #0f0; }
-        .user-avatar { background: #111; border-color: #00f; color: #00f; }
-        .msg-content { background-color: #111; border: 1px solid #050; padding: 15px; border-radius: 8px; flex-grow: 1; position: relative; overflow: hidden; }
-        .msg-content::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 2px; background: #0f0; animation: scan-line 4s linear infinite; }
-        @keyframes scan-line { to { left: 100%; } }
-        .msg-content p { margin: 0; white-space: pre-wrap; word-break: break-word; }
-        .code-file { margin-top: 15px; border: 1px solid #0f0; background: #0a0a0a; }
-        .code-header { background: #0f0; color: #000; padding: 5px 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
-        .code-body { background: #000; color: #0f0; padding: 15px; font-family: 'Share Tech Mono', monospace; white-space: pre-wrap; }
-        .typing-indicator { display: none; align-items: center; }
-        .typing-indicator span { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background-color: #0f0; margin-right: 5px; animation: typing-bounce 1.4s infinite ease-in-out; }
-        .typing-indicator span:nth-child(2) { animation-delay: -0.2s; }
-        @keyframes typing-bounce { 0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; } 40% { transform: scale(1); opacity: 1; } }
-        .input-area { padding: 20px; background-color: #111; border-top: 2px solid #0f0; display: flex; gap: 15px; }
-        #prompt { flex-grow: 1; background: #000; border: 2px solid #050; color: #0f0; padding: 12px 20px; font-family: 'Share Tech Mono', monospace; font-size: 1em; outline: none; border-radius: 5px; }
-        #prompt:focus { border-color: #0f0; box-shadow: 0 0 15px rgba(0, 255, 0, 0.3); }
-        #send-btn { background: #0f0; color: #000; border: none; padding: 12px 25px; font-family: 'Orbitron', sans-serif; font-weight: 700; cursor: pointer; border-radius: 5px; transition: all 0.2s; }
-        #send-btn:hover { background: #0a0; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 255, 0, 0.5); }
-        #send-btn:active { transform: translateY(0); }
-        #send-btn.loading { animation: spin 1s linear infinite; }
+        body { background-color: #010409; color: #e6f1ff; font-family: 'Share Tech Mono', monospace; margin: 0; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+        .bg-grid { position: fixed; width: 100%; height: 100%; background-image: linear-gradient(rgba(0, 255, 170, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 170, 0.1) 1px, transparent 1px); background-size: 50px 50px; z-index: 0; animation: grid-move 10s linear infinite; }
+        @keyframes grid-move { 0% { transform: translate(0, 0); } 100% { transform: translate(50px, 50px); } }
+        .main-header { background-color: rgba(1, 4, 9, 0.8); backdrop-filter: blur(10px); padding: 15px 30px; border-bottom: 2px solid #00ffaa; display: flex; justify-content: space-between; align-items: center; z-index: 10; flex-shrink: 0; }
+        .logo { font-family: 'Orbitron', sans-serif; font-size: 2em; color: #00ffaa; text-shadow: 0 0 15px #00ffaa, 0 0 30px #00ffaa; animation: logo-pulse 3s infinite alternate; }
+        @keyframes logo-pulse { from { text-shadow: 0 0 15px #00ffaa, 0 0 30px #00ffaa; } to { text-shadow: 0 0 25px #00ffaa, 0 0 40px #00ffaa; } }
+        .menu-btn { background: none; border: 2px solid #00ffaa; color: #00ffaa; padding: 8px 15px; font-family: 'Orbitron', sans-serif; cursor: pointer; transition: all 0.3s ease; }
+        .menu-btn:hover { background-color: #00ffaa; color: #010409; box-shadow: 0 0 20px #00ffaa; }
+        .content-flex { display: flex; flex-grow: 1; overflow: hidden; }
+        .chat-sidebar { width: 300px; background-color: rgba(1, 4, 9, 0.7); backdrop-filter: blur(5px); border-right: 1px solid #00ffaa; padding: 20px; overflow-y: auto; transform: translateX(-100%); position: relative; z-index: 5; transition: transform 0.4s ease; }
+        .chat-sidebar.open { transform: translateX(0); }
+        .sidebar-title { font-family: 'Orbitron', sans-serif; color: #00ffaa; margin-bottom: 20px; text-align: center; }
+        .chat-list { list-style: none; padding: 0; }
+        .chat-item { background-color: rgba(0, 255, 170, 0.1); border: 1px solid rgba(0, 255, 170, 0.3); padding: 12px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s ease; }
+        .chat-item:hover { background-color: rgba(0, 255, 170, 0.2); border-color: #00ffaa; transform: translateX(5px); }
+        .chat-window { flex-grow: 1; display: flex; flex-direction: column; padding: 20px; overflow-y: auto; z-index: 1; }
+        .message { display: flex; margin-bottom: 25px; animation: msg-in 0.5s ease-out; }
+        @keyframes msg-in { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .avatar { width: 50px; height: 50px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; margin-right: 20px; flex-shrink: 0; }
+        .bot-avatar { background: linear-gradient(135deg, #00ffaa, #0099cc); color: #010409; }
+        .user-avatar { background: linear-gradient(135deg, #ff0099, #9900ff); color: #e6f1ff; }
+        .message-content { flex-grow: 1; }
+        .message-text { background-color: rgba(1, 4, 9, 0.7); backdrop-filter: blur(5px); border: 1px solid rgba(0, 255, 170, 0.3); padding: 15px 20px; border-radius: 8px; }
+        .message-text p { margin: 0; line-height: 1.6; }
+        .file-container { margin-top: 15px; border: 1px solid #00ffaa; border-radius: 8px; overflow: hidden; background-color: #010409; }
+        .file-header { background-color: #00ffaa; color: #010409; padding: 8px 15px; font-family: 'Orbitron', sans-serif; font-size: 1.1em; display: flex; justify-content: space-between; align-items: center; }
+        .file-name { font-weight: 700; }
+        .copy-btn { background: none; border: 1px solid #010409; color: #010409; padding: 5px 10px; cursor: pointer; font-family: 'Share Tech Mono', monospace; font-size: 0.8em; border-radius: 4px; transition: all 0.2s; }
+        .copy-btn:hover { background-color: #010409; color: #00ffaa; }
+        .file-content { padding: 20px; background-color: #0d1117; color: #c9d1d9; overflow-x: auto; }
+        .file-content pre { margin: 0; font-family: 'Share Tech Mono', monospace; white-space: pre-wrap; word-wrap: break-word; }
+        .input-area { background-color: rgba(1, 4, 9, 0.8); backdrop-filter: blur(10px); padding: 20px; border-top: 2px solid #00ffaa; display: flex; gap: 15px; z-index: 10; flex-shrink: 0; }
+        #prompt { flex-grow: 1; background-color: rgba(0, 255, 170, 0.1); border: 2px solid #00ffaa; color: #e6f1ff; padding: 12px 20px; font-family: 'Share Tech Mono', monospace; font-size: 1em; outline: none; border-radius: 8px; }
+        #prompt:focus { box-shadow: 0 0 20px rgba(0, 255, 170, 0.5) inset; }
+        #send { background: linear-gradient(135deg, #00ffaa, #0099cc); color: #010409; border: none; padding: 12px 25px; font-family: 'Orbitron', sans-serif; font-size: 1em; font-weight: 700; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; }
+        #send:hover { transform: translateY(-3px); box-shadow: 0 5px 20px rgba(0, 255, 170, 0.6); }
+        #send:active { transform: translateY(0); }
+        #send.loading { animation: spin 1s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
-    <div class="main-container">
-        <header class="header">
-            <div class="header-title">GusOfcXD 404</div>
-            <button id="menuToggle" class="menu-btn">⋮</button>
-        </header>
-        <div class="content-wrapper">
-            <aside id="chatHistory" class="chat-history">
-                <h3 class="history-title">Chat List</h3>
-                <ul id="historyList" class="history-list"></ul>
-            </aside>
-            <main id="chatWindow" class="chat-window">
-                <div class="message">
-                    <div class="msg-avatar bot-avatar">AI</div>
-                    <div class="msg-content">
-                        <p>Hi selamat datang di ai GusOfcXD 404, apa yang dapat saya bantu?</p>
+    <div class="bg-grid"></div>
+    <header class="main-header">
+        <div class="logo">GusOfcXD 404</div>
+        <button id="menuBtn" class="menu-btn">⋮</button>
+    </header>
+    <div class="content-flex">
+        <aside id="chatSidebar" class="chat-sidebar">
+            <h3 class="sidebar-title">Chat List</h3>
+            <ul id="chatList" class="chat-list"></ul>
+        </aside>
+        <main id="chatWindow" class="chat-window">
+            <div class="message">
+                <div class="avatar bot-avatar">AI</div>
+                <div class="message-content">
+                    <div class="message-text">
+                        <p>Sistem online. Ketik 'code:' untuk membuat file.</p>
                     </div>
                 </div>
-            </main>
-        </div>
-        <div class="input-area">
-            <input type="text" id="prompt" placeholder="Ketik pesan" autocomplete="off">
-            <button id="sendBtn">SEND</button>
-        </div>
+            </div>
+        </main>
+    </div>
+    <div class="input-area">
+        <input type="text" id="prompt" placeholder="Ketik pesan" autocomplete="off">
+        <button id="send">SEND</button>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const chatWindow = document.getElementById('chatWindow');
             const promptInput = document.getElementById('prompt');
-            const sendBtn = document.getElementById('sendBtn');
-            const menuToggle = document.getElementById('menuToggle');
-            const chatHistory = document.getElementById('chatHistory');
-            const historyList = document.getElementById('historyList');
+            const sendBtn = document.getElementById('send');
+            const menuBtn = document.getElementById('menuBtn');
+            const chatSidebar = document.getElementById('chatSidebar');
+            const chatList = document.getElementById('chatList');
 
-            const STORAGE_KEY = 'gusofc_chats';
+            const STORAGE_KEY = 'gusofc_terminal_data';
             let chats = {};
             let currentChatId = null;
 
             const generateId = () => '_' + Math.random().toString(36).substr(2, 9);
-            const saveChats = () => localStorage.setItem(STORAGE_KEY, JSON.stringify(chats));
-            const loadChats = () => {
+            const saveData = () => {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(chats));
+                localStorage.setItem('gusofc_current_chat', currentChatId);
+            };
+            const loadData = () => {
                 const saved = localStorage.getItem(STORAGE_KEY);
-                if (saved) {
-                    chats = JSON.parse(saved);
-                    const lastChatId = localStorage.getItem('gusofc_last_chat');
-                    if (lastChatId && chats[lastChatId]) {
-                        switchToChat(lastChatId);
-                    } else {
-                        createNewChat();
-                    }
+                if (saved) chats = JSON.parse(saved);
+                const lastId = localStorage.getItem('gusofc_current_chat');
+                if (lastId && chats[lastId]) {
+                    switchToChat(lastId);
                 } else {
                     createNewChat();
                 }
-                renderHistoryList();
+                renderChatList();
             };
             const createNewChat = () => {
                 const newId = generateId();
-                const newTitle = `chat_${Date.now()}`;
-                chats[newId] = { title: newTitle, messages: [] };
+                chats[newId] = [];
                 currentChatId = newId;
-                saveChats();
-                renderHistoryList();
+                saveData();
+                renderChatList();
                 renderChat();
             };
-            const switchToChat = (chatId) => {
-                currentChatId = chatId;
-                localStorage.setItem('gusofc_last_chat', chatId);
+            const switchToChat = (id) => {
+                currentChatId = id;
                 renderChat();
-                renderHistoryList();
-                chatHistory.classList.remove('open');
+                renderChatList();
+                chatSidebar.classList.remove('open');
             };
-            const renderHistoryList = () => {
-                historyList.innerHTML = '';
+            const renderChatList = () => {
+                chatList.innerHTML = '';
                 Object.keys(chats).forEach(id => {
                     const li = document.createElement('li');
-                    li.className = 'history-item';
-                    if (id === currentChatId) li.style.backgroundColor = '#0f0';
-                    li.textContent = chats[id].title;
+                    li.className = 'chat-item';
+                    if (id === currentChatId) li.style.borderColor = '#00ffaa';
+                    const firstMsg = chats[id][0];
+                    li.textContent = firstMsg && firstMsg.sender === 'user' ? firstMsg.content.data.substring(0, 30) + '...' : 'New Chat';
                     li.onclick = () => switchToChat(id);
-                    historyList.appendChild(li);
+                    chatList.appendChild(li);
                 });
             };
             const renderChat = () => {
                 chatWindow.innerHTML = '';
-                const messages = chats[currentChatId].messages;
+                const messages = chats[currentChatId] || [];
                 if (messages.length === 0) {
-                    chatWindow.innerHTML = `<div class="message"><div class="msg-avatar bot-avatar">AI</div><div class="msg-content"><p>Hi selamat datang di ai GusOfcXD 404, apa yang dapat saya bantu?</p></div></div>`;
+                    chatWindow.innerHTML = `<div class="message"><div class="avatar bot-avatar">AI</div><div class="message-content"><div class="message-text"><p>Sistem online. Ketik 'code:' untuk membuat file.</p></div></div></div>`;
                 } else {
-                    messages.forEach(msg => addMessageToWindow(msg));
+                    messages.forEach(msg => addMessage(msg));
                 }
             };
-            const addMessageToWindow = (msg) => {
+            const addMessage = (msg) => {
                 const msgDiv = document.createElement('div');
                 msgDiv.className = 'message';
                 const avatar = document.createElement('div');
-                avatar.className = `msg-avatar ${msg.sender}-avatar`;
+                avatar.className = `avatar ${msg.sender}-avatar`;
                 avatar.textContent = msg.sender === 'user' ? 'U' : 'AI';
                 const content = document.createElement('div');
-                content.className = 'msg-content';
-                if (msg.type === 'code') {
-                    const p = document.createElement('p');
-                    p.textContent = 'File generated:';
-                    content.appendChild(p);
-                    const codeFile = document.createElement('div');
-                    codeFile.className = 'code-file';
-                    const codeHeader = document.createElement('div');
-                    codeHeader.className = 'code-header';
-                    codeHeader.textContent = msg.filename;
-                    const codeBody = document.createElement('div');
-                    codeBody.className = 'code-body';
-                    codeBody.textContent = msg.data;
-                    codeFile.appendChild(codeHeader);
-                    codeFile.appendChild(codeBody);
-                    content.appendChild(codeFile);
-                } else {
-                    const p = document.createElement('p');
-                    p.textContent = msg.data;
-                    content.appendChild(p);
+                content.className = 'message-content';
+                const textDiv = document.createElement('div');
+                textDiv.className = 'message-text';
+                const p = document.createElement('p');
+                p.textContent = msg.data;
+                textDiv.appendChild(p);
+                content.appendChild(textDiv);
+                if (msg.type === 'file') {
+                    const fileContainer = document.createElement('div');
+                    fileContainer.className = 'file-container';
+                    const fileHeader = document.createElement('div');
+                    fileHeader.className = 'file-header';
+                    const fileName = document.createElement('span');
+                    fileName.className = 'file-name';
+                    fileName.textContent = msg.filename;
+                    const copyButton = document.createElement('button');
+                    copyButton.className = 'copy-btn';
+                    copyButton.textContent = 'COPY';
+                    copyButton.onclick = () => {
+                        navigator.clipboard.writeText(msg.data);
+                        copyButton.textContent = 'COPIED!';
+                        setTimeout(() => copyButton.textContent = 'COPY', 2000);
+                    };
+                    fileHeader.appendChild(fileName);
+                    fileHeader.appendChild(copyButton);
+                    const fileContent = document.createElement('div');
+                    fileContent.className = 'file-content';
+                    const pre = document.createElement('pre');
+                    pre.textContent = msg.data;
+                    fileContent.appendChild(pre);
+                    fileContainer.appendChild(fileHeader);
+                    fileContainer.appendChild(fileContent);
+                    content.appendChild(fileContainer);
                 }
                 msgDiv.appendChild(avatar);
                 msgDiv.appendChild(content);
                 chatWindow.appendChild(msgDiv);
                 chatWindow.scrollTop = chatWindow.scrollHeight;
             };
-            const getFilenameFromCode = (code) => {
-                if (code.includes('<!DOCTYPE') || code.includes('<html')) return 'request.html';
+            const getFilename = (code) => {
+                if (code.includes('<!DOCTYPE') || code.includes('<html')) return 'index.html';
                 if (code.includes('<?php')) return 'request.php';
                 if (code.includes('def ') || code.includes('import ')) return 'request.py';
-                if (code.includes('public class')) return 'request.java';
-                if (code.includes('body {') || code.includes('* {')) return 'request.css';
-                if (code.includes('function') || code.includes('const ') || code.includes('console.log')) return 'request.js';
-                return 'request.txt';
+                if (code.includes('public class')) return 'Main.java';
+                if (code.includes('body {') || code.includes('* {')) return 'style.css';
+                if (code.includes('function') || code.includes('const ') || code.includes('console.log')) return 'script.js';
+                return 'file.txt';
             };
             const handleSend = async () => {
                 const text = promptInput.value.trim();
                 if (!text) return;
-                const userMessage = { sender: 'user', data: text };
-                addMessageToWindow(userMessage);
-                chats[currentChatId].messages.push(userMessage);
+                const userMsg = { sender: 'user', data: text };
+                addMessage(userMsg);
+                chats[currentChatId].push(userMsg);
                 promptInput.value = '';
                 sendBtn.disabled = true;
                 sendBtn.classList.add('loading');
                 sendBtn.textContent = '';
-                const typingIndicator = document.createElement('div');
-                typingIndicator.className = 'typing-indicator';
-                typingIndicator.innerHTML = '<div class="msg-avatar bot-avatar">AI</div><span></span><span></span><span></span>';
-                chatWindow.appendChild(typingIndicator);
-                chatWindow.scrollTop = chatWindow.scrollHeight;
                 try {
-                    const response = await fetch('/api/ai', {
+                    const res = await fetch('/api/ai', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ prompt: text }),
                     });
-                    const result = await response.json();
-                    if (!response.ok) throw new Error(result.error);
-                    let aiMessage = { sender: 'bot', data: result.data, type: 'text' };
+                    const result = await res.json();
+                    if (!res.ok) throw new Error(result.error);
+                    let aiMsg = { sender: 'bot', data: result.data };
                     if (text.toLowerCase().startsWith('code:')) {
-                        aiMessage.type = 'code';
-                        aiMessage.filename = getFilenameFromCode(result.data);
+                        aiMsg.type = 'file';
+                        aiMsg.filename = getFilename(result.data);
                     }
-                    addMessageToWindow(aiMessage);
-                    chats[currentChatId].messages.push(aiMessage);
-                    if (chats[currentChatId].messages.length === 1) {
-                        chats[currentChatId].title = text.substring(0, 30);
-                        renderHistoryList();
+                    addMessage(aiMsg);
+                    chats[currentChatId].push(aiMsg);
+                    if (chats[currentChatId].length === 2) {
+                        renderChatList();
                     }
-                } catch (error) {
-                    addMessageToWindow({ sender: 'bot', data: `Error: ${error.message}` });
+                } catch (e) {
+                    addMessage({ sender: 'bot', data: `Error: ${e.message}` });
                 } finally {
-                    saveChats();
+                    saveData();
                     sendBtn.disabled = false;
                     sendBtn.classList.remove('loading');
                     sendBtn.textContent = 'SEND';
-                    chatWindow.removeChild(typingIndicator);
                 }
             };
-            menuToggle.addEventListener('click', () => chatHistory.classList.toggle('open'));
+            menuBtn.addEventListener('click', () => chatSidebar.classList.toggle('open'));
             sendBtn.addEventListener('click', handleSend);
             promptInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleSend(); });
-            loadChats();
+            loadData();
         });
     </script>
 </body>
