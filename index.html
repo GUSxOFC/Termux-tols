@@ -2,88 +2,93 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>gusofc_terminal_v3</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <title>gusofc_terminal_compact</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #0d0d0d; color: #e0e0e0; font-family: 'Roboto Mono', monospace; margin: 0; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
-        .header-frame { background-color: #1a1a1a; padding: 10px 20px; border-bottom: 3px solid #ffb000; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 0 20px #ffb000; flex-shrink: 0; }
-        .terminal-id { font-family: 'Fira Code', monospace; font-size: 1.2em; color: #ffb000; text-shadow: 0 0 8px #ffb000; letter-spacing: 1px; }
-        .header-controls { display: flex; gap: 10px; align-items: center; }
-        .control-button { background-color: #333; color: #e0e0e0; border: 1px solid #555; padding: 6px 12px; font-family: 'Fira Code', monospace; cursor: pointer; border-radius: 4px; transition: all 0.2s ease; }
-        .control-button:hover { background-color: #ffb000; color: #0d0d0d; border-color: #ffb000; transform: translateY(-2px); }
-        .main-container { display: flex; flex-grow: 1; overflow: hidden; }
-        .chat-sidebar { width: 280px; background-color: #1a1a1a; border-right: 2px solid #333; padding: 15px; overflow-y: auto; transform: translateX(-100%); position: absolute; height: 100%; z-index: 10; transition: transform 0.3s ease-in-out; flex-shrink: 0; }
+        body { background-color: #0a0a0a; color: #ccc; font-family: 'Share Tech Mono', monospace; margin: 0; height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+        .app-wrapper { width: 95%; max-width: 1000px; height: 90vh; max-height: 800px; background-color: #1a1a1a; border-radius: 12px; box-shadow: 0 0 40px rgba(0,0,0,0.7), 0 0 0 1px #333; display: flex; flex-direction: column; overflow: hidden; }
+        .header { background-color: #2a2a2a; padding: 12px 20px; border-bottom: 2px solid #00ff88; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+        .header-title { font-family: 'JetBrains Mono', monospace; font-size: 1.1em; color: #00ff88; font-weight: 500; }
+        .header-controls { display: flex; gap: 10px; }
+        .control-btn { background-color: #444; color: #ccc; border: 1px solid #555; padding: 5px 12px; font-size: 0.9em; cursor: pointer; border-radius: 5px; transition: all 0.2s; font-family: 'Share Tech Mono', monospace; }
+        .control-btn:hover { background-color: #00ff88; color: #1a1a1a; border-color: #00ff88; }
+        .main-area { display: flex; flex-grow: 1; overflow: hidden; }
+        .chat-sidebar { width: 250px; background-color: #222; border-right: 1px solid #333; padding: 15px; overflow-y: auto; transform: translateX(-100%); position: absolute; height: 100%; z-index: 10; transition: transform 0.3s ease; flex-shrink: 0; }
         .chat-sidebar.open { transform: translateX(0); }
-        .sidebar-title { font-family: 'Fira Code', monospace; font-size: 1.1em; color: #ffb000; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        .sidebar-title { font-family: 'JetBrains Mono', monospace; font-size: 1em; color: #00ff88; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #333; }
         .chat-list { list-style: none; padding: 0; margin: 0; }
-        .chat-item { padding: 12px; background-color: #222; border-radius: 5px; margin-bottom: 8px; cursor: pointer; transition: background-color 0.2s; border: 1px solid transparent; }
-        .chat-item:hover { background-color: #2a2a2a; border-color: #ffb000; }
-        .chat-item.active { background-color: #ffb000; color: #0d0d0d; font-weight: bold; }
-        .chat-content { flex-grow: 1; display: flex; flex-direction: column; }
-        .terminal-screen { flex-grow: 1; padding: 15px; overflow-y: auto; background-image: repeating-linear-gradient(#0d0d0d, #0d0d0d 10px, #111111 10px, #111111 20px); }
-        .terminal-screen::-webkit-scrollbar { width: 8px; }
-        .terminal-screen::-webkit-scrollbar-track { background: #0d0d0d; }
-        .terminal-screen::-webkit-scrollbar-thumb { background: #ffb000; border: 1px solid #0d0d0d; }
-        .log-entry { display: flex; margin-bottom: 20px; animation: entry-pop 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-        @keyframes entry-pop { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        .avatar { width: 40px; height: 40px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: bold; margin-right: 15px; flex-shrink: 0; border: 2px solid; }
-        .bot-avatar { background-color: #2f1a1a; border-color: #ff4500; color: #ff4500; }
-        .user-avatar { background-color: #1a2f1a; border-color: #00ff00; color: #00ff00; }
-        .message-bubble { background-color: #1a1a1a; padding: 12px 16px; border-radius: 5px; border: 1px solid #333; flex-grow: 1; position: relative; overflow: hidden; }
-        .message-bubble p { margin: 0; white-space: pre-wrap; word-break: break-word; line-height: 1.5; }
-        .code-box { margin-top: 12px; border-left: 4px solid #ffb000; background-color: #222; padding: 15px; border-radius: 0 5px 5px 0; box-shadow: 3px 3px 10px rgba(0,0,0,0.5); }
-        .code-box pre { margin: 0; font-family: 'Fira Code', monospace; color: #e0e0e0; white-space: pre-wrap; word-wrap: break-word; }
-        .code-actions { margin-top: 10px; display: flex; gap: 8px; }
-        .code-action-btn { background: none; border: 1px solid #555; color: #e0e0e0; padding: 4px 10px; cursor: pointer; font-family: 'Roboto Mono', monospace; font-size: 12px; border-radius: 3px; }
-        .code-action-btn:hover { background-color: #ffb000; color: #0d0d0d; border-color: #ffb000; }
-        .typing-indicator { display: none; align-items: center; }
-        .typing-indicator span { display: inline-block; width: 8px; height: 8px; background-color: #ff4500; border-radius: 50%; margin-right: 4px; animation: typing-bounce 1.4s infinite ease-in-out; }
-        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
-        @keyframes typing-bounce { 0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; } 40% { transform: scale(1); opacity: 1; } }
-        .input-zone { background-color: #1a1a1a; padding: 15px; border-top: 3px solid #ffb000; display: flex; gap: 12px; flex-shrink: 0; }
-        #command-input { flex-grow: 1; background-color: #0d0d0d; border: 2px solid #333; color: #e0e0e0; padding: 10px 15px; font-family: 'Roboto Mono', monospace; font-size: 16px; outline: none; border-radius: 5px; transition: border-color 0.3s; }
-        #command-input:focus { border-color: #ffb000; box-shadow: 0 0 10px #ffb000 inset; }
-        #run-btn { background-color: #ffb000; color: #0d0d0d; border: none; padding: 10px 20px; font-family: 'Fira Code', monospace; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 5px; transition: all 0.2s ease; }
-        #run-btn:hover { background-color: #ff4500; transform: translateY(-2px); box-shadow: 0 4px 8px #ff4500; }
-        #run-btn:active { transform: translateY(0); }
-        #run-btn.loading { animation: spin 1s linear infinite; }
+        .chat-item { padding: 10px; background-color: #2a2a2a; border-radius: 5px; margin-bottom: 8px; cursor: pointer; transition: background-color 0.2s; font-size: 0.9em; }
+        .chat-item:hover { background-color: #333; }
+        .chat-item.active { background-color: #00ff88; color: #1a1a1a; font-weight: bold; }
+        .chat-view { flex-grow: 1; display: flex; flex-direction: column; background-color: #1a1a1a; }
+        .terminal { flex-grow: 1; padding: 15px; overflow-y: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.95em; line-height: 1.6; }
+        .terminal::-webkit-scrollbar { width: 8px; }
+        .terminal::-webkit-scrollbar-track { background: #1a1a1a; }
+        .terminal::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
+        .terminal::-webkit-scrollbar-thumb:hover { background: #555; }
+        .log { display: flex; margin-bottom: 15px; }
+        .log-avatar { width: 35px; height: 35px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; margin-right: 12px; flex-shrink: 0; }
+        .bot-avatar { background-color: #2a2a2a; border: 1px solid #00ff88; color: #00ff88; }
+        .user-avatar { background-color: #2a2a2a; border: 1px solid #00aaff; color: #00aaff; }
+        .log-content { background-color: #222; padding: 10px 15px; border-radius: 6px; border: 1px solid #333; flex-grow: 1; position: relative; }
+        .log-content p { margin: 0; white-space: pre-wrap; word-break: break-word; }
+        .code-box { margin-top: 10px; border: 1px solid #444; border-radius: 5px; overflow: hidden; }
+        .code-header { background-color: #2a2a2a; padding: 6px 12px; font-size: 0.8em; display: flex; justify-content: space-between; align-items: center; }
+        .code-filename { color: #00ff88; }
+        .code-actions button { background: none; border: 1px solid #444; color: #ccc; padding: 3px 8px; margin-left: 5px; cursor: pointer; font-family: 'Share Tech Mono', monospace; font-size: 0.8em; border-radius: 3px; }
+        .code-actions button:hover { background-color: #00ff88; color: #1a1a1a; border-color: #00ff88; }
+        .code-body { background-color: #0d1117; color: #c9d1d9; padding: 15px; font-family: 'JetBrains Mono', monospace; font-size: 0.9em; overflow-x: auto; white-space: pre-wrap; }
+        .typing { display: none; align-items: center; }
+        .typing .log-avatar { margin-right: 12px; }
+        .typing span { display: inline-block; width: 6px; height: 6px; background-color: #00ff88; border-radius: 50%; margin-right: 4px; animation: typing-bounce 1.2s infinite; }
+        .typing span:nth-child(2) { animation-delay: -0.2s; }
+        .typing span:nth-child(3) { animation-delay: -0.4s; }
+        @keyframes typing-bounce { 0%, 60%, 100% { transform: scale(0.8); opacity: 0.5; } 30% { transform: scale(1); opacity: 1; } }
+        .input-area { background-color: #2a2a2a; padding: 15px; border-top: 1px solid #333; display: flex; gap: 10px; flex-shrink: 0; }
+        #prompt { flex-grow: 1; background-color: #1a1a1a; border: 1px solid #444; color: #ccc; padding: 10px 15px; font-family: 'Share Tech Mono', monospace; font-size: 1em; border-radius: 5px; outline: none; }
+        #prompt:focus { border-color: #00ff88; }
+        #exec-btn { background-color: #00ff88; color: #1a1a1a; border: none; padding: 10px 20px; font-family: 'JetBrains Mono', monospace; font-weight: 500; cursor: pointer; border-radius: 5px; transition: all 0.2s; }
+        #exec-btn:hover { background-color: #00cc6a; transform: translateY(-1px); }
+        #exec-btn:active { transform: translateY(0); }
+        #exec-btn.loading { animation: spin 1s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(13, 13, 13, 0.9); }
-        .modal-content { background-color: #1a1a1a; margin: 4% auto; padding: 0; border: 2px solid #ffb000; width: 90%; max-width: 900px; height: 80%; display: flex; flex-direction: column; animation: modal-appear 0.3s ease-out; }
-        @keyframes modal-appear { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-        .modal-header { padding: 12px 20px; background-color: #222; border-bottom: 2px solid #ffb000; display: flex; justify-content: space-between; align-items: center; }
-        .modal-title { color: #ffb000; font-family: 'Fira Code', monospace; font-size: 18px; }
-        .modal-close { color: #e0e0e0; font-size: 28px; font-weight: bold; cursor: pointer; line-height: 20px; }
-        .modal-close:hover { color: #ff4500; }
-        .modal-body { padding: 20px; overflow-y: auto; flex-grow: 1; }
-        .modal-body pre { margin: 0; font-family: 'Fira Code', monospace; color: #e0e0e0; white-space: pre-wrap; word-wrap: break-word; }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); }
+        .modal-content { background-color: #2a2a2a; margin: 5% auto; padding: 0; border: 1px solid #444; width: 90%; max-width: 800px; height: 70%; display: flex; flex-direction: column; border-radius: 8px; }
+        .modal-header { padding: 10px 15px; background-color: #333; border-bottom: 1px solid #444; display: flex; justify-content: space-between; align-items: center; }
+        .modal-title { color: #00ff88; font-family: 'JetBrains Mono', monospace; }
+        .modal-close { color: #ccc; font-size: 24px; font-weight: bold; cursor: pointer; }
+        .modal-close:hover { color: #00ff88; }
+        .modal-body { padding: 15px; overflow-y: auto; flex-grow: 1; }
+        .modal-body pre { margin: 0; font-family: 'JetBrains Mono', monospace; color: #c9d1d9; white-space: pre-wrap; word-wrap: break-word; }
     </style>
 </head>
 <body>
-    <div class="header-frame">
-        <div class="terminal-id">gusofc_terminal_v3</div>
-        <div class="header-controls">
-            <button id="new-chat-btn" class="control-button">New Chat</button>
-            <button id="menu-toggle" class="control-button">⋮</button>
+    <div class="app-wrapper">
+        <div class="header">
+            <div class="header-title">gusofc_terminal_compact</div>
+            <div class="header-controls">
+                <button id="new-chat-btn" class="control-btn">New</button>
+                <button id="menu-btn" class="control-btn">⋮</button>
+            </div>
+        </div>
+
+        <div class="main-area">
+            <aside id="chat-sidebar" class="chat-sidebar">
+                <h3 class="sidebar-title">Chat History</h3>
+                <ul id="chat-list" class="chat-list"></ul>
+            </aside>
+
+            <main class="chat-view">
+                <div id="terminal" class="terminal"></div>
+                <div class="input-area">
+                    <input type="text" id="prompt" placeholder=">" autocomplete="off">
+                    <button id="exec-btn">EXEC</button>
+                </div>
+            </main>
         </div>
     </div>
 
-    <div class="main-container">
-        <aside id="chat-sidebar" class="chat-sidebar">
-            <h3 class="sidebar-title">Chat History</h3>
-            <ul id="chat-list" class="chat-list"></ul>
-        </aside>
-
-        <main class="chat-content">
-            <div class="terminal-screen" id="chatLog"></div>
-            <div class="input-zone">
-                <input type="text" id="command-input" placeholder=">" autocomplete="off">
-                <button id="run-btn">EXEC</button>
-            </div>
-        </main>
-    </div>
-
-    <div id="view-modal" class="modal">
+    <div id="code-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <span id="modal-title" class="modal-title">output.txt</span>
@@ -97,208 +102,150 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const chatLog = document.getElementById('chatLog');
-            const commandInput = document.getElementById('command-input');
-            const runBtn = document.getElementById('run-btn');
+            const terminal = document.getElementById('terminal');
+            const promptInput = document.getElementById('prompt');
+            const execBtn = document.getElementById('exec-btn');
             const newChatBtn = document.getElementById('new-chat-btn');
-            const menuToggle = document.getElementById('menu-toggle');
-            const chatSidebar = document.getElementById('chat-sidebar');
+            const menuBtn = document.getElementById('menu-btn');
+            const sidebar = document.getElementById('chat-sidebar');
             const chatList = document.getElementById('chat-list');
-            const modal = document.getElementById('view-modal');
+            const modal = document.getElementById('code-modal');
             const modalClose = document.querySelector('.modal-close');
             const modalTitle = document.getElementById('modal-title');
             const modalCode = document.getElementById('modal-code');
 
-            const STORAGE_KEY = 'gusofc_terminal_chats_v3';
-            let chatSessions = {};
+            const STORAGE_KEY = 'gusofc_terminal_chats_compact';
+            let chats = {};
             let currentChatId = null;
 
             modalClose.onclick = () => modal.style.display = 'none';
-            window.onclick = (event) => { if (event.target == modal) modal.style.display = 'none'; };
+            window.onclick = (e) => { if (e.target == modal) modal.style.display = 'none'; };
 
-            const generateId = () => '_' + Math.random().toString(36).substr(2, 9);
-            const getChatTitle = (messages) => {
-                const firstUserMessage = messages.find(m => m.sender === 'user');
-                if (firstUserMessage) {
-                    return firstUserMessage.content.data.length > 30 ? firstUserMessage.content.data.substring(0, 30) + '...' : firstUserMessage.content.data;
-                }
-                return 'New Chat';
-            };
-
-            const saveChats = () => {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(chatSessions));
-                localStorage.setItem('gusofc_current_chat', currentChatId);
-            };
-
+            const saveChats = () => localStorage.setItem(STORAGE_KEY, JSON.stringify(chats));
             const loadChats = () => {
                 const saved = localStorage.getItem(STORAGE_KEY);
-                chatSessions = saved ? JSON.parse(saved) : {};
-                currentChatId = localStorage.getItem('gusofc_current_chat') || null;
-
-                if (Object.keys(chatSessions).length === 0 || !chatSessions[currentChatId]) {
+                if (saved) { chats = JSON.parse(saved); }
+                if (Object.keys(chats).length === 0 || !chats[currentChatId]) {
                     createNewChat();
                 } else {
                     renderChatList();
                     renderChat(currentChatId);
                 }
             };
-
             const createNewChat = () => {
-                const newId = generateId();
-                chatSessions[newId] = [];
+                const newId = '_' + Math.random().toString(36).substr(2, 9);
+                chats[newId] = [];
                 currentChatId = newId;
                 saveChats();
                 renderChatList();
                 renderChat(newId);
             };
-
             const renderChatList = () => {
                 chatList.innerHTML = '';
-                Object.keys(chatSessions).forEach(id => {
+                Object.keys(chats).forEach(id => {
                     const li = document.createElement('li');
                     li.className = 'chat-item';
                     if (id === currentChatId) li.classList.add('active');
-                    li.textContent = getChatTitle(chatSessions[id]);
+                    li.textContent = chats[id][0] ? (chats[id][0].sender === 'user' ? chats[id][0].content.data.substring(0, 25) + '...' : 'New Chat') : 'New Chat';
                     li.onclick = () => {
                         currentChatId = id;
                         renderChat(id);
                         renderChatList();
-                        chatSidebar.classList.remove('open');
+                        sidebar.classList.remove('open');
                     };
                     chatList.appendChild(li);
                 });
             };
-
-            const renderChat = (chatId) => {
-                chatLog.innerHTML = '';
-                const messages = chatSessions[chatId] || [];
+            const renderChat = (id) => {
+                terminal.innerHTML = '';
+                const messages = chats[id] || [];
                 if (messages.length === 0) {
-                    addLogEntry('ai', { type: 'text', data: 'Terminal v3 online. Memori aktif. Ketik "code:" untuk membuat file.' }, false);
+                    addLog('ai', { type: 'text', data: 'Terminal compact online. Memori aktif.' });
                 } else {
-                    messages.forEach(entry => addLogEntry(entry.sender, entry.content, false));
+                    messages.forEach(msg => addLog(msg.sender, msg.content, false));
                 }
             };
-
-            const addLogEntry = (sender, content, shouldSave = true) => {
+            const addLog = (sender, content, shouldSave = true) => {
                 if (shouldSave) {
-                    chatSessions[currentChatId].push({ sender, content });
+                    chats[currentChatId].push({ sender, content });
                     saveChats();
                 }
-
-                const entry = document.createElement('div');
-                entry.className = 'log-entry';
-
+                const logDiv = document.createElement('div');
+                logDiv.className = 'log';
                 const avatar = document.createElement('div');
-                avatar.className = `avatar ${sender}-avatar`;
+                avatar.className = `log-avatar ${sender}-avatar`;
                 avatar.textContent = sender === 'user' ? 'U' : 'AI';
-
-                const bubble = document.createElement('div');
-                bubble.className = 'message-bubble';
-
+                const logContent = document.createElement('div');
+                logContent.className = 'log-content';
                 if (sender === 'ai' && content.type === 'code') {
-                    bubble.innerHTML = `<p>File generated.</p>`;
+                    logContent.innerHTML = `<p>File generated.</p>`;
                     const codeBox = document.createElement('div');
                     codeBox.className = 'code-box';
-                    const pre = document.createElement('pre');
-                    pre.textContent = content.data;
-                    codeBox.appendChild(pre);
-                    
-                    const actions = document.createElement('div');
-                    actions.className = 'code-actions';
-                    
-                    const viewBtn = document.createElement('button');
-                    viewBtn.className = 'code-action-btn';
-                    viewBtn.textContent = 'View';
-                    viewBtn.onclick = () => {
+                    const codeHeader = document.createElement('div');
+                    codeHeader.className = 'code-header';
+                    codeHeader.innerHTML = `<span class="code-filename">code.txt</span><div class="code-actions"><button class="view-btn">View</button><button class="copy-btn">Copy</button></div>`;
+                    const codeBody = document.createElement('div');
+                    codeBody.className = 'code-body';
+                    codeBody.textContent = content.data;
+                    codeBox.appendChild(codeHeader);
+                    codeBox.appendChild(codeBody);
+                    logContent.appendChild(codeBox);
+                    codeBox.querySelector('.view-btn').onclick = () => {
                         modalTitle.textContent = 'code.txt';
                         modalCode.textContent = content.data;
                         modal.style.display = 'block';
                     };
-
-                    const copyBtn = document.createElement('button');
-                    copyBtn.className = 'code-action-btn';
-                    copyBtn.textContent = 'Copy';
-                    copyBtn.onclick = () => {
+                    codeBox.querySelector('.copy-btn').onclick = () => {
                         navigator.clipboard.writeText(content.data);
-                        copyBtn.textContent = 'Copied!';
-                        setTimeout(() => copyBtn.textContent = 'Copy', 2000);
+                        codeBox.querySelector('.copy-btn').textContent = 'Copied!';
+                        setTimeout(() => codeBox.querySelector('.copy-btn').textContent = 'Copy', 2000);
                     };
-                    
-                    actions.appendChild(viewBtn);
-                    actions.appendChild(copyBtn);
-                    codeBox.appendChild(actions);
-                    bubble.appendChild(codeBox);
                 } else {
                     const p = document.createElement('p');
-                    if (sender === 'ai') {
-                        typeText(p, content.data || content);
-                    } else {
-                        p.textContent = content.data || content;
-                    }
-                    bubble.appendChild(p);
+                    p.textContent = content.data || content;
+                    logContent.appendChild(p);
                 }
-
-                entry.appendChild(avatar);
-                entry.appendChild(bubble);
-                chatLog.appendChild(entry);
-                chatLog.scrollTop = chatLog.scrollHeight;
+                logDiv.appendChild(avatar);
+                logDiv.appendChild(logContent);
+                terminal.appendChild(logDiv);
+                terminal.scrollTop = terminal.scrollHeight;
             };
-
-            const typeText = (element, text, speed = 15) => {
-                let i = 0; element.innerHTML = '';
-                const type = () => { if (i < text.length) { element.innerHTML += text.charAt(i); i++; setTimeout(type, speed); } };
-                type();
-            };
-            
             const showTyping = () => {
                 const indicator = document.createElement('div');
-                indicator.className = 'typing-indicator';
+                indicator.className = 'typing';
                 indicator.id = 'typing';
-                indicator.innerHTML = '<div class="avatar bot-avatar">AI</div><span></span><span></span>';
-                chatLog.appendChild(indicator);
-                chatLog.scrollTop = chatLog.scrollHeight;
+                indicator.innerHTML = '<div class="log-avatar bot-avatar">AI</div><span></span><span></span><span></span>';
+                terminal.appendChild(indicator);
+                terminal.scrollTop = terminal.scrollHeight;
             };
-
-            const hideTyping = () => {
-                const indicator = document.getElementById('typing');
-                if (indicator) indicator.remove();
-            };
-
-            const runCommand = async (cmdText) => {
-                const command = cmdText || commandInput.value.trim();
-                if (!command) return;
-
-                addLogEntry('user', { data: command });
-                commandInput.value = '';
-                runBtn.disabled = true;
-                runBtn.classList.add('loading');
-                runBtn.textContent = '...';
+            const hideTyping = () => { const el = document.getElementById('typing'); if (el) el.remove(); };
+            const execute = async (cmdText) => {
+                const cmd = cmdText || promptInput.value.trim();
+                if (!cmd) return;
+                addLog('user', { data: cmd });
+                promptInput.value = '';
+                execBtn.disabled = true;
+                execBtn.classList.add('loading');
+                execBtn.textContent = '';
                 showTyping();
-
                 try {
-                    const res = await fetch('/api/ai', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ prompt: command }),
-                    });
+                    const res = await fetch('/api/ai', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ prompt: cmd }) });
                     const result = await res.json();
                     if (!res.ok) throw new Error(result.error);
-                    addLogEntry('ai', result);
-                } catch (error) {
-                    addLogEntry('ai', { data: `Error: ${error.message}` });
+                    addLog('ai', result);
+                } catch (e) {
+                    addLog('ai', { data: `Error: ${e.message}` });
                 } finally {
                     hideTyping();
-                    runBtn.disabled = false;
-                    runBtn.classList.remove('loading');
-                    runBtn.textContent = 'EXEC';
+                    execBtn.disabled = false;
+                    execBtn.classList.remove('loading');
+                    execBtn.textContent = 'EXEC';
                 }
             };
-
-            menuToggle.addEventListener('click', () => chatSidebar.classList.toggle('open'));
+            menuBtn.addEventListener('click', () => sidebar.classList.toggle('open'));
             newChatBtn.addEventListener('click', createNewChat);
-            runBtn.addEventListener('click', () => runCommand());
-            commandInput.addEventListener('keydown', (event) => { if (event.key === 'Enter') runCommand(); });
-
+            execBtn.addEventListener('click', () => execute());
+            promptInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') execute(); });
             loadChats();
         });
     </script>
