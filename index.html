@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XavAi - Asisten AI Serba Bisa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --background-color: #f4f7f9;
+            --bot-message-color: #ffffff;
+            --user-message-color: #e2f0ff;
+            --text-color: #333333;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: var(--background-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .chat-container {
+            width: 90%;
+            max-width: 600px;
+            height: 80vh;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8em;
+        }
+
+        header p {
+            margin: 5px 0 0;
+            opacity: 0.9;
+        }
+
+        .chat-window {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            padding: 12px 18px;
+            border-radius: 20px;
+            max-width: 80%;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+
+        .bot-message {
+            background-color: var(--bot-message-color);
+            align-self: flex-start;
+            border: 1px solid #e0e0e0;
+        }
+
+        .user-message {
+            background-color: var(--primary-color);
+            color: white;
+            align-self: flex-end;
+        }
+
+        .message img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        .message pre {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .chat-input-area {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #ddd;
+            background: #fafafa;
+        }
+
+        #user-input {
+            flex-grow: 1;
+            border: 1px solid #ccc;
+            border-radius: 25px;
+            padding: 12px 20px;
+            font-size: 1em;
+            outline: none;
+        }
+
+        #send-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 25px;
+            margin-left: 10px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #send-button:hover {
+            background-color: #357abd;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <header>
+            <h1>XavAi</h1>
+            <p>Asisten AI Serba Bisa (JavaScript Version)</p>
+        </header>
+        <main class="chat-window" id="chat-window">
+            <div class="message bot-message">
+                <p>Halo! Saya XavAi. Ada yang bisa saya bantu? Coba ketik "gambar: kucing astronot" atau "code: fungsi fibonacci".</p>
+            </div>
+        </main>
+        <footer class="chat-input-area">
+            <input type="text" id="user-input" placeholder="Ketik pesan Anda..." autocomplete="off">
+            <button id="send-button">Kirim</button>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const chatWindow = document.getElementById('chat-window');
+            const userInput = document.getElementById('user-input');
+            const sendButton = document.getElementById('send-button');
+
+            const addMessage = (sender, content) => {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message', `${sender}-message`);
+
+                if (sender === 'bot' && content.type === 'image') {
+                    const img = document.createElement('img');
+                    img.src = `data:image/png;base64,${content.data}`;
+                    messageDiv.appendChild(img);
+                } else if (sender === 'bot' && content.type === 'code') {
+                    const pre = document.createElement('pre');
+                    const code = document.createElement('code');
+                    code.textContent = content.data;
+                    pre.appendChild(code);
+                    messageDiv.appendChild(pre);
+                } else {
+                    const p = document.createElement('p');
+                    p.textContent = content.data || content;
+                    messageDiv.appendChild(p);
+                }
+
+                chatWindow.appendChild(messageDiv);
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            };
+
+            const handleUserInput = async () => {
+                const prompt = userInput.value.trim();
+                if (!prompt) return;
+
+                addMessage('user', { data: prompt });
+                userInput.value = '';
+                sendButton.disabled = true;
+                sendButton.textContent = '...';
+
+                try {
+                    const response = await fetch('/api/xavai', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ prompt: prompt }),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Server error: ${response.statusText}`);
+                    }
+
+                    const result = await response.json();
+                    addMessage('bot', result);
+
+                } catch (error) {
+                    console.error('Error:', error);
+                    addMessage('bot', { data: 'Maaf, terjadi kesalahan. Coba lagi ya.' });
+                } finally {
+                    sendButton.disabled = false;
+                    sendButton.textContent = 'Kirim';
+                }
+            };
+
+            sendButton.addEventListener('click', handleUserInput);
+            userInput.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    handleUserInput();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
