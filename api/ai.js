@@ -1,37 +1,49 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
-
-const API_KEY = process.env.GOOGLE_AI_API_KEY;
-
-if (!API_KEY) {
-    throw new Error("GOOGLE_AI_API_KEY tidak ditemukan. Atur di Vercel.");
-}
-
-const genAI = new GoogleGenerativeAI(API_KEY);
-
 export default async function handler(req, res) {
-    if (req.method !== 'POST') return res.status(405).json({ error: 'Method Not Allowed' });
+    if (req.method !== 'POST') {
+        return res.status(405).json({ error: 'Method Not Allowed' });
+    }
+
+    const API_KEY = process.env.GOOGLE_AI_API_KEY;
+    if (!API_KEY) {
+        return res.status(500).json({ error: "GOOGLE_AI_API_KEY tidak ditemukan. Atur di Vercel." });
+    }
+
+    // Kita menggunakan model yang paling stabil dan alamat API yang pasti benar
+    const MODEL_NAME = "gemini-pro"; 
+    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${API_KEY}`;
 
     try {
-        console.log("INFO: Sedang mencari daftar model yang tersedia...");
-        
-        // Ini adalah perintah detektifnya
-        const response = await genAI.listModels();
-        const models = response.models;
+        const { prompt } = req.body;
 
-        console.log("SUKSES: Daftar model ditemukan!");
-        
-        // Cetak daftar model ke log Vercel
-        models.forEach(model => {
-            console.log(`- Nama Model: ${model.name}, Versi API: ${model.version}, Metode: ${model.supportedGenerationMethods.join(', ')}`);
+        const requestBody = {
+            contents: [{
+                parts: [{
+                    text: prompt
+                }]
+            }]
+        };
+
+        const apiResponse = await fetch(API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody),
         });
 
-        res.status(200).json({ 
-            type: "text", 
-            data: "Detektif selesai bekerja. Silakan cek log Vercel untuk melihat daftar model yang tersedia." 
-        });
+        if (!apiResponse.ok) {
+            const errorData = await apiResponse.json();
+            console.error("Gemini API Error:", errorData);
+            throw new Error(errorData.error?.message || `Gagal memanggil API Gemini (Status: ${apiResponse.status})`);
+        }
+
+        const data = await apiResponse.json();
+        const text = data.candidates[0].content.parts[0].text;
+
+        res.status(200).json({ type: "text", data: text });
 
     } catch (error) {
-        console.error("ERROR: Detektif gagal bekerja:", error.message);
-        res.status(500).json({ error: `Detektif gagal: ${error.message}` });
+        console.error("Backend Error:", error);
+        res.status(500).json({ error: `Terjadi kesalahan: ${error.message}` });
     }
 };
