@@ -3,97 +3,407 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GusOfcXD 404</title>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    <!-- Tambahkan library untuk syntax highlighting -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <title>XavAi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #0a0e27; color: #b4beff; font-family: 'Share Tech Mono', monospace; margin: 0; height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
-        .app-container { display: flex; flex-direction: column; height: 100%; max-width: 100%; }
-        .header { background: linear-gradient(135deg, #1e3c72, #2a5298); padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
-        .logo { font-family: 'Rajdhani', sans-serif; font-size: 1.5em; font-weight: 700; color: #fff; text-shadow: 0 0 10px #4facfe; }
-        .menu-btn { background: none; border: 2px solid #4facfe; color: #fff; padding: 8px 15px; font-family: 'Rajdhani', sans-serif; font-weight: 500; cursor: pointer; border-radius: 5px; transition: all 0.3s ease; }
-        .menu-btn:hover { background-color: #4facfe; color: #0a0e27; transform: scale(1.05); }
-        .content { display: flex; flex-grow: 1; overflow: hidden; }
-        .sidebar { width: 280px; background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border-right: 1px solid #4facfe; padding: 20px; overflow-y: auto; transform: translateX(-100%); position: absolute; height: 100%; z-index: 10; transition: transform 0.3s ease; flex-shrink: 0; }
-        .sidebar.open { transform: translateX(0); }
-        .sidebar-title { font-family: 'Rajdhani', sans-serif; font-size: 1.2em; color: #4facfe; margin-bottom: 20px; text-align: center; }
-        .chat-list { list-style: none; padding: 0; margin: 0; }
-        .chat-item { background: rgba(79, 172, 254, 0.1); border: 1px solid rgba(79, 172, 254, 0.3); padding: 12px; margin-bottom: 10px; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; }
-        .chat-item:hover { background: rgba(79, 172, 254, 0.2); border-color: #4facfe; transform: translateX(5px); }
-        .main-view { flex-grow: 1; display: flex; flex-direction: column; background: rgba(10, 14, 39, 0.5); }
-        .chat-log { flex-grow: 1; padding: 20px; overflow-y: auto; }
-        .message { display: flex; margin-bottom: 25px; animation: fadeIn 0.5s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .avatar { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; margin-right: 15px; flex-shrink: 0; }
-        .bot-avatar { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; }
-        .user-avatar { background: linear-gradient(135deg, #f093fb, #f5576c); color: #fff; }
-        .msg-content { flex-grow: 1; }
-        .msg-text { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(5px); border: 1px solid rgba(79, 172, 254, 0.3); padding: 15px 20px; border-radius: 10px; margin-bottom: 15px; }
-        .msg-text p { margin: 0; line-height: 1.6; }
-        /* Gaya untuk kotak kode yang baru */
-        .code-block { border-left: 4px solid #4facfe; background: #1e1e1e; border-radius: 8px; overflow: hidden; margin-top: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .code-header { background: #2d2d2d; color: #ccc; padding: 8px 15px; font-size: 0.9em; display: flex; justify-content: space-between; align-items: center; }
-        .file-name { font-family: 'Rajdhani', sans-serif; color: #4facfe; }
-        .copy-code-btn { background: #4facfe; color: #1e1e1e; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-family: 'Share Tech Mono', monospace; font-size: 0.8em; transition: all 0.2s; }
-        .copy-code-btn:hover { background: #fff; color: #4facfe; }
-        .code-body { padding: 15px; overflow-x: auto; }
-        .code-body pre { margin: 0; }
-        /* Gaya untuk input area */
-        .input-area { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); padding: 20px; border-top: 1px solid #4facfe; display: flex; gap: 15px; flex-shrink: 0; }
-        #prompt { flex-grow: 1; background: rgba(10, 14, 39, 0.7); border: 2px solid #4facfe; color: #b4beff; padding: 12px 20px; font-family: 'Share Tech Mono', monospace; font-size: 1em; border-radius: 8px; outline: none; }
-        #prompt:focus { box-shadow: 0 0 20px rgba(79, 172, 254, 0.5); }
-        #send { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; border: none; padding: 12px 25px; font-family: 'Rajdhani', sans-serif; font-size: 1em; font-weight: 700; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; }
-        #send:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4); }
-        #send:active { transform: translateY(0); }
-        #send.loading { animation: spin 1s linear infinite; }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        /* CSS DIBUAT ULANG UNTUK STABILITAS MAKSIMAL */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0d1117;
+            color: #c9d1d9;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; /* Mencegah scroll seluruh halaman */
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            border-left: 1px solid #30363d;
+            border-right: 1px solid #30363d;
+        }
+
+        .header {
+            background-color: #161b22;
+            padding: 16px 24px;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .logo {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #58a6ff;
+        }
+
+        .menu-btn {
+            background: none;
+            border: 1px solid #30363d;
+            color: #8b949e;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .menu-btn:hover {
+            background-color: #21262d;
+            color: #c9d1d9;
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex-grow: 1;
+            overflow: hidden; /* Penting agar tidak melebar */
+        }
+
+        .sidebar {
+            width: 300px;
+            background-color: #161b22;
+            border-right: 1px solid #30363d;
+            padding: 20px;
+            overflow-y: auto;
+            transform: translateX(-100%);
+            position: absolute;
+            height: 100%;
+            z-index: 10;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.open {
+            transform: translateX(0);
+        }
+
+        .sidebar-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #c9d1d9;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #30363d;
+        }
+
+        .chat-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .chat-item {
+            padding: 12px;
+            background-color: #0d1117;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            word-wrap: break-word;
+            border: 1px solid transparent;
+        }
+        .chat-item:hover {
+            border-color: #58a6ff;
+        }
+        .chat-item.active {
+            background-color: #0969da;
+            color: #ffffff;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: #0d1117;
+        }
+
+        .chat-window {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            overflow-x: hidden; /* Mencegah horizontal scroll */
+        }
+        
+        .message {
+            display: flex;
+            margin-bottom: 20px;
+            max-width: 100%;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 16px;
+            flex-shrink: 0;
+            font-size: 18px;
+        }
+
+        .bot-avatar {
+            background-color: #238636;
+            color: #ffffff;
+        }
+        .bot-avatar::before { content: "✓"; }
+
+        .user-avatar {
+            background-color: #0969da;
+            color: #ffffff;
+        }
+        .user-avatar::before { content: "U"; }
+
+        .message-content {
+            flex-grow: 1;
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 16px;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+        }
+
+        .message-text {
+            font-family: 'Share Tech Mono', monospace;
+            white-space: pre-wrap;
+            word-break: break-word;
+            line-height: 1.6;
+        }
+
+        .code-container {
+            margin-top: 16px;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .code-header {
+            background-color: #21262d;
+            padding: 8px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #30363d;
+        }
+        .file-name {
+            color: #58a6ff;
+            font-weight: 600;
+        }
+        .code-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .code-btn {
+            background: none;
+            border: 1px solid #30363d;
+            color: #8b949e;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8em;
+            font-family: 'Poppins', sans-serif;
+        }
+        .code-btn:hover {
+            background-color: #30363d;
+            color: #c9d1d9;
+            border-color: #58a6ff;
+        }
+        .code-body {
+            background-color: #0d1117;
+            padding: 16px;
+            overflow-x: auto;
+        }
+        .code-body pre {
+            margin: 0;
+            font-family: 'Share Tech Mono', monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #e6edf3;
+        }
+
+        .input-area {
+            background-color: #161b22;
+            padding: 16px;
+            border-top: 1px solid #30363d;
+            display: flex;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        #prompt-input {
+            flex-grow: 1;
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            color: #c9d1d9;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-size: 1em;
+            font-family: 'Share Tech Mono', monospace;
+            outline: none;
+        }
+        #prompt-input:focus {
+            border-color: #58a6ff;
+            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.2);
+        }
+
+        #send-btn {
+            background-color: #238636;
+            color: #ffffff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: background-color 0.2s;
+        }
+        #send-btn:hover {
+            background-color: #2ea043;
+        }
+        #send-btn:active {
+            background-color: #238636;
+        }
+
+        /* Modal untuk Lihat Kode */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(13, 17, 23, 0.8);
+            overflow: auto;
+        }
+        .modal-content {
+            background-color: #161b22;
+            margin: 5% auto;
+            padding: 0;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 900px;
+            min-height: 70%;
+            display: flex;
+            flex-direction: column;
+        }
+        .modal-header {
+            padding: 16px 24px;
+            background-color: #21262d;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-title {
+            color: #c9d1d9;
+            font-weight: 600;
+        }
+        .modal-close {
+            color: #8b949e;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 20px;
+        }
+        .modal-close:hover {
+            color: #ffffff;
+        }
+        .modal-body {
+            padding: 20px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        .modal-body pre {
+            margin: 0;
+            font-family: 'Share Tech Mono', monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #e6edf3;
+            background-color: #0d1117;
+            padding: 20px;
+            border-radius: 6px;
+        }
     </style>
 </head>
 <body>
-    <div class="app-container">
+    <div class="container">
         <header class="header">
-            <div class="logo">GusOfcXD 404</div>
-            <button id="menuBtn" class="menu-btn">⋮</button>
+            <div class="logo">XavAi</div>
+            <button id="menu-toggle" class="menu-btn">☰</button>
         </header>
-        <div class="content">
+        <div class="content-wrapper">
             <aside id="sidebar" class="sidebar">
                 <h3 class="sidebar-title">Chat History</h3>
-                <ul id="chatList" class="chat-list"></ul>
+                <ul id="chat-list" class="chat-list"></ul>
             </aside>
-            <main class="main-view">
-                <div id="chatLog" class="chat-log"></div>
+            <main class="main-content">
+                <div id="chat-window" class="chat-window">
+                    <div class="message">
+                        <div class="avatar bot-avatar"></div>
+                        <div class="message-content">
+                            <p class="message-text">Halo, saya XavAi Ada yang bisa saya bantu?</p>
+                        </div>
+                    </div>
+                </div>
                 <div class="input-area">
-                    <input type="text" id="prompt" placeholder="Ketik pesan" autocomplete="off">
-                    <button id="send">SEND</button>
+                    <input type="text" id="prompt-input" placeholder="Ketik pesan Anda..." autocomplete="off">
+                    <button id="send-btn">Kirim</button>
                 </div>
             </main>
         </div>
     </div>
 
-    <!-- Tambahkan script untuk syntax highlighting -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <!-- Modal untuk melihat kode -->
+    <div id="code-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span id="modal-title" class="modal-title">file.txt</span>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <pre id="modal-code"></pre>
+            </div>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const chatLog = document.getElementById('chatLog');
-            const promptInput = document.getElementById('prompt');
-            const sendBtn = document.getElementById('send');
-            const menuBtn = document.getElementById('menuBtn');
+            const chatWindow = document.getElementById('chat-window');
+            const promptInput = document.getElementById('prompt-input');
+            const sendBtn = document.getElementById('send-btn');
+            const menuToggle = document.getElementById('menu-toggle');
             const sidebar = document.getElementById('sidebar');
-            const chatList = document.getElementById('chatList');
+            const chatList = document.getElementById('chat-list');
+            const modal = document.getElementById('code-modal');
+            const modalClose = document.querySelector('.modal-close');
+            const modalTitle = document.getElementById('modal-title');
+            const modalCode = document.getElementById('modal-code');
 
-            const STORAGE_KEY = 'gusofc_terminal_with_syntax';
+            modalClose.onclick = () => modal.style.display = 'none';
+            window.onclick = (event) => { if (event.target == modal) modal.style.display = 'none'; };
+
+            const STORAGE_KEY = 'xavai_chats';
             let chats = {};
             let currentChatId = null;
 
-            const saveData = () => {
+            const saveChats = () => {
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(chats));
-                localStorage.setItem('gusofc_current_chat', currentChatId);
+                localStorage.setItem('xavai_current_chat', currentChatId);
             };
-            const loadData = () => {
+
+            const loadChats = () => {
                 const saved = localStorage.getItem(STORAGE_KEY);
-                if (saved) chats = JSON.parse(saved);
-                const lastId = localStorage.getItem('gusofc_current_chat');
+                if (saved) {
+                    chats = JSON.parse(saved);
+                }
+                const lastId = localStorage.getItem('xavai_current_chat');
                 if (lastId && chats[lastId]) {
                     switchToChat(lastId);
                 } else {
@@ -101,158 +411,173 @@
                 }
                 renderChatList();
             };
+
             const createNewChat = () => {
                 const newId = '_' + Math.random().toString(36).substr(2, 9);
                 chats[newId] = [];
                 currentChatId = newId;
-                saveData();
+                saveChats();
                 renderChatList();
                 renderChat();
             };
+
             const switchToChat = (id) => {
                 currentChatId = id;
                 renderChat();
                 renderChatList();
                 sidebar.classList.remove('open');
             };
+
             const renderChatList = () => {
                 chatList.innerHTML = '';
                 Object.keys(chats).forEach(id => {
                     const li = document.createElement('li');
                     li.className = 'chat-item';
-                    if (id === currentChatId) li.style.borderColor = '#4facfe';
+                    if (id === currentChatId) li.classList.add('active');
                     const firstMsg = chats[id][0];
                     li.textContent = firstMsg && firstMsg.sender === 'user' ? firstMsg.content.data.substring(0, 30) + '...' : 'New Chat';
                     li.onclick = () => switchToChat(id);
                     chatList.appendChild(li);
                 });
             };
+
             const renderChat = () => {
-                chatLog.innerHTML = '';
+                chatWindow.innerHTML = '';
                 const messages = chats[currentChatId] || [];
                 if (messages.length === 0) {
-                    chatLog.innerHTML = `<div class="message"><div class="avatar bot-avatar">AI</div><div class="msg-content"><div class="msg-text"><p>Sistem online. Ketik 'code:' untuk membuat file.</p></div></div></div>`;
+                    chatWindow.innerHTML = `<div class="message"><div class="avatar bot-avatar"></div><div class="message-content"><p class="message-text">Halo, saya XavAi. Ada yang bisa saya bantu?</p></div></div>`;
                 } else {
                     messages.forEach(msg => addMessage(msg));
                 }
             };
+
             const addMessage = (msg) => {
-                const msgDiv = document.createElement('div');
-                msgDiv.className = 'message';
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message';
+                
                 const avatar = document.createElement('div');
                 avatar.className = `avatar ${msg.sender}-avatar`;
-                avatar.textContent = msg.sender === 'user' ? 'U' : 'AI';
+                
                 const content = document.createElement('div');
-                content.className = 'msg-content';
+                content.className = 'message-content';
 
                 if (msg.type === 'file') {
-                    // Pisahkan penjelasan dan kode
-                    const parts = msg.data.split('```');
-                    const explanation = parts[0].trim();
-                    const codeWithLang = parts[1] || '';
-                    const langMatch = codeWithLang.match(/(\w+)\n([\s\S]*)/);
-                    const lang = langMatch ? langMatch[1] : '';
-                    const code = langMatch ? langMatch[2] : codeWithLang;
-
-                    // Tambahkan penjelasan
-                    const textDiv = document.createElement('div');
-                    textDiv.className = 'msg-text';
-                    const p = document.createElement('p');
-                    p.textContent = explanation;
-                    textDiv.appendChild(p);
+                    const textDiv = document.createElement('p');
+                    textDiv.className = 'message-text';
+                    textDiv.textContent = 'File dibuat:';
                     content.appendChild(textDiv);
 
-                    // Tambahkan kotak kode
-                    const codeBlock = document.createElement('div');
-                    codeBlock.className = 'code-block';
+                    const codeContainer = document.createElement('div');
+                    codeContainer.className = 'code-container';
+                    
                     const codeHeader = document.createElement('div');
                     codeHeader.className = 'code-header';
                     const fileName = document.createElement('span');
                     fileName.className = 'file-name';
                     fileName.textContent = msg.filename;
+                    
+                    const actions = document.createElement('div');
+                    actions.className = 'code-actions';
+
                     const copyBtn = document.createElement('button');
-                    copyBtn.className = 'copy-code-btn';
-                    copyBtn.textContent = 'Salin';
+                    copyBtn.className = 'code-btn';
+                    copyBtn.textContent = 'Salin Kode';
                     copyBtn.onclick = () => {
-                        navigator.clipboard.writeText(code);
+                        navigator.clipboard.writeText(msg.data);
                         copyBtn.textContent = 'Tersalin!';
-                        setTimeout(() => copyBtn.textContent = 'Salin', 2000);
+                        setTimeout(() => copyBtn.textContent = 'Salin Kode', 2000);
                     };
+
+                    const viewBtn = document.createElement('button');
+                    viewBtn.className = 'code-btn';
+                    viewBtn.textContent = 'Lihat Kode';
+                    viewBtn.onclick = () => {
+                        modalTitle.textContent = msg.filename;
+                        modalCode.textContent = msg.data;
+                        modal.style.display = 'block';
+                    };
+                    
+                    actions.appendChild(copyBtn);
+                    actions.appendChild(viewBtn);
                     codeHeader.appendChild(fileName);
-                    codeHeader.appendChild(copyBtn);
+                    codeHeader.appendChild(actions);
+
                     const codeBody = document.createElement('div');
                     codeBody.className = 'code-body';
                     const pre = document.createElement('pre');
-                    // Gunakan class bahasa untuk syntax highlighting
-                    pre.className = lang ? `language-${lang}` : '';
-                    pre.textContent = code;
+                    pre.textContent = msg.data;
                     codeBody.appendChild(pre);
-                    codeBlock.appendChild(codeHeader);
-                    codeBlock.appendChild(codeBody);
-                    content.appendChild(codeBlock);
-
-                    // Terapkan syntax highlighting setelah elemen ditambahkan ke DOM
-                    Prism.highlightElement(pre);
+                    
+                    codeContainer.appendChild(codeHeader);
+                    codeContainer.appendChild(codeBody);
+                    content.appendChild(codeContainer);
                 } else {
-                    const textDiv = document.createElement('div');
-                    textDiv.className = 'msg-text';
                     const p = document.createElement('p');
+                    p.className = 'message-text';
                     p.textContent = msg.data;
-                    textDiv.appendChild(p);
-                    content.appendChild(textDiv);
+                    content.appendChild(p);
                 }
 
-                msgDiv.appendChild(avatar);
-                msgDiv.appendChild(content);
-                chatLog.appendChild(msgDiv);
-                chatLog.scrollTop = chatLog.scrollHeight;
+                messageDiv.appendChild(avatar);
+                messageDiv.appendChild(content);
+                chatWindow.appendChild(messageDiv);
+                chatWindow.scrollTop = chatWindow.scrollHeight;
             };
+            
             const getFilename = (code) => {
                 if (code.includes('<!DOCTYPE') || code.includes('<html')) return 'index.html';
                 if (code.includes('def ') || code.includes('import ')) return 'script.py';
                 if (code.includes('public class')) return 'Main.java';
-                if (code.includes('function') || code.includes('const ') || code.includes('console.log')) return 'app.js';
+                if (code.includes('function ') || code.includes('const ') || code.includes('console.log')) return 'app.js';
                 if (code.includes('<?php')) return 'index.php';
                 return 'file.txt';
             };
+
             const handleSend = async () => {
                 const text = promptInput.value.trim();
                 if (!text) return;
-                const userMsg = { sender: 'user', data: text };
-                addMessage(userMsg);
-                chats[currentChatId].push(userMsg);
+
+                const userMessage = { sender: 'user', data: text };
+                addMessage(userMessage);
+                chats[currentChatId].push(userMessage);
+
                 promptInput.value = '';
                 sendBtn.disabled = true;
-                sendBtn.classList.add('loading');
-                sendBtn.textContent = '';
+                sendBtn.textContent = '...';
+
                 try {
-                    const res = await fetch('/api/ai', {
+                    const response = await fetch('/api/ai', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ prompt: text }),
                     });
-                    const result = await res.json();
-                    if (!res.ok) throw new Error(result.error);
-                    let aiMsg = { sender: 'bot', data: result.data };
+                    const result = await response.json();
+                    if (!response.ok) throw new Error(result.error);
+                    
+                    let aiMessage = { sender: 'bot', data: result.data };
+                    // LOGIKA PENTING: Jika user mengetik 'code:', anggap semua balasan AI adalah file
                     if (text.toLowerCase().startsWith('code:')) {
-                        aiMsg.type = 'file';
-                        aiMsg.filename = getFilename(result.data);
+                        aiMessage.type = 'file';
+                        aiMessage.filename = getFilename(result.data);
                     }
-                    addMessage(aiMsg);
-                    chats[currentChatId].push(aiMsg);
-                } catch (e) {
-                    addMessage({ sender: 'bot', data: `Error: ${e.message}` });
+                    
+                    addMessage(aiMessage);
+                    chats[currentChatId].push(aiMessage);
+
+                } catch (error) {
+                    addMessage({ sender: 'bot', data: `Error: ${error.message}` });
                 } finally {
-                    saveData();
+                    saveChats();
                     sendBtn.disabled = false;
-                    sendBtn.classList.remove('loading');
-                    sendBtn.textContent = 'SEND';
+                    sendBtn.textContent = 'Kirim';
                 }
             };
-            menuBtn.addEventListener('click', () => sidebar.classList.toggle('open'));
+
+            menuToggle.addEventListener('click', () => sidebar.classList.toggle('open'));
             sendBtn.addEventListener('click', handleSend);
-            promptInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleSend(); });
-            loadData();
+            promptInput.addEventListener('keydown', (event) => { if (event.key === 'Enter') handleSend(); });
+            
+            loadChats();
         });
     </script>
 </body>
