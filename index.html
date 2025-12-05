@@ -1,67 +1,369 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8"><title>XavAi</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XavAi - Super Cool AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: sans-serif; background: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .chat-box { width: 400px; height: 600px; background: white; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
-        .chat-header { background: #4a90e2; color: white; padding: 15px; text-align: center; border-radius: 10px 10px 0 0; }
-        .chat-window { flex-grow: 1; padding: 20px; overflow-y: auto; }
-        .message { margin-bottom: 15px; padding: 10px 15px; border-radius: 20px; max-width: 80%; }
-        .bot { background: #e9e9eb; align-self: flex-start; }
-        .user { background: #4a90e2; color: white; align-self: flex-end; }
-        .chat-input { display: flex; padding: 10px; border-top: 1px solid #ddd; }
-        #user-input { flex-grow: 1; border: 1px solid #ccc; border-radius: 20px; padding: 10px; }
-        #send-button { background: #4a90e2; color: white; border: none; border-radius: 20px; padding: 10px 20px; margin-left: 10px; cursor: pointer; }
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --bg-color: #0f0c29;
+            --chat-bg: rgba(255, 255, 255, 0.05);
+            --text-color: #ffffff;
+            --bot-msg-bg: rgba(255, 255, 255, 0.1);
+            --user-msg-bg: var(--primary-gradient);
+            --border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .background-animation {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: linear-gradient(45deg, #0f0c29, #302b63, #24243e);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .chat-container {
+            width: 95%;
+            max-width: 800px;
+            height: 90vh;
+            background: var(--chat-bg);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        header {
+            background: var(--primary-gradient);
+            padding: 20px 30px;
+            text-align: center;
+            position: relative;
+        }
+        header h1 { font-weight: 700; font-size: 1.8em; }
+        header p { opacity: 0.9; font-weight: 300; }
+        .help-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: background 0.3s;
+        }
+        .help-btn:hover { background: rgba(255,255,255,0.3); }
+
+        .chat-window {
+            flex-grow: 1;
+            padding: 25px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .chat-window::-webkit-scrollbar { width: 8px; }
+        .chat-window::-webkit-scrollbar-track { background: transparent; }
+        .chat-window::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
+
+        .message {
+            max-width: 75%;
+            padding: 15px 20px;
+            border-radius: 20px;
+            line-height: 1.6;
+            animation: slideIn 0.4s ease-out;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .bot-message {
+            background: var(--bot-msg-bg);
+            border: 1px solid var(--border-color);
+            align-self: flex-start;
+            border-top-left-radius: 5px;
+        }
+        .user-message {
+            background: var(--user-msg-bg);
+            align-self: flex-end;
+            border-top-right-radius: 5px;
+        }
+        .message img { max-width: 100%; border-radius: 15px; margin-top: 10px; }
+        .message pre {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin-top: 10px;
+        }
+        .example-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .example-btn {
+            background: var(--secondary-gradient);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: transform 0.2s;
+        }
+        .example-btn:hover { transform: scale(1.05); }
+
+        .typing-indicator {
+            display: none;
+            align-self: flex-start;
+            padding: 15px 20px;
+            background: var(--bot-msg-bg);
+            border-radius: 20px;
+            border-top-left-radius: 5px;
+        }
+        .typing-indicator span {
+            height: 10px;
+            width: 10px;
+            background-color: #999;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 2px;
+            animation: typing 1.4s infinite;
+        }
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+
+        .chat-input-area {
+            display: flex;
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
+            background: rgba(0,0,0,0.1);
+        }
+        #user-input {
+            flex-grow: 1;
+            background: var(--bot-msg-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            padding: 15px 25px;
+            font-size: 1em;
+            color: var(--text-color);
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        #user-input:focus { border-color: #667eea; }
+        #send-button {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 55px;
+            height: 55px;
+            margin-left: 15px;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #send-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        #send-button:active { transform: scale(0.95); }
+
+        .help-panel {
+            position: absolute;
+            top: 70px;
+            right: 20px;
+            width: 300px;
+            background: var(--chat-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 20px;
+            display: none;
+            z-index: 10;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .help-panel h3 { margin-bottom: 15px; }
+        .help-panel p { font-size: 0.9em; line-height: 1.5; margin-bottom: 10px; }
+        .help-panel code { background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 5px; }
+
     </style>
 </head>
 <body>
-    <div class="chat-box">
-        <div class="chat-header"><h1>XavAi</h1></div>
-        <div class="chat-window" id="chat-window"></div>
-        <div class="chat-input">
-            <input type="text" id="user-input" placeholder="Ketik pesan...">
-            <button id="send-button">Kirim</button>
-        </div>
+    <div class="background-animation"></div>
+    <div class="chat-container">
+        <header>
+            <h1>XavAi</h1>
+            <p>Asisten AI Super Keren</p>
+            <button class="help-btn" id="help-btn">?</button>
+            <div class="help-panel" id="help-panel">
+                <h3>Petunjuk Penggunaan</h3>
+                <p>Saya bisa ngobrol, buat gambar, dan tulis kode!</p>
+                <p><strong>Untuk Ngobrol:</strong><br>Tulis saja pertanyaan Anda.</p>
+                <p><strong>Untuk Buat Gambar:</strong><br>Mulai dengan <code>gambar:</code> lalu deskripsi. Contoh: <code>gambar: kucing di bulan</code></p>
+                <p><strong>Untuk Buat Kode:</strong><br>Mulai dengan <code>code:</code> lalu permintaan. Contoh: <code>code: fungsi login php</code></p>
+            </div>
+        </header>
+        <main class="chat-window" id="chat-window">
+            <div class="message bot-message">
+                <p>Halo! Saya XavAi. Ada yang bisa saya bantu hari ini? Coba salah satu contoh di bawah ini!</p>
+                <div class="example-buttons">
+                    <button class="example-btn">Jelaskan black hole</button>
+                    <button class="example-btn">gambar: naga cyberpunk</button>
+                    <button class="example-btn">code: slider html css</button>
+                </div>
+            </div>
+        </main>
+        <footer class="chat-input-area">
+            <input type="text" id="user-input" placeholder="Ketik pesan Anda..." autocomplete="off">
+            <button id="send-button">➤</button>
+        </footer>
     </div>
+
     <script>
-        const chatWindow = document.getElementById('chat-window');
-        const userInput = document.getElementById('user-input');
-        const sendButton = document.getElementById('send-button');
+        document.addEventListener('DOMContentLoaded', () => {
+            const chatWindow = document.getElementById('chat-window');
+            const userInput = document.getElementById('user-input');
+            const sendButton = document.getElementById('send-button');
+            const helpBtn = document.getElementById('help-btn');
+            const helpPanel = document.getElementById('help-panel');
 
-        const addMessage = (sender, text) => {
-            const div = document.createElement('div');
-            div.className = `message ${sender}`;
-            div.textContent = text;
-            chatWindow.appendChild(div);
-            chatWindow.scrollTop = chatWindow.scrollHeight;
-        };
+            helpBtn.addEventListener('click', () => {
+                helpPanel.style.display = helpPanel.style.display === 'block' ? 'none' : 'block';
+            });
 
-        const sendMessage = async () => {
-            const text = userInput.value.trim();
-            if (!text) return;
-            addMessage('user', text);
-            userInput.value = '';
-            sendButton.disabled = true;
-            try {
-                const res = await fetch('/api/xavai', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ prompt: text }),
+            const addMessage = (sender, content) => {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message', `${sender}-message`);
+
+                if (sender === 'bot' && content.type === 'image') {
+                    const img = document.createElement('img');
+                    img.src = content.data; // OpenAI memberikan URL
+                    img.onload = () => chatWindow.scrollTop = chatWindow.scrollHeight;
+                    messageDiv.appendChild(img);
+                } else if (sender === 'bot' && content.type === 'code') {
+                    const pre = document.createElement('pre');
+                    const code = document.createElement('code');
+                    code.textContent = content.data;
+                    pre.appendChild(code);
+                    messageDiv.appendChild(pre);
+                } else {
+                    const p = document.createElement('p');
+                    p.innerHTML = content.data || content; // Menggunakan innerHTML untuk mendukung format sederhana
+                    messageDiv.appendChild(p);
+                }
+                chatWindow.appendChild(messageDiv);
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            };
+            
+            const showTypingIndicator = () => {
+                const indicator = document.createElement('div');
+                indicator.className = 'typing-indicator';
+                indicator.id = 'typing-indicator';
+                indicator.innerHTML = '<span></span><span></span><span></span>';
+                chatWindow.appendChild(indicator);
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            };
+
+            const hideTypingIndicator = () => {
+                const indicator = document.getElementById('typing-indicator');
+                if (indicator) indicator.remove();
+            };
+
+            const handleUserInput = async (promptText) => {
+                const prompt = promptText || userInput.value.trim();
+                if (!prompt) return;
+
+                addMessage('user', { data: prompt });
+                userInput.value = '';
+                sendButton.disabled = true;
+                sendButton.innerHTML = '...';
+                showTypingIndicator();
+
+                try {
+                    const response = await fetch('/api/openai', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ prompt: prompt }),
+                    });
+                    const result = await response.json();
+                    if (!response.ok) throw new Error(result.error);
+                    addMessage('bot', result);
+                } catch (error) {
+                    addMessage('bot', { data: `Error: ${error.message}` });
+                } finally {
+                    hideTypingIndicator();
+                    sendButton.disabled = false;
+                    sendButton.innerHTML = '➤';
+                }
+            };
+
+            sendButton.addEventListener('click', () => handleUserInput());
+            userInput.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') handleUserInput();
+            });
+
+            // Event listener untuk tombol contoh
+            document.querySelectorAll('.example-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    userInput.value = button.textContent;
+                    handleUserInput(button.textContent);
                 });
-                const data = await res.json();
-                if (!res.ok) throw new Error(data.error);
-                addMessage('bot', data.data);
-            } catch (e) {
-                addMessage('bot', `Error: ${e.message}`);
-            } finally {
-                sendButton.disabled = false;
-            }
-        };
-
-        sendButton.onclick = sendMessage;
-        userInput.onkeydown = (e) => e.key === 'Enter' && sendMessage();
-        addMessage('bot', 'Halo! Saya XavAi. Ada yang bisa saya bantu?');
+            });
+        });
     </script>
 </body>
-</html>
+            </html>
