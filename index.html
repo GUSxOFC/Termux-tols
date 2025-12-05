@@ -2,250 +2,235 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>gusofc_terminal_compact</title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <title>GusOfcXD 404</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #0a0a0a; color: #ccc; font-family: 'Share Tech Mono', monospace; margin: 0; height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; }
-        .app-wrapper { width: 95%; max-width: 1000px; height: 90vh; max-height: 800px; background-color: #1a1a1a; border-radius: 12px; box-shadow: 0 0 40px rgba(0,0,0,0.7), 0 0 0 1px #333; display: flex; flex-direction: column; overflow: hidden; }
-        .header { background-color: #2a2a2a; padding: 12px 20px; border-bottom: 2px solid #00ff88; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
-        .header-title { font-family: 'JetBrains Mono', monospace; font-size: 1.1em; color: #00ff88; font-weight: 500; }
-        .header-controls { display: flex; gap: 10px; }
-        .control-btn { background-color: #444; color: #ccc; border: 1px solid #555; padding: 5px 12px; font-size: 0.9em; cursor: pointer; border-radius: 5px; transition: all 0.2s; font-family: 'Share Tech Mono', monospace; }
-        .control-btn:hover { background-color: #00ff88; color: #1a1a1a; border-color: #00ff88; }
-        .main-area { display: flex; flex-grow: 1; overflow: hidden; }
-        .chat-sidebar { width: 250px; background-color: #222; border-right: 1px solid #333; padding: 15px; overflow-y: auto; transform: translateX(-100%); position: absolute; height: 100%; z-index: 10; transition: transform 0.3s ease; flex-shrink: 0; }
-        .chat-sidebar.open { transform: translateX(0); }
-        .sidebar-title { font-family: 'JetBrains Mono', monospace; font-size: 1em; color: #00ff88; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #333; }
-        .chat-list { list-style: none; padding: 0; margin: 0; }
-        .chat-item { padding: 10px; background-color: #2a2a2a; border-radius: 5px; margin-bottom: 8px; cursor: pointer; transition: background-color 0.2s; font-size: 0.9em; }
-        .chat-item:hover { background-color: #333; }
-        .chat-item.active { background-color: #00ff88; color: #1a1a1a; font-weight: bold; }
-        .chat-view { flex-grow: 1; display: flex; flex-direction: column; background-color: #1a1a1a; }
-        .terminal { flex-grow: 1; padding: 15px; overflow-y: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.95em; line-height: 1.6; }
-        .terminal::-webkit-scrollbar { width: 8px; }
-        .terminal::-webkit-scrollbar-track { background: #1a1a1a; }
-        .terminal::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
-        .terminal::-webkit-scrollbar-thumb:hover { background: #555; }
-        .log { display: flex; margin-bottom: 15px; }
-        .log-avatar { width: 35px; height: 35px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; margin-right: 12px; flex-shrink: 0; }
-        .bot-avatar { background-color: #2a2a2a; border: 1px solid #00ff88; color: #00ff88; }
-        .user-avatar { background-color: #2a2a2a; border: 1px solid #00aaff; color: #00aaff; }
-        .log-content { background-color: #222; padding: 10px 15px; border-radius: 6px; border: 1px solid #333; flex-grow: 1; position: relative; }
-        .log-content p { margin: 0; white-space: pre-wrap; word-break: break-word; }
-        .code-box { margin-top: 10px; border: 1px solid #444; border-radius: 5px; overflow: hidden; }
-        .code-header { background-color: #2a2a2a; padding: 6px 12px; font-size: 0.8em; display: flex; justify-content: space-between; align-items: center; }
-        .code-filename { color: #00ff88; }
-        .code-actions button { background: none; border: 1px solid #444; color: #ccc; padding: 3px 8px; margin-left: 5px; cursor: pointer; font-family: 'Share Tech Mono', monospace; font-size: 0.8em; border-radius: 3px; }
-        .code-actions button:hover { background-color: #00ff88; color: #1a1a1a; border-color: #00ff88; }
-        .code-body { background-color: #0d1117; color: #c9d1d9; padding: 15px; font-family: 'JetBrains Mono', monospace; font-size: 0.9em; overflow-x: auto; white-space: pre-wrap; }
-        .typing { display: none; align-items: center; }
-        .typing .log-avatar { margin-right: 12px; }
-        .typing span { display: inline-block; width: 6px; height: 6px; background-color: #00ff88; border-radius: 50%; margin-right: 4px; animation: typing-bounce 1.2s infinite; }
-        .typing span:nth-child(2) { animation-delay: -0.2s; }
-        .typing span:nth-child(3) { animation-delay: -0.4s; }
-        @keyframes typing-bounce { 0%, 60%, 100% { transform: scale(0.8); opacity: 0.5; } 30% { transform: scale(1); opacity: 1; } }
-        .input-area { background-color: #2a2a2a; padding: 15px; border-top: 1px solid #333; display: flex; gap: 10px; flex-shrink: 0; }
-        #prompt { flex-grow: 1; background-color: #1a1a1a; border: 1px solid #444; color: #ccc; padding: 10px 15px; font-family: 'Share Tech Mono', monospace; font-size: 1em; border-radius: 5px; outline: none; }
-        #prompt:focus { border-color: #00ff88; }
-        #exec-btn { background-color: #00ff88; color: #1a1a1a; border: none; padding: 10px 20px; font-family: 'JetBrains Mono', monospace; font-weight: 500; cursor: pointer; border-radius: 5px; transition: all 0.2s; }
-        #exec-btn:hover { background-color: #00cc6a; transform: translateY(-1px); }
-        #exec-btn:active { transform: translateY(0); }
-        #exec-btn.loading { animation: spin 1s linear infinite; }
+        body { background-color: #000; color: #0f0; font-family: 'Share Tech Mono', monospace; margin: 0; height: 100vh; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+        body::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: repeating-linear-gradient(rgba(0, 255, 0, 0.05) 0px, transparent 1px, transparent 2px, rgba(0, 255, 0, 0.05) 3px); pointer-events: none; z-index: 1; }
+        .main-container { width: 100%; max-width: 900px; height: 100%; max-height: 850px; margin: auto; display: flex; flex-direction: column; background-color: rgba(10, 10, 10, 0.9); border: 1px solid #0f0; box-shadow: 0 0 25px rgba(0, 255, 0, 0.5), inset 0 0 15px rgba(0, 255, 0, 0.1); position: relative; z-index: 2; }
+        .header { padding: 15px 25px; background-color: #111; border-bottom: 2px solid #0f0; display: flex; justify-content: space-between; align-items: center; }
+        .header-title { font-family: 'Orbitron', sans-serif; font-size: 1.8em; font-weight: 700; color: #0f0; text-shadow: 0 0 10px #0f0, 0 0 20px #0a0; letter-spacing: 2px; animation: glitch-text 3s infinite; }
+        @keyframes glitch-text { 0%, 100% { text-shadow: 0 0 10px #0f0, 0 0 20px #0a0; } 25% { text-shadow: -2px 0 #f0f, 2px 0 #0ff; } 50% { text-shadow: 2px 0 #f0f, -2px 0 #0ff; } 75% { text-shadow: 0 0 10px #0f0, 0 0 20px #0a0; } }
+        .menu-btn { background: none; border: none; color: #0f0; font-size: 2em; cursor: pointer; padding: 0 10px; transition: transform 0.2s; }
+        .menu-btn:hover { transform: scale(1.2); }
+        .content-wrapper { display: flex; flex-grow: 1; overflow: hidden; }
+        .chat-history { width: 280px; background-color: #111; border-right: 1px solid #0f0; padding: 20px; overflow-y: auto; transform: translateX(-100%); position: absolute; height: 100%; transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .chat-history.open { transform: translateX(0); }
+        .history-title { font-family: 'Orbitron', sans-serif; font-size: 1.2em; color: #0f0; margin-bottom: 20px; text-align: center; }
+        .history-list { list-style: none; padding: 0; margin: 0; }
+        .history-item { background-color: #0a0a0a; border: 1px solid #050; padding: 12px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s; border-radius: 4px; }
+        .history-item:hover { background-color: #0f0; color: #000; transform: translateX(5px); }
+        .chat-window { flex-grow: 1; display: flex; flex-direction: column; padding: 20px; overflow-y: auto; }
+        .chat-window::-webkit-scrollbar { width: 8px; }
+        .chat-window::-webkit-scrollbar-track { background: #111; }
+        .chat-window::-webkit-scrollbar-thumb { background: #0f0; }
+        .message { display: flex; margin-bottom: 20px; animation: msg-appear 0.5s ease-out; }
+        @keyframes msg-appear { from { opacity: 0; transform: translateY(20px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        .msg-avatar { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; margin-right: 15px; flex-shrink: 0; border: 2px solid; }
+        .bot-avatar { background: #111; border-color: #0f0; color: #0f0; }
+        .user-avatar { background: #111; border-color: #00f; color: #00f; }
+        .msg-content { background-color: #111; border: 1px solid #050; padding: 15px; border-radius: 8px; flex-grow: 1; position: relative; overflow: hidden; }
+        .msg-content::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 2px; background: #0f0; animation: scan-line 4s linear infinite; }
+        @keyframes scan-line { to { left: 100%; } }
+        .msg-content p { margin: 0; white-space: pre-wrap; word-break: break-word; }
+        .code-file { margin-top: 15px; border: 1px solid #0f0; background: #0a0a0a; }
+        .code-header { background: #0f0; color: #000; padding: 5px 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+        .code-body { background: #000; color: #0f0; padding: 15px; font-family: 'Share Tech Mono', monospace; white-space: pre-wrap; }
+        .typing-indicator { display: none; align-items: center; }
+        .typing-indicator span { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background-color: #0f0; margin-right: 5px; animation: typing-bounce 1.4s infinite ease-in-out; }
+        .typing-indicator span:nth-child(2) { animation-delay: -0.2s; }
+        @keyframes typing-bounce { 0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; } 40% { transform: scale(1); opacity: 1; } }
+        .input-area { padding: 20px; background-color: #111; border-top: 2px solid #0f0; display: flex; gap: 15px; }
+        #prompt { flex-grow: 1; background: #000; border: 2px solid #050; color: #0f0; padding: 12px 20px; font-family: 'Share Tech Mono', monospace; font-size: 1em; outline: none; border-radius: 5px; }
+        #prompt:focus { border-color: #0f0; box-shadow: 0 0 15px rgba(0, 255, 0, 0.3); }
+        #send-btn { background: #0f0; color: #000; border: none; padding: 12px 25px; font-family: 'Orbitron', sans-serif; font-weight: 700; cursor: pointer; border-radius: 5px; transition: all 0.2s; }
+        #send-btn:hover { background: #0a0; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 255, 0, 0.5); }
+        #send-btn:active { transform: translateY(0); }
+        #send-btn.loading { animation: spin 1s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); }
-        .modal-content { background-color: #2a2a2a; margin: 5% auto; padding: 0; border: 1px solid #444; width: 90%; max-width: 800px; height: 70%; display: flex; flex-direction: column; border-radius: 8px; }
-        .modal-header { padding: 10px 15px; background-color: #333; border-bottom: 1px solid #444; display: flex; justify-content: space-between; align-items: center; }
-        .modal-title { color: #00ff88; font-family: 'JetBrains Mono', monospace; }
-        .modal-close { color: #ccc; font-size: 24px; font-weight: bold; cursor: pointer; }
-        .modal-close:hover { color: #00ff88; }
-        .modal-body { padding: 15px; overflow-y: auto; flex-grow: 1; }
-        .modal-body pre { margin: 0; font-family: 'JetBrains Mono', monospace; color: #c9d1d9; white-space: pre-wrap; word-wrap: break-word; }
     </style>
 </head>
 <body>
-    <div class="app-wrapper">
-        <div class="header">
-            <div class="header-title">gusofc_terminal_compact</div>
-            <div class="header-controls">
-                <button id="new-chat-btn" class="control-btn">New</button>
-                <button id="menu-btn" class="control-btn">⋮</button>
-            </div>
-        </div>
-
-        <div class="main-area">
-            <aside id="chat-sidebar" class="chat-sidebar">
-                <h3 class="sidebar-title">Chat History</h3>
-                <ul id="chat-list" class="chat-list"></ul>
+    <div class="main-container">
+        <header class="header">
+            <div class="header-title">GusOfcXD 404</div>
+            <button id="menuToggle" class="menu-btn">⋮</button>
+        </header>
+        <div class="content-wrapper">
+            <aside id="chatHistory" class="chat-history">
+                <h3 class="history-title">Chat List</h3>
+                <ul id="historyList" class="history-list"></ul>
             </aside>
-
-            <main class="chat-view">
-                <div id="terminal" class="terminal"></div>
-                <div class="input-area">
-                    <input type="text" id="prompt" placeholder=">" autocomplete="off">
-                    <button id="exec-btn">EXEC</button>
+            <main id="chatWindow" class="chat-window">
+                <div class="message">
+                    <div class="msg-avatar bot-avatar">AI</div>
+                    <div class="msg-content">
+                        <p>Hi selamat datang di ai GusOfcXD 404, apa yang dapat saya bantu?</p>
+                    </div>
                 </div>
             </main>
         </div>
-    </div>
-
-    <div id="code-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <span id="modal-title" class="modal-title">output.txt</span>
-                <span class="modal-close">&times;</span>
-            </div>
-            <div class="modal-body">
-                <pre id="modal-code"></pre>
-            </div>
+        <div class="input-area">
+            <input type="text" id="prompt" placeholder="Ketik pesan" autocomplete="off">
+            <button id="sendBtn">SEND</button>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const terminal = document.getElementById('terminal');
+            const chatWindow = document.getElementById('chatWindow');
             const promptInput = document.getElementById('prompt');
-            const execBtn = document.getElementById('exec-btn');
-            const newChatBtn = document.getElementById('new-chat-btn');
-            const menuBtn = document.getElementById('menu-btn');
-            const sidebar = document.getElementById('chat-sidebar');
-            const chatList = document.getElementById('chat-list');
-            const modal = document.getElementById('code-modal');
-            const modalClose = document.querySelector('.modal-close');
-            const modalTitle = document.getElementById('modal-title');
-            const modalCode = document.getElementById('modal-code');
+            const sendBtn = document.getElementById('sendBtn');
+            const menuToggle = document.getElementById('menuToggle');
+            const chatHistory = document.getElementById('chatHistory');
+            const historyList = document.getElementById('historyList');
 
-            const STORAGE_KEY = 'gusofc_terminal_chats_compact';
+            const STORAGE_KEY = 'gusofc_chats';
             let chats = {};
             let currentChatId = null;
 
-            modalClose.onclick = () => modal.style.display = 'none';
-            window.onclick = (e) => { if (e.target == modal) modal.style.display = 'none'; };
-
+            const generateId = () => '_' + Math.random().toString(36).substr(2, 9);
             const saveChats = () => localStorage.setItem(STORAGE_KEY, JSON.stringify(chats));
             const loadChats = () => {
                 const saved = localStorage.getItem(STORAGE_KEY);
-                if (saved) { chats = JSON.parse(saved); }
-                if (Object.keys(chats).length === 0 || !chats[currentChatId]) {
-                    createNewChat();
+                if (saved) {
+                    chats = JSON.parse(saved);
+                    const lastChatId = localStorage.getItem('gusofc_last_chat');
+                    if (lastChatId && chats[lastChatId]) {
+                        switchToChat(lastChatId);
+                    } else {
+                        createNewChat();
+                    }
                 } else {
-                    renderChatList();
-                    renderChat(currentChatId);
+                    createNewChat();
                 }
+                renderHistoryList();
             };
             const createNewChat = () => {
-                const newId = '_' + Math.random().toString(36).substr(2, 9);
-                chats[newId] = [];
+                const newId = generateId();
+                const newTitle = `chat_${Date.now()}`;
+                chats[newId] = { title: newTitle, messages: [] };
                 currentChatId = newId;
                 saveChats();
-                renderChatList();
-                renderChat(newId);
+                renderHistoryList();
+                renderChat();
             };
-            const renderChatList = () => {
-                chatList.innerHTML = '';
+            const switchToChat = (chatId) => {
+                currentChatId = chatId;
+                localStorage.setItem('gusofc_last_chat', chatId);
+                renderChat();
+                renderHistoryList();
+                chatHistory.classList.remove('open');
+            };
+            const renderHistoryList = () => {
+                historyList.innerHTML = '';
                 Object.keys(chats).forEach(id => {
                     const li = document.createElement('li');
-                    li.className = 'chat-item';
-                    if (id === currentChatId) li.classList.add('active');
-                    li.textContent = chats[id][0] ? (chats[id][0].sender === 'user' ? chats[id][0].content.data.substring(0, 25) + '...' : 'New Chat') : 'New Chat';
-                    li.onclick = () => {
-                        currentChatId = id;
-                        renderChat(id);
-                        renderChatList();
-                        sidebar.classList.remove('open');
-                    };
-                    chatList.appendChild(li);
+                    li.className = 'history-item';
+                    if (id === currentChatId) li.style.backgroundColor = '#0f0';
+                    li.textContent = chats[id].title;
+                    li.onclick = () => switchToChat(id);
+                    historyList.appendChild(li);
                 });
             };
-            const renderChat = (id) => {
-                terminal.innerHTML = '';
-                const messages = chats[id] || [];
+            const renderChat = () => {
+                chatWindow.innerHTML = '';
+                const messages = chats[currentChatId].messages;
                 if (messages.length === 0) {
-                    addLog('ai', { type: 'text', data: 'Terminal compact online. Memori aktif.' });
+                    chatWindow.innerHTML = `<div class="message"><div class="msg-avatar bot-avatar">AI</div><div class="msg-content"><p>Hi selamat datang di ai GusOfcXD 404, apa yang dapat saya bantu?</p></div></div>`;
                 } else {
-                    messages.forEach(msg => addLog(msg.sender, msg.content, false));
+                    messages.forEach(msg => addMessageToWindow(msg));
                 }
             };
-            const addLog = (sender, content, shouldSave = true) => {
-                if (shouldSave) {
-                    chats[currentChatId].push({ sender, content });
-                    saveChats();
-                }
-                const logDiv = document.createElement('div');
-                logDiv.className = 'log';
+            const addMessageToWindow = (msg) => {
+                const msgDiv = document.createElement('div');
+                msgDiv.className = 'message';
                 const avatar = document.createElement('div');
-                avatar.className = `log-avatar ${sender}-avatar`;
-                avatar.textContent = sender === 'user' ? 'U' : 'AI';
-                const logContent = document.createElement('div');
-                logContent.className = 'log-content';
-                if (sender === 'ai' && content.type === 'code') {
-                    logContent.innerHTML = `<p>File generated.</p>`;
-                    const codeBox = document.createElement('div');
-                    codeBox.className = 'code-box';
+                avatar.className = `msg-avatar ${msg.sender}-avatar`;
+                avatar.textContent = msg.sender === 'user' ? 'U' : 'AI';
+                const content = document.createElement('div');
+                content.className = 'msg-content';
+                if (msg.type === 'code') {
+                    const p = document.createElement('p');
+                    p.textContent = 'File generated:';
+                    content.appendChild(p);
+                    const codeFile = document.createElement('div');
+                    codeFile.className = 'code-file';
                     const codeHeader = document.createElement('div');
                     codeHeader.className = 'code-header';
-                    codeHeader.innerHTML = `<span class="code-filename">code.txt</span><div class="code-actions"><button class="view-btn">View</button><button class="copy-btn">Copy</button></div>`;
+                    codeHeader.textContent = msg.filename;
                     const codeBody = document.createElement('div');
                     codeBody.className = 'code-body';
-                    codeBody.textContent = content.data;
-                    codeBox.appendChild(codeHeader);
-                    codeBox.appendChild(codeBody);
-                    logContent.appendChild(codeBox);
-                    codeBox.querySelector('.view-btn').onclick = () => {
-                        modalTitle.textContent = 'code.txt';
-                        modalCode.textContent = content.data;
-                        modal.style.display = 'block';
-                    };
-                    codeBox.querySelector('.copy-btn').onclick = () => {
-                        navigator.clipboard.writeText(content.data);
-                        codeBox.querySelector('.copy-btn').textContent = 'Copied!';
-                        setTimeout(() => codeBox.querySelector('.copy-btn').textContent = 'Copy', 2000);
-                    };
+                    codeBody.textContent = msg.data;
+                    codeFile.appendChild(codeHeader);
+                    codeFile.appendChild(codeBody);
+                    content.appendChild(codeFile);
                 } else {
                     const p = document.createElement('p');
-                    p.textContent = content.data || content;
-                    logContent.appendChild(p);
+                    p.textContent = msg.data;
+                    content.appendChild(p);
                 }
-                logDiv.appendChild(avatar);
-                logDiv.appendChild(logContent);
-                terminal.appendChild(logDiv);
-                terminal.scrollTop = terminal.scrollHeight;
+                msgDiv.appendChild(avatar);
+                msgDiv.appendChild(content);
+                chatWindow.appendChild(msgDiv);
+                chatWindow.scrollTop = chatWindow.scrollHeight;
             };
-            const showTyping = () => {
-                const indicator = document.createElement('div');
-                indicator.className = 'typing';
-                indicator.id = 'typing';
-                indicator.innerHTML = '<div class="log-avatar bot-avatar">AI</div><span></span><span></span><span></span>';
-                terminal.appendChild(indicator);
-                terminal.scrollTop = terminal.scrollHeight;
+            const getFilenameFromCode = (code) => {
+                if (code.includes('<!DOCTYPE') || code.includes('<html')) return 'request.html';
+                if (code.includes('<?php')) return 'request.php';
+                if (code.includes('def ') || code.includes('import ')) return 'request.py';
+                if (code.includes('public class')) return 'request.java';
+                if (code.includes('body {') || code.includes('* {')) return 'request.css';
+                if (code.includes('function') || code.includes('const ') || code.includes('console.log')) return 'request.js';
+                return 'request.txt';
             };
-            const hideTyping = () => { const el = document.getElementById('typing'); if (el) el.remove(); };
-            const execute = async (cmdText) => {
-                const cmd = cmdText || promptInput.value.trim();
-                if (!cmd) return;
-                addLog('user', { data: cmd });
+            const handleSend = async () => {
+                const text = promptInput.value.trim();
+                if (!text) return;
+                const userMessage = { sender: 'user', data: text };
+                addMessageToWindow(userMessage);
+                chats[currentChatId].messages.push(userMessage);
                 promptInput.value = '';
-                execBtn.disabled = true;
-                execBtn.classList.add('loading');
-                execBtn.textContent = '';
-                showTyping();
+                sendBtn.disabled = true;
+                sendBtn.classList.add('loading');
+                sendBtn.textContent = '';
+                const typingIndicator = document.createElement('div');
+                typingIndicator.className = 'typing-indicator';
+                typingIndicator.innerHTML = '<div class="msg-avatar bot-avatar">AI</div><span></span><span></span><span></span>';
+                chatWindow.appendChild(typingIndicator);
+                chatWindow.scrollTop = chatWindow.scrollHeight;
                 try {
-                    const res = await fetch('/api/ai', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ prompt: cmd }) });
-                    const result = await res.json();
-                    if (!res.ok) throw new Error(result.error);
-                    addLog('ai', result);
-                } catch (e) {
-                    addLog('ai', { data: `Error: ${e.message}` });
+                    const response = await fetch('/api/ai', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ prompt: text }),
+                    });
+                    const result = await response.json();
+                    if (!response.ok) throw new Error(result.error);
+                    let aiMessage = { sender: 'bot', data: result.data, type: 'text' };
+                    if (text.toLowerCase().startsWith('code:')) {
+                        aiMessage.type = 'code';
+                        aiMessage.filename = getFilenameFromCode(result.data);
+                    }
+                    addMessageToWindow(aiMessage);
+                    chats[currentChatId].messages.push(aiMessage);
+                    if (chats[currentChatId].messages.length === 1) {
+                        chats[currentChatId].title = text.substring(0, 30);
+                        renderHistoryList();
+                    }
+                } catch (error) {
+                    addMessageToWindow({ sender: 'bot', data: `Error: ${error.message}` });
                 } finally {
-                    hideTyping();
-                    execBtn.disabled = false;
-                    execBtn.classList.remove('loading');
-                    execBtn.textContent = 'EXEC';
+                    saveChats();
+                    sendBtn.disabled = false;
+                    sendBtn.classList.remove('loading');
+                    sendBtn.textContent = 'SEND';
+                    chatWindow.removeChild(typingIndicator);
                 }
             };
-            menuBtn.addEventListener('click', () => sidebar.classList.toggle('open'));
-            newChatBtn.addEventListener('click', createNewChat);
-            execBtn.addEventListener('click', () => execute());
-            promptInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') execute(); });
+            menuToggle.addEventListener('click', () => chatHistory.classList.toggle('open'));
+            sendBtn.addEventListener('click', handleSend);
+            promptInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleSend(); });
             loadChats();
         });
     </script>
