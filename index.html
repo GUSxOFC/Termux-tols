@@ -25,7 +25,7 @@
             max-width: 1200px;
             margin: 0 auto;
             position: relative;
-            overflow: hidden; /* Pastikan tidak ada overflow di container */
+            overflow: hidden; /* Pastikan tidak ada overflow di luar */
         }
 
         /* --- EFEK BACKGROUND --- */
@@ -48,7 +48,7 @@
             100% { transform: translate(50px, 50px); }
         }
 
-        /* --- HEADER DENGAN PROFIL --- */
+        /* --- HEADER --- */
         .main-header {
             background-color: rgba(20, 20, 30, 0.9);
             backdrop-filter: blur(10px);
@@ -58,7 +58,7 @@
             justify-content: space-between;
             align-items: center;
             flex-shrink: 0;
-            box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
+            z-index: 10;
         }
         .header-title {
             font-family: 'Orbitron', sans-serif;
@@ -66,45 +66,48 @@
             font-weight: 700;
             color: #00ffff;
             text-shadow: 0 0 10px #00ffff;
-            animation: title-glitch 4s infinite alternate;
+            animation: title-pulse 3s infinite alternate;
         }
-        @keyframes title-glitch {
-            0%, 100% { text-shadow: 0 0 10px #00ffff; }
-            25% { text-shadow: -2px 0 #ff00ff, 2px 0 #00ffff; }
-            50% { text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff; }
-            75% { text-shadow: 0 0 10px #00ffff; }
+        @keyframes title-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
         }
-        .header-profiles {
+        .header-controls {
             display: flex;
+            gap: 10px;
             align-items: center;
-            gap: 15px;
         }
-        .profile-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 2px solid #00ffff;
-            overflow: hidden;
-            box-shadow: 0 0 10px currentColor;
-            transition: transform 0.3s ease;
+        .control-btn {
+            background-color: #333;
+            color: #e6e1e5;
+            border: 1px solid #555;
+            padding: 6px 12px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9em;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s ease;
         }
-        .profile-avatar:hover {
-            transform: scale(1.1);
+        .control-btn:hover {
+            background-color: #00ffff;
+            color: #0c0c1e;
+            border-color: #00ffff;
+            transform: translateY(-2px);
         }
-        .profile-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Pastikan gambar tidak terdistorsi */
+        #new-chat-btn {
+            background-color: #00ff00; /* Warna berbeda untuk tombol 'New Chat' */
+            border-color: #00ff00;
+        }
+        #new-chat-btn:hover {
+            background-color: #00cc00;
+            border-color: #00cc00;
         }
         .menu-btn {
             background: none;
-            border: 1px solid #00ffff;
+            border: 2px solid #00ffff;
             color: #00ffff;
             padding: 8px 12px;
             font-size: 1.2em;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: all 0.3s ease;
         }
         .menu-btn:hover {
             background-color: #00ffff;
@@ -112,11 +115,11 @@
             transform: rotate(15deg) scale(1.1);
         }
 
-        /* --- AREA KONTEN & SIDEBAR --- */
+        /* --- AREA KONTEN --- */
         .content-wrapper {
             display: flex;
             flex-grow: 1;
-            overflow: hidden; /* Mencegah content wrapper melebar */
+            overflow: hidden;
         }
         .chat-sidebar {
             width: 280px;
@@ -127,22 +130,56 @@
             transform: translateX(-100%);
             position: absolute;
             height: 100%;
-            z-index: 10;
+            z-index: 5;
             transition: transform 0.3s ease-in-out;
             flex-shrink: 0;
         }
-        .chat-sidebar.open { transform: translateX(0); }
-        .sidebar-title { font-family: 'Orbitron', sans-serif; color: #00ffff; margin-bottom: 15px; }
-        .chat-list { list-style: none; padding: 0; margin: 0; }
-        .chat-item { padding: 12px; background: rgba(0, 255, 255, 0.05); border-radius: 5px; margin-bottom: 8px; cursor: pointer; transition: all 0.2s; }
-        .chat-item:hover { background: rgba(0, 255, 255, 0.1); border-left: 3px solid #00ffff; }
-        .chat-item.active { background: #00ffff; color: #0c0c1e; font-weight: bold; }
-        .chat-main { flex-grow: 1; display: flex; flex-direction: column; background-color: rgba(12, 12, 20, 0.5); }
+        .chat-sidebar.open {
+            transform: translateX(0);
+        }
+        .sidebar-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1em;
+            color: #00ffff;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #333;
+        }
+        .chat-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .chat-item {
+            padding: 12px;
+            background-color: rgba(0, 255, 255, 0.05);
+            border-radius: 5px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+        .chat-item:hover {
+            background-color: rgba(0, 255, 255, 0.1);
+            border-color: #00ffff;
+            transform: translateX(5px);
+        }
+        .chat-item.active {
+            background-color: #00ffff;
+            color: #0c0c1e;
+            font-weight: bold;
+        }
+        .chat-main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(12, 12, 20, 0.5);
+        }
         .chat-window {
             flex-grow: 1;
             padding: 20px;
-            overflow-y: auto; /* KUNCI: IZINKAN SCROLL VERTIKAL */
-            overflow-x: hidden; /* KUNCI: MATIKAN SCROLL HORIZONTAL DI CHAT WINDOW */
+            overflow-y: auto; /* KUNCI: HANYA SCROLL VERTIKAL */
+            overflow-x: hidden; /* KUNCI: MATIKAN SCROLL HORIZONTAL */
             display: flex;
             flex-direction: column;
             gap: 15px;
@@ -155,137 +192,243 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+            background: linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px);
             background-size: 100% 3px;
             pointer-events: none;
             z-index: 1;
         }
+        .chat-window::-webkit-scrollbar { width: 8px; }
+        .chat-window::-webkit-scrollbar-track { background: #0c0c1e; }
+        .chat-window::-webkit-scrollbar-thumb { background: #00ffff; border-radius: 4px; }
 
-        /* --- PESAN & KODE --- */
+        /* --- PESAN --- */
         .message {
             display: flex;
-            flex-direction: column; /* Ubah agar avatar di atas */
-            animation: msg-pop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            max-width: 80%;
+            margin-bottom: 20px;
+            animation: msg-appear 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
-        @keyframes msg-pop {
-            from { transform: scale(0.8); opacity: 0; }
+        @keyframes msg-appear {
+            from { transform: scale(0.5); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
         }
-        .message.user { align-items: flex-end; align-self: flex-end; }
-        .message.bot { align-items: flex-start; align-self: flex-start; }
-        .message-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
         .message-avatar {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            border: 2px solid;
-            overflow: hidden;
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-right: 15px;
             flex-shrink: 0;
+            border: 2px solid;
         }
-        .message-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .bot-avatar {
+            background-color: #0c0c1e;
+            border-color: #ff00ff;
+            color: #ff00ff;
+        }
+        .user-avatar {
+            background-color: #0c0c1e;
+            border-color: #00ff00;
+            color: #00ff00;
         }
         .message-content {
-            background: rgba(20, 20, 30, 0.9);
+            background-color: rgba(20, 20, 30, 0.9);
             padding: 15px 20px;
             border-radius: 8px;
             border: 1px solid #333;
+            flex-grow: 1;
             position: relative;
-            overflow-wrap: break-word;
-            word-wrap: break-word;
+            overflow: hidden;
         }
-        .message-text { font-family: 'Share Tech Mono', monospace; white-space: pre-wrap; }
-        .code-container {
+        .message-text {
+            margin: 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+            line-height: 1.6;
+        }
+        .code-box {
             margin-top: 15px;
             border-left: 4px solid #00ffff;
-            background: #111;
+            background-color: #111;
+            padding: 15px;
             border-radius: 0 8px 8px 0;
+            overflow: hidden;
             box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
         }
         .code-header {
-            background: #00ffff;
+            background-color: #00ffff;
             color: #0c0c1e;
-            padding: 5px 15px;
-            font-size: 0.9em;
-            font-weight: bold;
+            padding: 6px 12px;
+            font-size: 0.85em;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .code-actions button { background: #0c0c1e; border: none; color: #00ffff; padding: 3px 10px; cursor: pointer; border-radius: 4px; font-family: 'Share Tech Mono', monospace; }
-        .code-actions button:hover { background: #333; }
-        .code-body { padding: 15px; font-family: 'Share Tech Mono', monospace; color: #e6e1e5; white-space: pre-wrap; word-wrap: break-word; }
-        .typing-indicator { display: none; align-self: flex-start; align-items: center; gap: 10px; }
-        .typing-dots span { display: inline-block; width: 8px; height: 8px; background: #00ffff; border-radius: 50%; animation: typing-bounce 1.4s infinite ease-in-out; }
+        .code-actions button {
+            background: none;
+            border: 1px solid #0c0c1e;
+            color: #e6e1e5;
+            padding: 4px 10px;
+            margin-left: 5px;
+            cursor: pointer;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.8em;
+            border-radius: 3px;
+        }
+        .code-actions button:hover {
+            background-color: #00ffff;
+            color: #0c0c1e;
+            border-color: #00ffff;
+        }
+        .code-body {
+            background-color: #0d1117;
+            color: #e6e1e5;
+            padding: 15px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        /* --- INDICATOR KETIK --- */
+        .typing-indicator {
+            display: none;
+            align-items: center;
+        }
+        .typing-dots span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #ff00ff;
+            border-radius: 50%;
+            margin-right: 4px;
+            animation: typing-bounce 1.4s infinite ease-in-out;
+        }
         .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
-        @keyframes typing-bounce { 0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; } 40% { transform: scale(1); opacity: 1; } }
+        @keyframes typing-bounce {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
 
         /* --- AREA INPUT --- */
         .input-area {
-            background: rgba(20, 20, 30, 0.9);
+            background-color: rgba(20, 20, 30, 0.9);
             padding: 20px;
             border-top: 2px solid #00ffff;
             display: flex;
             gap: 15px;
             flex-shrink: 0;
+            z-index: 10; /* KUNCI: PASTIKAN DI ATAS */
         }
         #prompt-input {
             flex-grow: 1;
-            background: #0c0c1e;
+            background-color: #0c0c1e;
             border: 1px solid #333;
             color: #e6e1e5;
             padding: 12px 20px;
             font-family: 'Share Tech Mono', monospace;
             font-size: 1em;
-            border-radius: 8px;
             outline: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
         }
-        #prompt-input:focus { border-color: #00ffff; box-shadow: 0 0 15px rgba(0, 255, 255, 0.3); }
+        #prompt-input:focus {
+            border-color: #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3) inset;
+        }
         #send-btn {
-            background: #00ffff;
+            background-color: #00ffff;
             color: #0c0c1e;
             border: none;
             padding: 12px 25px;
             font-family: 'Orbitron', sans-serif;
             font-size: 1em;
-            font-weight: 700;
+            font-weight: bold;
             cursor: pointer;
             border-radius: 8px;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
         }
-        #send-btn:hover { background: #00cccc; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 255, 255, 0.4); }
+        #send-btn:hover {
+            background-color: #00cccc;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.4);
+        }
         #send-btn:active { transform: translateY(0); }
         #send-btn.loading { animation: spin 1s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        
+
         /* --- MODAL --- */
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(12, 12, 20, 0.9); }
-        .modal-content { background: #1a1a2e; margin: 5% auto; padding: 0; border: 1px solid #00ffff; width: 90%; max-width: 900px; height: 80%; display: flex; flex-direction: column; border-radius: 10px; animation: modal-appear 0.3s ease-out; }
-        @keyframes modal-appear { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-        .modal-header { padding: 12px 20px; background: #00ffff; color: #0c0c1e; display: flex; justify-content: space-between; align-items: center; font-family: 'Orbitron', sans-serif; font-weight: 700; }
-        .modal-close { color: #0c0c1e; font-size: 28px; font-weight: bold; cursor: pointer; line-height: 20px; }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(12, 12, 20, 0.9);
+        }
+        .modal-content {
+            background-color: #1a1a2e;
+            margin: 5% auto;
+            padding: 0;
+            border: 1px solid #00ffff;
+            width: 90%;
+            max-width: 900px;
+            height: 80%;
+            display: flex;
+            flex-direction: column;
+            animation: modal-appear 0.3s ease-out;
+        }
+        @keyframes modal-appear {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .modal-header {
+            padding: 12px 20px;
+            background-color: #00ffff;
+            color: #0c0c1e;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-title {
+            color: #0c0c1e;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+        }
+        .modal-close {
+            color: #e6e1e5;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 20px;
+        }
         .modal-close:hover { color: #ff00ff; }
-        .modal-body { padding: 20px; overflow-y: auto; flex-grow: 1; }
-        .modal-body pre { margin: 0; font-family: 'Share Tech Mono', monospace; color: #e6e1e5; white-space: pre-wrap; word-wrap: break-word; }
+        .modal-body {
+            padding: 20px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        .modal-body pre {
+            margin: 0;
+            font-family: 'Share Tech Mono', monospace;
+            color: #e6e1e5;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
     </style>
 </head>
 <body>
     <div class="app-wrapper">
         <header class="main-header">
-            <div class="header-profiles">
-                <div class="profile-avatar">
-                    <img src="https://files.catbox.moe/8v8z41.jpg" alt="User">
-                </div>
-            </div>
-            <h1 class="header-title">XavAi</h1>
-            <div class="header-profiles">
-                <div class="profile-avatar">
-                    <img src="https://files.catbox.moe/hef3aq.jpg" alt="AI">
-                </div>
+            <div class="header-title">XavAi</div>
+            <div class="header-controls">
+                <button id="new-chat-btn" class="control-btn">New Chat</button>
                 <button id="menu-toggle" class="menu-btn">☰</button>
             </div>
         </header>
@@ -299,13 +442,9 @@
             <main class="chat-main">
                 <div id="chat-window" class="chat-window">
                     <div class="message bot">
-                        <div class="message-header">
-                            <div class="message-avatar">
-                                <img src="https://files.catbox.moe/hef3aq.jpg" alt="AI">
-                            </div>
-                        </div>
+                        <div class="message-avatar bot-avatar">AI</div>
                         <div class="message-content">
-                            <p class="message-text">Namaku Xav-Ai saya di buat oleh GusOfcXD 404, bantu juga follow akun saya : @gusofcxd4.0.4</p>
+                            <p class="message-text">Saya XavAi di buat oleh GusOfcXD 404, username tiktok saya: @gusofcxd.4.0.4</p>
                         </div>
                     </div>
                 </div>
@@ -317,7 +456,6 @@
         </div>
     </div>
 
-    <!-- Modal untuk melihat kode -->
     <div id="code-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -335,6 +473,7 @@
             const chatWindow = document.getElementById('chat-window');
             const promptInput = document.getElementById('prompt-input');
             const sendBtn = document.getElementById('send-btn');
+            const newChatBtn = document.getElementById('new-chat-btn');
             const menuToggle = document.getElementById('menu-toggle');
             const chatSidebar = document.getElementById('chat-sidebar');
             const chatList = document.getElementById('chat-list');
@@ -350,39 +489,38 @@
             let chats = {};
             let currentChatId = null;
 
+            const generateId = () => '_' + Math.random().toString(36).substr(2, 9);
             const saveChats = () => {
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(chats));
                 localStorage.setItem('xavai_current_chat', currentChatId);
             };
-
             const loadChats = () => {
                 const saved = localStorage.getItem(STORAGE_KEY);
-                if (saved) { chats = JSON.parse(saved); }
+                if (saved) {
+                    chats = JSON.parse(saved);
+                }
                 const lastId = localStorage.getItem('xavai_current_chat');
-                if (lastId && chats[lastId]) {
-                    switchToChat(lastId);
-                } else {
+                if (Object.keys(chats).length === 0 || !chats[lastId]) {
                     createNewChat();
+                } else {
+                    switchToChat(lastId);
                 }
                 renderChatList();
             };
-
             const createNewChat = () => {
-                const newId = '_' + Math.random().toString(36).substr(2, 9);
+                const newId = generateId();
                 chats[newId] = [];
                 currentChatId = newId;
                 saveChats();
                 renderChatList();
                 renderChat();
             };
-
             const switchToChat = (id) => {
                 currentChatId = id;
                 renderChat();
                 renderChatList();
                 chatSidebar.classList.remove('open');
             };
-
             const renderChatList = () => {
                 chatList.innerHTML = '';
                 Object.keys(chats).forEach(id => {
@@ -391,80 +529,57 @@
                     if (id === currentChatId) li.classList.add('active');
                     const firstMsg = chats[id][0];
                     li.textContent = firstMsg && firstMsg.sender === 'user' ? firstMsg.content.data.substring(0, 30) + '...' : 'New Chat';
-                    li.onclick = () => switchToChat(id);
+                    li.onclick = () => {
+                        switchToChat(id);
+                    };
                     chatList.appendChild(li);
                 });
             };
-
             const renderChat = () => {
                 chatWindow.innerHTML = '';
                 const messages = chats[currentChatId] || [];
                 if (messages.length === 0) {
-                    chatWindow.innerHTML = `<div class="message bot"><div class="message-header"><div class="message-avatar"><img src="https://files.catbox.moe/hef3aq.jpg" alt="AI"></div></div><div class="message-content"><p class="message-text">Sistem online. Ada yang bisa saya bantu?</p></div></div>`;
+                    chatWindow.innerHTML = `<div class="message bot"><div class="message-avatar bot-avatar">AI</div><div class="message-content"><p class="message-text">Sistem online. Ketik 'code:' untuk membuat file.</p></div></div>`;
                 } else {
                     messages.forEach(msg => addMessage(msg));
                 }
             };
-
             const addMessage = (msg) => {
-                const messageDiv = document.createElement('div');
-                messageDiv.className = `message ${msg.sender}`;
-                
-                const headerDiv = document.createElement('div');
-                headerDiv.className = 'message-header';
+                const msgDiv = document.createElement('div');
+                msgDiv.className = 'message';
+                msgDiv.classList.add(msg.sender);
                 
                 const avatar = document.createElement('div');
                 avatar.className = 'message-avatar';
-                const avatarImg = document.createElement('img');
-                avatarImg.src = msg.sender === 'user' ? 'https://files.catbox.moe/8v8z41.jpg' : 'https://files.catbox.moe/hef3aq.jpg';
-                avatarImg.alt = msg.sender;
-                avatar.appendChild(avatarImg);
-                headerDiv.appendChild(avatar);
-
+                avatar.textContent = msg.sender === 'user' ? 'U' : 'AI';
+                
                 const content = document.createElement('div');
                 content.className = 'message-content';
 
                 if (msg.type === 'file') {
-                    content.innerHTML = `<p class="message-text">File dibuat:</p>`;
-                    const codeContainer = document.createElement('div');
-                    codeContainer.className = 'code-container';
+                    content.innerHTML = `<p class="message-text">File generated.</p>`;
+                    const codeBox = document.createElement('div');
+                    codeBox.className = 'code-box';
                     const codeHeader = document.createElement('div');
                     codeHeader.className = 'code-header';
-                    const fileName = document.createElement('span');
-                    fileName.textContent = msg.filename;
-                    const actions = document.createElement('div');
-                    actions.className = 'code-actions';
+                    codeHeader.innerHTML = `<span class="code-filename">${msg.filename}</span><div class="code-actions"><button class="view-btn">View</button><button class="copy-btn">Copy</button></div>`;
+                    const codeBody = document.createElement('div');
+                    codeBody.className = 'code-body';
+                    codeBody.textContent = msg.data;
+                    codeBox.appendChild(codeHeader);
+                    codeBox.appendChild(codeBody);
+                    content.appendChild(codeBox);
                     
-                    const copyBtn = document.createElement('button');
-                    copyBtn.textContent = 'Salin';
-                    copyBtn.onclick = () => {
-                        navigator.clipboard.writeText(msg.data);
-                        copyBtn.textContent = 'Tersalin!';
-                        setTimeout(() => copyBtn.textContent = 'Salin', 2000);
-                    };
-                    
-                    const viewBtn = document.createElement('button');
-                    viewBtn.textContent = 'Lihat';
-                    viewBtn.onclick = () => {
+                    codeBox.querySelector('.view-btn').onclick = () => {
                         modalTitle.textContent = msg.filename;
                         modalCode.textContent = msg.data;
                         modal.style.display = 'block';
                     };
-                    
-                    actions.appendChild(copyBtn);
-                    actions.appendChild(viewBtn);
-                    codeHeader.appendChild(fileName);
-                    codeHeader.appendChild(actions);
-
-                    const codeBody = document.createElement('div');
-                    codeBody.className = 'code-body';
-                    const pre = document.createElement('pre');
-                    pre.textContent = msg.data;
-                    codeBody.appendChild(pre);
-
-                    codeContainer.appendChild(codeHeader);
-                    codeContainer.appendChild(codeBody);
-                    content.appendChild(codeContainer);
+                    codeBox.querySelector('.copy-btn').onclick = () => {
+                        navigator.clipboard.writeText(msg.data);
+                        codeBox.querySelector('.copy-btn').textContent = 'Tersalin!';
+                        setTimeout(() => codeBox.querySelector('.copy-btn').textContent = 'Copy', 2000);
+                    };
                 } else {
                     const p = document.createElement('p');
                     p.className = 'message-text';
@@ -472,17 +587,17 @@
                     content.appendChild(p);
                 }
 
-                messageDiv.appendChild(headerDiv);
-                messageDiv.appendChild(content);
-                chatWindow.appendChild(messageDiv);
+                msgDiv.appendChild(avatar);
+                msgDiv.appendChild(content);
+                chatWindow.appendChild(msgDiv);
                 chatWindow.scrollTop = chatWindow.scrollHeight;
             };
-
+            
             const getFilename = (code) => {
                 if (code.includes('<!DOCTYPE') || code.includes('<html')) return 'index.html';
                 if (code.includes('def ') || code.includes('import ')) return 'script.py';
-                if (code.includes('public class')) return 'Main.java';
-                if (code.includes('function') || code.includes('const ') || code.includes('console.log')) return 'app.js';
+                if (code.includes('public class ')) return 'Main.java';
+                if (code.includes('function ') || code.includes('const ') || code.includes('console.log')) return 'app.js';
                 if (code.includes('<?php')) return 'index.php';
                 return 'file.txt';
             };
@@ -490,7 +605,7 @@
             const showTypingIndicator = () => {
                 const indicator = document.createElement('div');
                 indicator.className = 'typing-indicator';
-                indicator.innerHTML = `<div class="message-header"><div class="message-avatar"><img src="https://files.catbox.moe/hef3aq.jpg" alt="AI"></div></div><div class="typing-dots"><span></span><span></span><span></span></div>`;
+                indicator.innerHTML = '<div class="message-avatar bot-avatar">AI</div><div class="typing-dots"><span></span><span></span><span></span></div>';
                 chatWindow.appendChild(indicator);
                 chatWindow.scrollTop = chatWindow.scrollHeight;
             };
@@ -512,7 +627,7 @@
                 promptInput.value = '';
                 sendBtn.disabled = true;
                 sendBtn.classList.add('loading');
-                sendBtn.textContent = '...';
+                sendBtn.textContent = '';
                 showTypingIndicator();
 
                 try {
@@ -524,7 +639,7 @@
                     const result = await response.json();
                     if (!response.ok) throw new Error(result.error);
                     
-                    let aiMessage = { sender: 'bot', data: result.data, type: 'text' };
+                    let aiMessage = { sender: 'bot', data: result.data };
                     if (text.toLowerCase().startsWith('code:')) {
                         aiMessage.type = 'file';
                         aiMessage.filename = getFilename(result.data);
@@ -543,10 +658,16 @@
                 }
             };
 
+            // --- EVENT LISTENERS ---
+            // FIX: Paksa fokus ke input saat diklik
+            promptInput.addEventListener('click', () => promptInput.focus());
+            
+            newChatBtn.addEventListener('click', createNewChat);
             menuToggle.addEventListener('click', () => chatSidebar.classList.toggle('open'));
             sendBtn.addEventListener('click', handleSend);
             promptInput.addEventListener('keydown', (event) => { if (event.key === 'Enter') handleSend(); });
 
+            // --- INISIALISASI ---
             loadChats();
         });
     </script>
