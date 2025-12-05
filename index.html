@@ -5,40 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GusOfcXD 404</title>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <!-- Tambahkan library untuk syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <style>
         body { background-color: #0a0e27; color: #b4beff; font-family: 'Share Tech Mono', monospace; margin: 0; height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
         .app-container { display: flex; flex-direction: column; height: 100%; max-width: 100%; }
         .header { background: linear-gradient(135deg, #1e3c72, #2a5298); padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
-        .logo { font-family: 'Rajdhani', sans-serif; font-size: 1.8em; font-weight: 700; color: #fff; text-shadow: 0 0 10px #4facfe; }
+        .logo { font-family: 'Rajdhani', sans-serif; font-size: 1.5em; font-weight: 700; color: #fff; text-shadow: 0 0 10px #4facfe; }
         .menu-btn { background: none; border: 2px solid #4facfe; color: #fff; padding: 8px 15px; font-family: 'Rajdhani', sans-serif; font-weight: 500; cursor: pointer; border-radius: 5px; transition: all 0.3s ease; }
         .menu-btn:hover { background-color: #4facfe; color: #0a0e27; transform: scale(1.05); }
         .content { display: flex; flex-grow: 1; overflow: hidden; }
-        .sidebar { width: 280px; background: rgba(30, 60, 114, 0.8); backdrop-filter: blur(10px); padding: 20px; overflow-y: auto; transform: translateX(-100%); position: absolute; height: 100%; z-index: 10; transition: transform 0.3s ease; flex-shrink: 0; }
+        .sidebar { width: 280px; background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border-right: 1px solid #4facfe; padding: 20px; overflow-y: auto; transform: translateX(-100%); position: absolute; height: 100%; z-index: 10; transition: transform 0.3s ease; flex-shrink: 0; }
         .sidebar.open { transform: translateX(0); }
         .sidebar-title { font-family: 'Rajdhani', sans-serif; font-size: 1.2em; color: #4facfe; margin-bottom: 20px; text-align: center; }
         .chat-list { list-style: none; padding: 0; margin: 0; }
         .chat-item { background: rgba(79, 172, 254, 0.1); border: 1px solid rgba(79, 172, 254, 0.3); padding: 12px; margin-bottom: 10px; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; }
         .chat-item:hover { background: rgba(79, 172, 254, 0.2); border-color: #4facfe; transform: translateX(5px); }
         .main-view { flex-grow: 1; display: flex; flex-direction: column; background: rgba(10, 14, 39, 0.5); }
-        .chat-log { flex-grow: 1; padding: 20px; overflow-y: auto; overflow-x: hidden; }
-        .message { display: flex; margin-bottom: 20px; animation: fadeIn 0.5s ease; }
+        .chat-log { flex-grow: 1; padding: 20px; overflow-y: auto; }
+        .message { display: flex; margin-bottom: 25px; animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: bold; margin-right: 15px; flex-shrink: 0; }
+        .avatar { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; margin-right: 15px; flex-shrink: 0; }
         .bot-avatar { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; }
         .user-avatar { background: linear-gradient(135deg, #f093fb, #f5576c); color: #fff; }
-        .msg-content { background: rgba(30, 60, 114, 0.5); border: 1px solid rgba(79, 172, 254, 0.3); padding: 15px; border-radius: 8px; flex-grow: 1; max-width: 100%; overflow-wrap: break-word; }
-        .msg-text { margin: 0; white-space: pre-wrap; word-break: break-word; }
-        .file-box { margin-top: 15px; border: 1px solid #4facfe; border-radius: 8px; overflow: hidden; background: #0a0e27; }
-        .file-header { background: #4facfe; color: #0a0e27; padding: 8px 15px; font-family: 'Rajdhani', sans-serif; font-weight: 500; display: flex; justify-content: space-between; align-items: center; }
-        .file-name { font-weight: 700; }
-        .copy-btn { background: none; border: 1px solid #0a0e27; color: #0a0e27; padding: 4px 10px; cursor: pointer; border-radius: 4px; font-family: 'Share Tech Mono', monospace; font-size: 0.8em; }
-        .copy-btn:hover { background: #0a0e27; color: #4facfe; }
-        .file-body { padding: 15px; overflow-x: auto; }
-        .file-body pre { margin: 0; font-family: 'Share Tech Mono', monospace; color: #b4beff; white-space: pre-wrap; word-wrap: break-word; }
-        .input-area { background: rgba(30, 60, 114, 0.8); backdrop-filter: blur(10px); padding: 20px; display: flex; gap: 15px; flex-shrink: 0; }
+        .msg-content { flex-grow: 1; }
+        .msg-text { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(5px); border: 1px solid rgba(79, 172, 254, 0.3); padding: 15px 20px; border-radius: 10px; margin-bottom: 15px; }
+        .msg-text p { margin: 0; line-height: 1.6; }
+        /* Gaya untuk kotak kode yang baru */
+        .code-block { border-left: 4px solid #4facfe; background: #1e1e1e; border-radius: 8px; overflow: hidden; margin-top: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .code-header { background: #2d2d2d; color: #ccc; padding: 8px 15px; font-size: 0.9em; display: flex; justify-content: space-between; align-items: center; }
+        .file-name { font-family: 'Rajdhani', sans-serif; color: #4facfe; }
+        .copy-code-btn { background: #4facfe; color: #1e1e1e; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-family: 'Share Tech Mono', monospace; font-size: 0.8em; transition: all 0.2s; }
+        .copy-code-btn:hover { background: #fff; color: #4facfe; }
+        .code-body { padding: 15px; overflow-x: auto; }
+        .code-body pre { margin: 0; }
+        /* Gaya untuk input area */
+        .input-area { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); padding: 20px; border-top: 1px solid #4facfe; display: flex; gap: 15px; flex-shrink: 0; }
         #prompt { flex-grow: 1; background: rgba(10, 14, 39, 0.7); border: 2px solid #4facfe; color: #b4beff; padding: 12px 20px; font-family: 'Share Tech Mono', monospace; font-size: 1em; border-radius: 8px; outline: none; }
         #prompt:focus { box-shadow: 0 0 20px rgba(79, 172, 254, 0.5); }
-        #send { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; border: none; padding: 12px 25px; font-family: 'Rajdhani', sans-serif; font-weight: 700; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; }
+        #send { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; border: none; padding: 12px 25px; font-family: 'Rajdhani', sans-serif; font-size: 1em; font-weight: 700; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; }
         #send:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4); }
         #send:active { transform: translateY(0); }
         #send.loading { animation: spin 1s linear infinite; }
@@ -57,14 +62,7 @@
                 <ul id="chatList" class="chat-list"></ul>
             </aside>
             <main class="main-view">
-                <div id="chatLog" class="chat-log">
-                    <div class="message">
-                        <div class="avatar bot-avatar">AI</div>
-                        <div class="msg-content">
-                            <p class="msg-text">Sistem online. Ketik 'code:' untuk membuat file.</p>
-                        </div>
-                    </div>
-                </div>
+                <div id="chatLog" class="chat-log"></div>
                 <div class="input-area">
                     <input type="text" id="prompt" placeholder="Ketik pesan" autocomplete="off">
                     <button id="send">SEND</button>
@@ -73,6 +71,8 @@
         </div>
     </div>
 
+    <!-- Tambahkan script untuk syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const chatLog = document.getElementById('chatLog');
@@ -82,7 +82,7 @@
             const sidebar = document.getElementById('sidebar');
             const chatList = document.getElementById('chatList');
 
-            const STORAGE_KEY = 'gusofc_terminal_responsive';
+            const STORAGE_KEY = 'gusofc_terminal_with_syntax';
             let chats = {};
             let currentChatId = null;
 
@@ -131,7 +131,7 @@
                 chatLog.innerHTML = '';
                 const messages = chats[currentChatId] || [];
                 if (messages.length === 0) {
-                    chatLog.innerHTML = `<div class="message"><div class="avatar bot-avatar">AI</div><div class="msg-content"><p class="msg-text">Sistem online. Ketik 'code:' untuk membuat file.</p></div></div>`;
+                    chatLog.innerHTML = `<div class="message"><div class="avatar bot-avatar">AI</div><div class="msg-content"><div class="msg-text"><p>Sistem online. Ketik 'code:' untuk membuat file.</p></div></div></div>`;
                 } else {
                     messages.forEach(msg => addMessage(msg));
                 }
@@ -144,39 +144,64 @@
                 avatar.textContent = msg.sender === 'user' ? 'U' : 'AI';
                 const content = document.createElement('div');
                 content.className = 'msg-content';
+
                 if (msg.type === 'file') {
-                    content.innerHTML = `<p class="msg-text">File generated:</p>`;
-                    const fileBox = document.createElement('div');
-                    fileBox.className = 'file-box';
-                    const fileHeader = document.createElement('div');
-                    fileHeader.className = 'file-header';
+                    // Pisahkan penjelasan dan kode
+                    const parts = msg.data.split('```');
+                    const explanation = parts[0].trim();
+                    const codeWithLang = parts[1] || '';
+                    const langMatch = codeWithLang.match(/(\w+)\n([\s\S]*)/);
+                    const lang = langMatch ? langMatch[1] : '';
+                    const code = langMatch ? langMatch[2] : codeWithLang;
+
+                    // Tambahkan penjelasan
+                    const textDiv = document.createElement('div');
+                    textDiv.className = 'msg-text';
+                    const p = document.createElement('p');
+                    p.textContent = explanation;
+                    textDiv.appendChild(p);
+                    content.appendChild(textDiv);
+
+                    // Tambahkan kotak kode
+                    const codeBlock = document.createElement('div');
+                    codeBlock.className = 'code-block';
+                    const codeHeader = document.createElement('div');
+                    codeHeader.className = 'code-header';
                     const fileName = document.createElement('span');
                     fileName.className = 'file-name';
                     fileName.textContent = msg.filename;
                     const copyBtn = document.createElement('button');
-                    copyBtn.className = 'copy-btn';
-                    copyBtn.textContent = 'COPY';
+                    copyBtn.className = 'copy-code-btn';
+                    copyBtn.textContent = 'Salin';
                     copyBtn.onclick = () => {
-                        navigator.clipboard.writeText(msg.data);
-                        copyBtn.textContent = 'COPIED!';
-                        setTimeout(() => copyBtn.textContent = 'COPY', 2000);
+                        navigator.clipboard.writeText(code);
+                        copyBtn.textContent = 'Tersalin!';
+                        setTimeout(() => copyBtn.textContent = 'Salin', 2000);
                     };
-                    fileHeader.appendChild(fileName);
-                    fileHeader.appendChild(copyBtn);
-                    const fileBody = document.createElement('div');
-                    fileBody.className = 'file-body';
+                    codeHeader.appendChild(fileName);
+                    codeHeader.appendChild(copyBtn);
+                    const codeBody = document.createElement('div');
+                    codeBody.className = 'code-body';
                     const pre = document.createElement('pre');
-                    pre.textContent = msg.data;
-                    fileBody.appendChild(pre);
-                    fileBox.appendChild(fileHeader);
-                    fileBox.appendChild(fileBody);
-                    content.appendChild(fileBox);
+                    // Gunakan class bahasa untuk syntax highlighting
+                    pre.className = lang ? `language-${lang}` : '';
+                    pre.textContent = code;
+                    codeBody.appendChild(pre);
+                    codeBlock.appendChild(codeHeader);
+                    codeBlock.appendChild(codeBody);
+                    content.appendChild(codeBlock);
+
+                    // Terapkan syntax highlighting setelah elemen ditambahkan ke DOM
+                    Prism.highlightElement(pre);
                 } else {
+                    const textDiv = document.createElement('div');
+                    textDiv.className = 'msg-text';
                     const p = document.createElement('p');
-                    p.className = 'msg-text';
                     p.textContent = msg.data;
-                    content.appendChild(p);
+                    textDiv.appendChild(p);
+                    content.appendChild(textDiv);
                 }
+
                 msgDiv.appendChild(avatar);
                 msgDiv.appendChild(content);
                 chatLog.appendChild(msgDiv);
@@ -185,8 +210,8 @@
             const getFilename = (code) => {
                 if (code.includes('<!DOCTYPE') || code.includes('<html')) return 'index.html';
                 if (code.includes('def ') || code.includes('import ')) return 'script.py';
-                if (code.includes('public class ')) return 'Main.java';
-                if (code.includes('function ') || code.includes('const ') || code.includes('console.log')) return 'app.js';
+                if (code.includes('public class')) return 'Main.java';
+                if (code.includes('function') || code.includes('const ') || code.includes('console.log')) return 'app.js';
                 if (code.includes('<?php')) return 'index.php';
                 return 'file.txt';
             };
@@ -231,4 +256,4 @@
         });
     </script>
 </body>
-    </html>
+</html>
