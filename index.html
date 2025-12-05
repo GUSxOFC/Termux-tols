@@ -3,56 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XavAi - Super Duper Cool AI</title>
+    <title>XavAi - Custom Gemini</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --bg-color: #0a0a0f;
-            --chat-bg: rgba(255, 255, 255, 0.03);
-            --text-color: #ffffff;
-            --bot-msg-bg: rgba(255, 255, 255, 0.05);
-            --user-msg-bg: var(--primary-gradient);
-            --border-color: rgba(255, 255, 255, 0.1);
-            --glow-color: #667eea;
-        }
-
+        :root { --primary-gradient: linear-gradient(135deg, #4285F4 0%, #34A853 50%, #FBBC05 75%, #EA4335 100%); --secondary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%); --bg-color: #0a0a0f; --chat-bg: rgba(255, 255, 255, 0.03); --text-color: #ffffff; --bot-msg-bg: rgba(255, 255, 255, 0.05); --user-msg-bg: var(--primary-gradient); --border-color: rgba(255, 255, 255, 0.1); --glow-color: #4285F4; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--bg-color);
-            color: var(--text-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* Efek Background Partikel Animasi */
-        .bg-animation {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 0;
-            opacity: 0.5;
-        }
-        .bg-animation span {
-            position: absolute;
-            display: block;
-            width: 20px;
-            height: 20px;
-            background: var(--primary-gradient);
-            animation: move 25s linear infinite;
-            bottom: -150px;
-        }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg-color); color: var(--text-color); display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; position: relative; }
+        .bg-animation { position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: 0; opacity: 0.5; }
+        .bg-animation span { position: absolute; display: block; width: 20px; height: 20px; background: var(--primary-gradient); animation: move 25s linear infinite; bottom: -150px; }
         .bg-animation span:nth-child(1) { left: 25%; width: 80px; height: 80px; animation-delay: 0s; }
         .bg-animation span:nth-child(2) { left: 10%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 12s; }
         .bg-animation span:nth-child(3) { left: 70%; width: 120px; height: 120px; animation-delay: 4s; }
@@ -63,255 +23,52 @@
         .bg-animation span:nth-child(8) { left: 50%; width: 25px; height: 25px; animation-delay: 15s; animation-duration: 45s; }
         .bg-animation span:nth-child(9) { left: 20%; width: 15px; height: 15px; animation-delay: 2s; animation-duration: 35s; }
         .bg-animation span:nth-child(10) { left: 85%; width: 150px; height: 150px; animation-delay: 0s; animation-duration: 11s; }
-
-        @keyframes move {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; border-radius: 0; }
-            100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; border-radius: 50%; }
-        }
-
-        .chat-container {
-            width: 95%;
-            max-width: 800px;
-            height: 90vh;
-            background: var(--chat-bg);
-            backdrop-filter: blur(20px);
-            border-radius: 25px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            position: relative;
-            z-index: 1;
-            animation: fadeIn 0.8s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.9) translateY(20px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
-        header {
-            background: var(--primary-gradient);
-            padding: 20px 30px;
-            text-align: center;
-            position: relative;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
+        @keyframes move { 0% { transform: translateY(0) rotate(0deg); opacity: 1; border-radius: 0; } 100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; border-radius: 50%; } }
+        .chat-container { width: 95%; max-width: 800px; height: 90vh; background: var(--chat-bg); backdrop-filter: blur(20px); border-radius: 25px; border: 1px solid var(--border-color); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); display: flex; flex-direction: column; overflow: hidden; position: relative; z-index: 1; animation: fadeIn 0.8s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        header { background: var(--primary-gradient); padding: 20px 30px; text-align: center; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
         header h1 { font-weight: 700; font-size: 1.8em; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
         header p { opacity: 0.9; font-weight: 300; }
-        .help-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.2em;
-            transition: all 0.3s ease;
-        }
-        .help-btn:hover { background: rgba(255,255,255,0.3); transform: rotate(15deg) scale(1.1); }
-
-        .chat-window {
-            flex-grow: 1;
-            padding: 25px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
+        .chat-window { flex-grow: 1; padding: 25px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
         .chat-window::-webkit-scrollbar { width: 8px; }
         .chat-window::-webkit-scrollbar-track { background: transparent; }
         .chat-window::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
-
-        .message {
-            max-width: 75%;
-            padding: 15px 20px;
-            border-radius: 20px;
-            line-height: 1.6;
-            animation: slideIn 0.5s ease-out;
-            position: relative;
-        }
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(15px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        .bot-message {
-            background: var(--bot-msg-bg);
-            border: 1px solid var(--border-color);
-            align-self: flex-start;
-            border-top-left-radius: 5px;
-        }
-        .user-message {
-            background: var(--user-msg-bg);
-            align-self: flex-end;
-            border-top-right-radius: 5px;
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
-        }
-        .message img { max-width: 100%; border-radius: 15px; margin-top: 10px; animation: zoomIn 0.5s ease-out; }
-        @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        
-        .message pre {
-            background: #1e1e1e;
-            color: #d4d4d4;
-            padding: 15px;
-            border-radius: 10px;
-            overflow-x: auto;
-            margin-top: 10px;
-            position: relative;
-        }
-        .copy-code-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: var(--primary-gradient);
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.8em;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
+        .message { max-width: 75%; padding: 15px 20px; border-radius: 20px; line-height: 1.6; animation: slideIn 0.5s ease-out; position: relative; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(15px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        .bot-message { background: var(--bot-msg-bg); border: 1px solid var(--border-color); align-self: flex-start; border-top-left-radius: 5px; }
+        .user-message { background: var(--user-msg-bg); align-self: flex-end; border-top-right-radius: 5px; box-shadow: 0 5px 15px rgba(66, 133, 244, 0.3); }
+        .message pre { background: #1e1e1e; color: #d4d4d4; padding: 15px; border-radius: 10px; overflow-x: auto; margin-top: 10px; position: relative; }
+        .copy-code-btn { position: absolute; top: 10px; right: 10px; background: var(--primary-gradient); color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.8em; opacity: 0; transition: opacity 0.3s; }
         .message pre:hover .copy-code-btn { opacity: 1; }
-
-        .example-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        .example-btn {
-            background: var(--secondary-gradient);
-            border: none;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.9em;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
+        .example-buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
+        .example-btn { background: var(--secondary-gradient); border: none; color: white; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 0.9em; transition: all 0.3s ease; font-weight: 500; }
         .example-btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(240, 147, 251, 0.4); }
-
-        /* Typing Indicator yang Lebih Dinamis */
-        .typing-indicator {
-            display: none;
-            align-self: flex-start;
-            padding: 15px 20px;
-            background: var(--bot-msg-bg);
-            border-radius: 20px;
-            border-top-left-radius: 5px;
-        }
-        .typing-indicator span {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: #999;
-            margin: 0 2px;
-            animation: typing-wave 1.4s infinite ease-in-out;
-        }
+        .typing-indicator { display: none; align-self: flex-start; padding: 15px 20px; background: var(--bot-msg-bg); border-radius: 20px; border-top-left-radius: 5px; }
+        .typing-indicator span { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background-color: #999; margin: 0 2px; animation: typing-wave 1.4s infinite ease-in-out; }
         .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
         .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
-        @keyframes typing-wave {
-            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
-            40% { transform: scale(1); opacity: 1; }
-        }
-
-        .chat-input-area {
-            display: flex;
-            padding: 20px;
-            border-top: 1px solid var(--border-color);
-            background: rgba(0,0,0,0.1);
-        }
-        #user-input {
-            flex-grow: 1;
-            background: var(--bot-msg-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 30px;
-            padding: 15px 25px;
-            font-size: 1em;
-            color: var(--text-color);
-            outline: none;
-            transition: all 0.3s ease;
-        }
-        #user-input:focus { border-color: var(--glow-color); box-shadow: 0 0 15px rgba(102, 126, 234, 0.3); }
-        #send-button {
-            background: var(--primary-gradient);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 55px;
-            height: 55px;
-            margin-left: 15px;
-            font-size: 1.5em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
-        }
-        #send-button:hover { transform: scale(1.1) rotate(5deg); box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5); }
+        @keyframes typing-wave { 0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; } 40% { transform: scale(1); opacity: 1; } }
+        .chat-input-area { display: flex; padding: 20px; border-top: 1px solid var(--border-color); background: rgba(0,0,0,0.1); }
+        #user-input { flex-grow: 1; background: var(--bot-msg-bg); border: 1px solid var(--border-color); border-radius: 30px; padding: 15px 25px; font-size: 1em; color: var(--text-color); outline: none; transition: all 0.3s ease; }
+        #user-input:focus { border-color: var(--glow-color); box-shadow: 0 0 15px rgba(66, 133, 244, 0.3); }
+        #send-button { background: var(--primary-gradient); color: white; border: none; border-radius: 50%; width: 55px; height: 55px; margin-left: 15px; font-size: 1.5em; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(66, 133, 244, 0.3); }
+        #send-button:hover { transform: scale(1.1) rotate(5deg); box-shadow: 0 8px 20px rgba(66, 133, 244, 0.5); }
         #send-button:active { transform: scale(0.95); }
         #send-button.loading { animation: spin 1s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-        .help-panel {
-            position: absolute;
-            top: 70px;
-            right: 20px;
-            width: 300px;
-            background: var(--chat-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border-color);
-            border-radius: 15px;
-            padding: 20px;
-            display: none;
-            z-index: 10;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-            animation: slideDown 0.3s ease-out;
-        }
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        .help-panel h3 { margin-bottom: 15px; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .help-panel p { font-size: 0.9em; line-height: 1.5; margin-bottom: 10px; }
-        .help-panel code { background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 5px; }
-
     </style>
 </head>
 <body>
-    <!-- Efek Background Partikel -->
-    <div class="bg-animation">
-        <span></span><span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span><span></span>
-    </div>
-
+    <div class="bg-animation"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
     <div class="chat-container">
-        <header>
-            <h1>XavAi</h1>
-            <p>Asisten AI Super Duper Keren</p>
-            <button class="help-btn" id="help-btn">?</button>
-            <div class="help-panel" id="help-panel">
-                <h3>Petunjuk Penggunaan</h3>
-                <p>Saya bisa ngobrol, buat gambar, dan tulis kode!</p>
-                <p><strong>Untuk Ngobrol:</strong><br>Tulis saja pertanyaan Anda.</p>
-                <p><strong>Untuk Buat Gambar:</strong><br>Mulai dengan <code>gambar:</code> lalu deskripsi. Contoh: <code>gambar: kucing di bulan</code></p>
-                <p><strong>Untuk Buat Kode:</strong><br>Mulai dengan <code>code:</code> lalu permintaan. Contoh: <code>code: fungsi login php</code></p>
-            </div>
-        </header>
+        <header><h1>XavAi</h1><p>Custom Gemini Version</p></header>
         <main class="chat-window" id="chat-window">
             <div class="message bot-message">
-                <p>Halo! Saya XavAi. Ada yang bisa saya bantu hari ini? Coba salah satu contoh di bawah ini!</p>
+                <p>Halo! Saya XavAi. Ada yang bisa saya bantu? Coba tombol di bawah!</p>
                 <div class="example-buttons">
-                    <button class="example-btn">Jelaskan black hole</button>
-                    <button class="example-btn">gambar: naga cyberpunk</button>
-                    <button class="example-btn">code: slider html css</button>
+                    <button class="example-btn">Jelaskan AI</button>
+                    <button class="example-btn">Buat puisi</button>
+                    <button class="example-btn">code: html alert</button>
                 </div>
             </div>
         </main>
@@ -326,66 +83,16 @@
             const chatWindow = document.getElementById('chat-window');
             const userInput = document.getElementById('user-input');
             const sendButton = document.getElementById('send-button');
-            const helpBtn = document.getElementById('help-btn');
-            const helpPanel = document.getElementById('help-panel');
-
-            helpBtn.addEventListener('click', () => {
-                helpPanel.style.display = helpPanel.style.display === 'block' ? 'none' : 'block';
-            });
 
             const addMessage = (sender, content) => {
                 const messageDiv = document.createElement('div');
                 messageDiv.classList.add('message', `${sender}-message`);
-
-                if (sender === 'bot' && content.type === 'image') {
-                    const img = document.createElement('img');
-                    img.src = content.data;
-                    img.onload = () => chatWindow.scrollTop = chatWindow.scrollHeight;
-                    messageDiv.appendChild(img);
-                } else if (sender === 'bot' && content.type === 'code') {
-                    const pre = document.createElement('pre');
-                    const code = document.createElement('code');
-                    code.textContent = content.data;
-                    pre.appendChild(code);
-
-                    const copyBtn = document.createElement('button');
-                    copyBtn.className = 'copy-code-btn';
-                    copyBtn.textContent = 'Salin';
-                    copyBtn.onclick = () => {
-                        navigator.clipboard.writeText(content.data);
-                        copyBtn.textContent = 'Tersalin!';
-                        setTimeout(() => copyBtn.textContent = 'Salin', 2000);
-                    };
-                    pre.appendChild(copyBtn);
-                    
-                    messageDiv.appendChild(pre);
-                } else {
-                    const p = document.createElement('p');
-                    // Efek Mengetik untuk Pesan Bot
-                    if (sender === 'bot' && typeof content.data === 'string') {
-                        typeWriter(p, content.data);
-                    } else {
-                        p.innerHTML = content.data || content;
-                    }
-                    messageDiv.appendChild(p);
-                }
+                const p = document.createElement('p');
+                p.innerHTML = content.data || content;
+                messageDiv.appendChild(p);
                 chatWindow.appendChild(messageDiv);
                 chatWindow.scrollTop = chatWindow.scrollHeight;
             };
-
-            // Fungsi untuk efek mengetik
-            function typeWriter(element, text, speed = 20) {
-                let i = 0;
-                element.innerHTML = '';
-                function type() {
-                    if (i < text.length) {
-                        element.innerHTML += text.charAt(i);
-                        i++;
-                        setTimeout(type, speed);
-                    }
-                }
-                type();
-            }
             
             const showTypingIndicator = () => {
                 const indicator = document.createElement('div');
@@ -413,7 +120,7 @@
                 showTypingIndicator();
 
                 try {
-                    const response = await fetch('/api/openai', {
+                    const response = await fetch('/api/ai', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ prompt: prompt }),
@@ -432,16 +139,8 @@
             };
 
             sendButton.addEventListener('click', () => handleUserInput());
-            userInput.addEventListener('keydown', (event) => {
-                if (event.key === 'Enter') handleUserInput();
-            });
-
-            document.querySelectorAll('.example-btn').forEach(button => {
-                button.addEventListener('click', () => {
-                    userInput.value = button.textContent;
-                    handleUserInput(button.textContent);
-                });
-            });
+            userInput.addEventListener('keydown', (event) => { if (event.key === 'Enter') handleUserInput(); });
+            document.querySelectorAll('.example-btn').forEach(button => { button.addEventListener('click', () => { userInput.value = button.textContent; handleUserInput(button.textContent); }); });
         });
     </script>
 </body>
