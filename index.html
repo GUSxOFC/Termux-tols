@@ -2,91 +2,90 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GusOfcXD 404</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #010409; color: #e6f1ff; font-family: 'Share Tech Mono', monospace; margin: 0; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
-        .bg-grid { position: fixed; width: 100%; height: 100%; background-image: linear-gradient(rgba(0, 255, 170, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 170, 0.1) 1px, transparent 1px); background-size: 50px 50px; z-index: 0; animation: grid-move 10s linear infinite; }
-        @keyframes grid-move { 0% { transform: translate(0, 0); } 100% { transform: translate(50px, 50px); } }
-        .main-header { background-color: rgba(1, 4, 9, 0.8); backdrop-filter: blur(10px); padding: 15px 30px; border-bottom: 2px solid #00ffaa; display: flex; justify-content: space-between; align-items: center; z-index: 10; flex-shrink: 0; }
-        .logo { font-family: 'Orbitron', sans-serif; font-size: 2em; color: #00ffaa; text-shadow: 0 0 15px #00ffaa, 0 0 30px #00ffaa; animation: logo-pulse 3s infinite alternate; }
-        @keyframes logo-pulse { from { text-shadow: 0 0 15px #00ffaa, 0 0 30px #00ffaa; } to { text-shadow: 0 0 25px #00ffaa, 0 0 40px #00ffaa; } }
-        .menu-btn { background: none; border: 2px solid #00ffaa; color: #00ffaa; padding: 8px 15px; font-family: 'Orbitron', sans-serif; cursor: pointer; transition: all 0.3s ease; }
-        .menu-btn:hover { background-color: #00ffaa; color: #010409; box-shadow: 0 0 20px #00ffaa; }
-        .content-flex { display: flex; flex-grow: 1; overflow: hidden; }
-        .chat-sidebar { width: 300px; background-color: rgba(1, 4, 9, 0.7); backdrop-filter: blur(5px); border-right: 1px solid #00ffaa; padding: 20px; overflow-y: auto; transform: translateX(-100%); position: relative; z-index: 5; transition: transform 0.4s ease; }
-        .chat-sidebar.open { transform: translateX(0); }
-        .sidebar-title { font-family: 'Orbitron', sans-serif; color: #00ffaa; margin-bottom: 20px; text-align: center; }
-        .chat-list { list-style: none; padding: 0; }
-        .chat-item { background-color: rgba(0, 255, 170, 0.1); border: 1px solid rgba(0, 255, 170, 0.3); padding: 12px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s ease; }
-        .chat-item:hover { background-color: rgba(0, 255, 170, 0.2); border-color: #00ffaa; transform: translateX(5px); }
-        .chat-window { flex-grow: 1; display: flex; flex-direction: column; padding: 20px; overflow-y: auto; z-index: 1; }
-        .message { display: flex; margin-bottom: 25px; animation: msg-in 0.5s ease-out; }
-        @keyframes msg-in { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        .avatar { width: 50px; height: 50px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; margin-right: 20px; flex-shrink: 0; }
-        .bot-avatar { background: linear-gradient(135deg, #00ffaa, #0099cc); color: #010409; }
-        .user-avatar { background: linear-gradient(135deg, #ff0099, #9900ff); color: #e6f1ff; }
-        .message-content { flex-grow: 1; }
-        .message-text { background-color: rgba(1, 4, 9, 0.7); backdrop-filter: blur(5px); border: 1px solid rgba(0, 255, 170, 0.3); padding: 15px 20px; border-radius: 8px; }
-        .message-text p { margin: 0; line-height: 1.6; }
-        .file-container { margin-top: 15px; border: 1px solid #00ffaa; border-radius: 8px; overflow: hidden; background-color: #010409; }
-        .file-header { background-color: #00ffaa; color: #010409; padding: 8px 15px; font-family: 'Orbitron', sans-serif; font-size: 1.1em; display: flex; justify-content: space-between; align-items: center; }
+        body { background-color: #0a0e27; color: #b4beff; font-family: 'Share Tech Mono', monospace; margin: 0; height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+        .app-container { display: flex; flex-direction: column; height: 100%; max-width: 100%; }
+        .header { background: linear-gradient(135deg, #1e3c72, #2a5298); padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        .logo { font-family: 'Rajdhani', sans-serif; font-size: 1.8em; font-weight: 700; color: #fff; text-shadow: 0 0 10px #4facfe; }
+        .menu-btn { background: none; border: 2px solid #4facfe; color: #fff; padding: 8px 15px; font-family: 'Rajdhani', sans-serif; font-weight: 500; cursor: pointer; border-radius: 5px; transition: all 0.3s ease; }
+        .menu-btn:hover { background-color: #4facfe; color: #0a0e27; transform: scale(1.05); }
+        .content { display: flex; flex-grow: 1; overflow: hidden; }
+        .sidebar { width: 280px; background: rgba(30, 60, 114, 0.8); backdrop-filter: blur(10px); padding: 20px; overflow-y: auto; transform: translateX(-100%); position: absolute; height: 100%; z-index: 10; transition: transform 0.3s ease; flex-shrink: 0; }
+        .sidebar.open { transform: translateX(0); }
+        .sidebar-title { font-family: 'Rajdhani', sans-serif; font-size: 1.2em; color: #4facfe; margin-bottom: 20px; text-align: center; }
+        .chat-list { list-style: none; padding: 0; margin: 0; }
+        .chat-item { background: rgba(79, 172, 254, 0.1); border: 1px solid rgba(79, 172, 254, 0.3); padding: 12px; margin-bottom: 10px; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; }
+        .chat-item:hover { background: rgba(79, 172, 254, 0.2); border-color: #4facfe; transform: translateX(5px); }
+        .main-view { flex-grow: 1; display: flex; flex-direction: column; background: rgba(10, 14, 39, 0.5); }
+        .chat-log { flex-grow: 1; padding: 20px; overflow-y: auto; overflow-x: hidden; }
+        .message { display: flex; margin-bottom: 20px; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: bold; margin-right: 15px; flex-shrink: 0; }
+        .bot-avatar { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; }
+        .user-avatar { background: linear-gradient(135deg, #f093fb, #f5576c); color: #fff; }
+        .msg-content { background: rgba(30, 60, 114, 0.5); border: 1px solid rgba(79, 172, 254, 0.3); padding: 15px; border-radius: 8px; flex-grow: 1; max-width: 100%; overflow-wrap: break-word; }
+        .msg-text { margin: 0; white-space: pre-wrap; word-break: break-word; }
+        .file-box { margin-top: 15px; border: 1px solid #4facfe; border-radius: 8px; overflow: hidden; background: #0a0e27; }
+        .file-header { background: #4facfe; color: #0a0e27; padding: 8px 15px; font-family: 'Rajdhani', sans-serif; font-weight: 500; display: flex; justify-content: space-between; align-items: center; }
         .file-name { font-weight: 700; }
-        .copy-btn { background: none; border: 1px solid #010409; color: #010409; padding: 5px 10px; cursor: pointer; font-family: 'Share Tech Mono', monospace; font-size: 0.8em; border-radius: 4px; transition: all 0.2s; }
-        .copy-btn:hover { background-color: #010409; color: #00ffaa; }
-        .file-content { padding: 20px; background-color: #0d1117; color: #c9d1d9; overflow-x: auto; }
-        .file-content pre { margin: 0; font-family: 'Share Tech Mono', monospace; white-space: pre-wrap; word-wrap: break-word; }
-        .input-area { background-color: rgba(1, 4, 9, 0.8); backdrop-filter: blur(10px); padding: 20px; border-top: 2px solid #00ffaa; display: flex; gap: 15px; z-index: 10; flex-shrink: 0; }
-        #prompt { flex-grow: 1; background-color: rgba(0, 255, 170, 0.1); border: 2px solid #00ffaa; color: #e6f1ff; padding: 12px 20px; font-family: 'Share Tech Mono', monospace; font-size: 1em; outline: none; border-radius: 8px; }
-        #prompt:focus { box-shadow: 0 0 20px rgba(0, 255, 170, 0.5) inset; }
-        #send { background: linear-gradient(135deg, #00ffaa, #0099cc); color: #010409; border: none; padding: 12px 25px; font-family: 'Orbitron', sans-serif; font-size: 1em; font-weight: 700; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; }
-        #send:hover { transform: translateY(-3px); box-shadow: 0 5px 20px rgba(0, 255, 170, 0.6); }
+        .copy-btn { background: none; border: 1px solid #0a0e27; color: #0a0e27; padding: 4px 10px; cursor: pointer; border-radius: 4px; font-family: 'Share Tech Mono', monospace; font-size: 0.8em; }
+        .copy-btn:hover { background: #0a0e27; color: #4facfe; }
+        .file-body { padding: 15px; overflow-x: auto; }
+        .file-body pre { margin: 0; font-family: 'Share Tech Mono', monospace; color: #b4beff; white-space: pre-wrap; word-wrap: break-word; }
+        .input-area { background: rgba(30, 60, 114, 0.8); backdrop-filter: blur(10px); padding: 20px; display: flex; gap: 15px; flex-shrink: 0; }
+        #prompt { flex-grow: 1; background: rgba(10, 14, 39, 0.7); border: 2px solid #4facfe; color: #b4beff; padding: 12px 20px; font-family: 'Share Tech Mono', monospace; font-size: 1em; border-radius: 8px; outline: none; }
+        #prompt:focus { box-shadow: 0 0 20px rgba(79, 172, 254, 0.5); }
+        #send { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; border: none; padding: 12px 25px; font-family: 'Rajdhani', sans-serif; font-weight: 700; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; }
+        #send:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4); }
         #send:active { transform: translateY(0); }
         #send.loading { animation: spin 1s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
-    <div class="bg-grid"></div>
-    <header class="main-header">
-        <div class="logo">GusOfcXD 404</div>
-        <button id="menuBtn" class="menu-btn">⋮</button>
-    </header>
-    <div class="content-flex">
-        <aside id="chatSidebar" class="chat-sidebar">
-            <h3 class="sidebar-title">Chat List</h3>
-            <ul id="chatList" class="chat-list"></ul>
-        </aside>
-        <main id="chatWindow" class="chat-window">
-            <div class="message">
-                <div class="avatar bot-avatar">AI</div>
-                <div class="message-content">
-                    <div class="message-text">
-                        <p>Sistem online. Ketik 'code:' untuk membuat file.</p>
+    <div class="app-container">
+        <header class="header">
+            <div class="logo">GusOfcXD 404</div>
+            <button id="menuBtn" class="menu-btn">⋮</button>
+        </header>
+        <div class="content">
+            <aside id="sidebar" class="sidebar">
+                <h3 class="sidebar-title">Chat History</h3>
+                <ul id="chatList" class="chat-list"></ul>
+            </aside>
+            <main class="main-view">
+                <div id="chatLog" class="chat-log">
+                    <div class="message">
+                        <div class="avatar bot-avatar">AI</div>
+                        <div class="msg-content">
+                            <p class="msg-text">Sistem online. Ketik 'code:' untuk membuat file.</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </main>
-    </div>
-    <div class="input-area">
-        <input type="text" id="prompt" placeholder="Ketik pesan" autocomplete="off">
-        <button id="send">SEND</button>
+                <div class="input-area">
+                    <input type="text" id="prompt" placeholder="Ketik pesan" autocomplete="off">
+                    <button id="send">SEND</button>
+                </div>
+            </main>
+        </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const chatWindow = document.getElementById('chatWindow');
+            const chatLog = document.getElementById('chatLog');
             const promptInput = document.getElementById('prompt');
             const sendBtn = document.getElementById('send');
             const menuBtn = document.getElementById('menuBtn');
-            const chatSidebar = document.getElementById('chatSidebar');
+            const sidebar = document.getElementById('sidebar');
             const chatList = document.getElementById('chatList');
 
-            const STORAGE_KEY = 'gusofc_terminal_data';
+            const STORAGE_KEY = 'gusofc_terminal_responsive';
             let chats = {};
             let currentChatId = null;
 
-            const generateId = () => '_' + Math.random().toString(36).substr(2, 9);
             const saveData = () => {
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(chats));
                 localStorage.setItem('gusofc_current_chat', currentChatId);
@@ -103,7 +102,7 @@
                 renderChatList();
             };
             const createNewChat = () => {
-                const newId = generateId();
+                const newId = '_' + Math.random().toString(36).substr(2, 9);
                 chats[newId] = [];
                 currentChatId = newId;
                 saveData();
@@ -114,14 +113,14 @@
                 currentChatId = id;
                 renderChat();
                 renderChatList();
-                chatSidebar.classList.remove('open');
+                sidebar.classList.remove('open');
             };
             const renderChatList = () => {
                 chatList.innerHTML = '';
                 Object.keys(chats).forEach(id => {
                     const li = document.createElement('li');
                     li.className = 'chat-item';
-                    if (id === currentChatId) li.style.borderColor = '#00ffaa';
+                    if (id === currentChatId) li.style.borderColor = '#4facfe';
                     const firstMsg = chats[id][0];
                     li.textContent = firstMsg && firstMsg.sender === 'user' ? firstMsg.content.data.substring(0, 30) + '...' : 'New Chat';
                     li.onclick = () => switchToChat(id);
@@ -129,10 +128,10 @@
                 });
             };
             const renderChat = () => {
-                chatWindow.innerHTML = '';
+                chatLog.innerHTML = '';
                 const messages = chats[currentChatId] || [];
                 if (messages.length === 0) {
-                    chatWindow.innerHTML = `<div class="message"><div class="avatar bot-avatar">AI</div><div class="message-content"><div class="message-text"><p>Sistem online. Ketik 'code:' untuk membuat file.</p></div></div></div>`;
+                    chatLog.innerHTML = `<div class="message"><div class="avatar bot-avatar">AI</div><div class="msg-content"><p class="msg-text">Sistem online. Ketik 'code:' untuk membuat file.</p></div></div>`;
                 } else {
                     messages.forEach(msg => addMessage(msg));
                 }
@@ -144,52 +143,51 @@
                 avatar.className = `avatar ${msg.sender}-avatar`;
                 avatar.textContent = msg.sender === 'user' ? 'U' : 'AI';
                 const content = document.createElement('div');
-                content.className = 'message-content';
-                const textDiv = document.createElement('div');
-                textDiv.className = 'message-text';
-                const p = document.createElement('p');
-                p.textContent = msg.data;
-                textDiv.appendChild(p);
-                content.appendChild(textDiv);
+                content.className = 'msg-content';
                 if (msg.type === 'file') {
-                    const fileContainer = document.createElement('div');
-                    fileContainer.className = 'file-container';
+                    content.innerHTML = `<p class="msg-text">File generated:</p>`;
+                    const fileBox = document.createElement('div');
+                    fileBox.className = 'file-box';
                     const fileHeader = document.createElement('div');
                     fileHeader.className = 'file-header';
                     const fileName = document.createElement('span');
                     fileName.className = 'file-name';
                     fileName.textContent = msg.filename;
-                    const copyButton = document.createElement('button');
-                    copyButton.className = 'copy-btn';
-                    copyButton.textContent = 'COPY';
-                    copyButton.onclick = () => {
+                    const copyBtn = document.createElement('button');
+                    copyBtn.className = 'copy-btn';
+                    copyBtn.textContent = 'COPY';
+                    copyBtn.onclick = () => {
                         navigator.clipboard.writeText(msg.data);
-                        copyButton.textContent = 'COPIED!';
-                        setTimeout(() => copyButton.textContent = 'COPY', 2000);
+                        copyBtn.textContent = 'COPIED!';
+                        setTimeout(() => copyBtn.textContent = 'COPY', 2000);
                     };
                     fileHeader.appendChild(fileName);
-                    fileHeader.appendChild(copyButton);
-                    const fileContent = document.createElement('div');
-                    fileContent.className = 'file-content';
+                    fileHeader.appendChild(copyBtn);
+                    const fileBody = document.createElement('div');
+                    fileBody.className = 'file-body';
                     const pre = document.createElement('pre');
                     pre.textContent = msg.data;
-                    fileContent.appendChild(pre);
-                    fileContainer.appendChild(fileHeader);
-                    fileContainer.appendChild(fileContent);
-                    content.appendChild(fileContainer);
+                    fileBody.appendChild(pre);
+                    fileBox.appendChild(fileHeader);
+                    fileBox.appendChild(fileBody);
+                    content.appendChild(fileBox);
+                } else {
+                    const p = document.createElement('p');
+                    p.className = 'msg-text';
+                    p.textContent = msg.data;
+                    content.appendChild(p);
                 }
                 msgDiv.appendChild(avatar);
                 msgDiv.appendChild(content);
-                chatWindow.appendChild(msgDiv);
-                chatWindow.scrollTop = chatWindow.scrollHeight;
+                chatLog.appendChild(msgDiv);
+                chatLog.scrollTop = chatLog.scrollHeight;
             };
             const getFilename = (code) => {
                 if (code.includes('<!DOCTYPE') || code.includes('<html')) return 'index.html';
-                if (code.includes('<?php')) return 'request.php';
-                if (code.includes('def ') || code.includes('import ')) return 'request.py';
-                if (code.includes('public class')) return 'Main.java';
-                if (code.includes('body {') || code.includes('* {')) return 'style.css';
-                if (code.includes('function') || code.includes('const ') || code.includes('console.log')) return 'script.js';
+                if (code.includes('def ') || code.includes('import ')) return 'script.py';
+                if (code.includes('public class ')) return 'Main.java';
+                if (code.includes('function ') || code.includes('const ') || code.includes('console.log')) return 'app.js';
+                if (code.includes('<?php')) return 'index.php';
                 return 'file.txt';
             };
             const handleSend = async () => {
@@ -217,9 +215,6 @@
                     }
                     addMessage(aiMsg);
                     chats[currentChatId].push(aiMsg);
-                    if (chats[currentChatId].length === 2) {
-                        renderChatList();
-                    }
                 } catch (e) {
                     addMessage({ sender: 'bot', data: `Error: ${e.message}` });
                 } finally {
@@ -229,11 +224,11 @@
                     sendBtn.textContent = 'SEND';
                 }
             };
-            menuBtn.addEventListener('click', () => chatSidebar.classList.toggle('open'));
+            menuBtn.addEventListener('click', () => sidebar.classList.toggle('open'));
             sendBtn.addEventListener('click', handleSend);
             promptInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleSend(); });
             loadData();
         });
     </script>
 </body>
-</html>
+    </html>
