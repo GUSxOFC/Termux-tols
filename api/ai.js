@@ -8,42 +8,35 @@ export default async function handler(req, res) {
         return res.status(500).json({ error: "GOOGLE_AI_API_KEY tidak ditemukan. Atur di Vercel." });
     }
 
-    // Kita menggunakan model yang paling stabil dan alamat API yang pasti benar
-    const MODEL_NAME = "gemini-pro"; 
-    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${API_KEY}`;
+    // Ini adalah alamat rahasia untuk mencuri daftar model
+    const LIST_MODELS_URL = `https://generativelanguage.googleapis.com/v1beta/models?key=${API_KEY}`;
 
     try {
-        const { prompt } = req.body;
+        console.log("INFO: Agen rahasia sedang menyusup ke markas Google...");
+        
+        const response = await fetch(LIST_MODELS_URL);
 
-        const requestBody = {
-            contents: [{
-                parts: [{
-                    text: prompt
-                }]
-            }]
-        };
-
-        const apiResponse = await fetch(API_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(requestBody),
-        });
-
-        if (!apiResponse.ok) {
-            const errorData = await apiResponse.json();
-            console.error("Gemini API Error:", errorData);
-            throw new Error(errorData.error?.message || `Gagal memanggil API Gemini (Status: ${apiResponse.status})`);
+        if (!response.ok) {
+            throw new Error(`Gagal menyusup! Status: ${response.status}`);
         }
 
-        const data = await apiResponse.json();
-        const text = data.candidates[0].content.parts[0].text;
+        const data = await response.json();
+        const models = data.models;
 
-        res.status(200).json({ type: "text", data: text });
+        console.log("SUKSES! Daftar model berhasil dicuri! Cetak ke log...");
+        
+        // Cetak daftar model yang benar-benar ada ke log Vercel
+        models.forEach(model => {
+            console.log(`- Model ID: ${model.name}, Metode: ${model.supportedGenerationMethods.join(', ')}`);
+        });
+
+        res.status(200).json({ 
+            type: "text", 
+            data: "Agen rahasia berhasil! Silakan cek log Vercel untuk melihat daftar model asli dari Google." 
+        });
 
     } catch (error) {
-        console.error("Backend Error:", error);
-        res.status(500).json({ error: `Terjadi kesalahan: ${error.message}` });
+        console.error("ERROR: Agen rahasia gagal bertugas:", error.message);
+        res.status(500).json({ error: `Agen rahasia gagal: ${error.message}` });
     }
 };
