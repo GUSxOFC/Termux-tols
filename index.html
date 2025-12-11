@@ -1123,7 +1123,7 @@
             return codeBlock;
         }
 
-        // Send message
+        // Send message - FIXED API CALL
         async function sendMessage() {
             const content = elements.messageInput.value.trim();
             const image = state.currentImage;
@@ -1151,59 +1151,66 @@
             scrollToBottom();
             
             try {
-                // Simulate API call
-                await new Promise(resolve => setTimeout(resolve, 1000));
+                // API CALL TO YOUR BACKEND
+                const formData = new FormData();
+                formData.append('prompt', content);
                 
-                // Check for image generation command
-                if (content.toLowerCase().startsWith('gambar:')) {
-                    const prompt = content.substring(7).trim();
-                    const imageUrl = `https://picsum.photos/seed/${encodeURIComponent(prompt)}/512/512.jpg`;
-                    
-                    const botMessage = {
-                        type: 'bot',
-                        content: `Gambar yang dibuat: "${prompt}"`,
-                        image: imageUrl,
-                        timestamp: new Date().toISOString()
-                    };
-                    
-                    state.chats[state.currentChatId].push(botMessage);
-                    addMessageToDOM(botMessage);
-                } else if (content.toLowerCase().startsWith('code:')) {
-                    const code = `// Contoh kode berdasarkan: ${content}\nfunction example() {\n    console.log("Hello, World!");\n    return true;\n}`;
-                    
-                    const botMessage = {
-                        type: 'bot',
-                        content: 'Berikut adalah kode yang diminta:',
-                        code: code,
-                        filename: 'example.js',
-                        timestamp: new Date().toISOString()
-                    };
-                    
-                    state.chats[state.currentChatId].push(botMessage);
-                    addMessageToDOM(botMessage);
-                } else {
-                    // Regular response
-                    const responses = [
-                        'Saya mengerti pertanyaan Anda. Berdasarkan informasi yang ada, saya akan membantu Anda menemukan jawaban terbaik.',
-                        'Itu pertanyaan yang menarik! Mari kita bahas lebih lanjut tentang topik tersebut.',
-                        'Saya akan membantu Anda dengan ini. Berikut adalah penjelasan yang mungkin berguna bagi Anda.',
-                        'Terima kasih atas pertanyaan Anda. Saya akan memberikan informasi yang relevan untuk Anda.'
-                    ];
-                    
-                    const botMessage = {
-                        type: 'bot',
-                        content: responses[Math.floor(Math.random() * responses.length)],
-                        timestamp: new Date().toISOString()
-                    };
-                    
-                    state.chats[state.currentChatId].push(botMessage);
-                    addMessageToDOM(botMessage);
+                if (image) {
+                    // Convert base64 to blob for FormData
+                    const response = await fetch(image);
+                    const blob = await response.blob();
+                    formData.append('image', blob, 'image.jpg');
                 }
+                
+                const response = await fetch('/api/ai', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(result.error || 'API Error');
+                }
+                
+                // Add bot response
+                const botMessage = {
+                    type: 'bot',
+                    content: result.data,
+                    timestamp: new Date().toISOString()
+                };
+                
+                // Check if response contains image
+                if (result.imageUrl) {
+                    botMessage.image = result.imageUrl;
+                }
+                
+                // Check if response contains code
+                if (result.code) {
+                    botMessage.code = result.code;
+                    botMessage.filename = result.filename || 'code.txt';
+                }
+                
+                state.chats[state.currentChatId].push(botMessage);
+                addMessageToDOM(botMessage);
                 
                 saveChats();
                 scrollToBottom();
+                
             } catch (error) {
-                showToast('Terjadi kesalahan. Silakan coba lagi.');
+                console.error('API Error:', error);
+                
+                // Fallback response if API fails
+                const fallbackMessage = {
+                    type: 'bot',
+                    content: 'Maaf, terjadi kesalahan. Silakan coba lagi.',
+                    timestamp: new Date().toISOString()
+                };
+                
+                state.chats[state.currentChatId].push(fallbackMessage);
+                addMessageToDOM(fallbackMessage);
+                
+                showToast('Error: ' + error.message);
             } finally {
                 setLoading(false);
             }
@@ -1245,15 +1252,28 @@
         // Generate image
         async function generateImage(prompt, style, size) {
             try {
-                // Simulate API call
-                await new Promise(resolve => setTimeout(resolve, 2000));
+                const response = await fetch('/api/generate-image', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        prompt: prompt,
+                        style: style,
+                        size: size
+                    })
+                });
                 
-                const imageUrl = `https://picsum.photos/seed/${encodeURIComponent(prompt)}/512/512.jpg`;
+                const result = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(result.error || 'Failed to generate image');
+                }
                 
                 const botMessage = {
                     type: 'bot',
-                    content: `Gambar yang dibuat dengan gaya ${style}: "${prompt}"`,
-                    image: imageUrl,
+                    content: `Gambar yang dibuat: "${prompt}"`,
+                    image: result.imageUrl,
                     timestamp: new Date().toISOString()
                 };
                 
@@ -1265,7 +1285,7 @@
                 closeModal('generate-modal');
                 showToast('Gambar berhasil dibuat');
             } catch (error) {
-                showToast('Gagal membuat gambar');
+                showToast('Gagal membuat gambar: ' + error.message);
             }
         }
 
