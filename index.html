@@ -1099,7 +1099,7 @@
             let currentChatId = null;
             let currentEmojiCategory = 'smileys';
             const STORAGE_KEY = 'xavai_chats';
-            const API_URL = '/api/ai';
+            const API_URL = '/api/ai.js'; // DIPERBAIKI: Menggunakan endpoint yang benar
 
             // Initialize
             function init() {
@@ -1408,7 +1408,7 @@
                 emojiPicker.classList.remove('show');
             }
 
-            // Send message
+            // Send message - DIPERBAIKI
             async function sendMessage() {
                 const message = inputField.value.trim();
                 if (!message) return;
@@ -1434,13 +1434,16 @@
                 showTypingIndicator();
                 
                 try {
-                    // Call API
+                    // DIPERBAIKI: Call API dengan endpoint yang benar
                     const response = await fetch(API_URL, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({ prompt: message })
+                        body: JSON.stringify({ 
+                            prompt: message,
+                            messages: chats[currentChatId] // Kirim history chat untuk context
+                        })
                     });
                     
                     const data = await response.json();
@@ -1455,15 +1458,15 @@
                         botMessage = {
                             sender: 'bot',
                             type: 'code',
-                            content: data.response || data.data || data.message,
-                            filename: getFilenameFromCode(data.response || data.data || data.message),
+                            content: data.response || data.data || data.message || data.answer,
+                            filename: getFilenameFromCode(data.response || data.data || data.message || data.answer),
                             time: getCurrentTime(),
                             timestamp: new Date().toISOString()
                         };
                     } else {
                         botMessage = {
                             sender: 'bot',
-                            content: data.response || data.data || data.message,
+                            content: data.response || data.data || data.message || data.answer,
                             time: getCurrentTime(),
                             timestamp: new Date().toISOString()
                         };
@@ -1501,7 +1504,7 @@
                 inputField.style.height = Math.min(inputField.scrollHeight, 100) + 'px';
             }
 
-            // Setup event listeners
+            // Setup event listeners - DIPERBAIKI
             function setupEventListeners() {
                 // Menu toggle
                 if (menuToggle) {
