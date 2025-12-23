@@ -7,11 +7,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         :root {
             --primary-color: #075e54;
             --secondary-color: #128c7e;
             --light-green: #dcf8c6;
-            --dark-green: #0d4f44;
             --bg-color: #f0f2f5;
             --sidebar-bg: #f0f2f5;
             --message-user-bg: #dcf8c6;
@@ -21,13 +26,6 @@
             --secondary-text: #667781;
             --border-color: #e9edef;
             --hover-color: #f5f6f6;
-            --shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
         }
 
         body {
@@ -35,17 +33,19 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             height: 100vh;
-            display: flex;
             overflow: hidden;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
         }
 
         .app-container {
             display: flex;
             width: 100%;
-            height: 100%;
-            max-width: 1400px;
-            margin: 0 auto;
-            box-shadow: var(--shadow);
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
         }
 
         /* Sidebar Styles */
@@ -56,6 +56,11 @@
             border-right: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            z-index: 10;
             transition: transform 0.3s ease;
         }
 
@@ -66,6 +71,7 @@
             display: flex;
             align-items: center;
             gap: 15px;
+            flex-shrink: 0;
         }
 
         .sidebar-header h2 {
@@ -99,6 +105,7 @@
             gap: 8px;
             font-weight: 500;
             transition: background-color 0.2s;
+            flex-shrink: 0;
         }
 
         .new-chat-btn:hover {
@@ -109,6 +116,7 @@
             flex: 1;
             overflow-y: auto;
             padding: 10px;
+            height: calc(100% - 120px);
         }
 
         .chat-history::-webkit-scrollbar {
@@ -189,6 +197,9 @@
             flex-direction: column;
             background-color: #e5ddd5;
             background-image: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png');
+            height: 100vh;
+            margin-left: 30%;
+            position: relative;
         }
 
         .chat-header {
@@ -199,6 +210,10 @@
             align-items: center;
             gap: 15px;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
+            position: sticky;
+            top: 0;
+            z-index: 5;
         }
 
         .chat-header .menu-toggle {
@@ -208,6 +223,7 @@
             color: white;
             font-size: 20px;
             cursor: pointer;
+            padding: 5px;
         }
 
         .chat-header .chat-avatar {
@@ -241,6 +257,8 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+            height: calc(100vh - 120px);
+            position: relative;
         }
 
         .chat-container::-webkit-scrollbar {
@@ -260,6 +278,7 @@
             display: flex;
             max-width: 75%;
             margin-bottom: 5px;
+            clear: both;
         }
 
         .message.user {
@@ -440,6 +459,10 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            flex-shrink: 0;
+            position: sticky;
+            bottom: 0;
+            z-index: 5;
         }
 
         .input-wrapper {
@@ -489,6 +512,7 @@
             font-size: 1.2rem;
             cursor: pointer;
             transition: color 0.2s;
+            padding: 5px;
         }
 
         .input-actions button:hover {
@@ -585,14 +609,15 @@
         /* Responsive Design */
         @media (max-width: 768px) {
             .sidebar {
-                position: absolute;
-                height: 100%;
-                z-index: 100;
                 transform: translateX(-100%);
             }
 
             .sidebar.open {
                 transform: translateX(0);
+            }
+
+            .chat-area {
+                margin-left: 0;
             }
 
             .chat-header .menu-toggle {
@@ -666,7 +691,8 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
             // DOM Elements
             const sidebar = document.getElementById('sidebar');
             const menuToggle = document.getElementById('menu-toggle');
@@ -684,39 +710,53 @@
             let chats = {};
             let currentChatId = null;
             const STORAGE_KEY = 'xavai_chats';
-            const API_URL = '/api/ai'; // Menggunakan API yang sudah disimpan di Vercel
+            const API_URL = '/api/ai';
 
             // Initialize
-            loadChats();
-            setupEventListeners();
-            adjustTextareaHeight();
+            function init() {
+                loadChats();
+                setupEventListeners();
+                adjustTextareaHeight();
+            }
 
-            // Functions
+            // Generate unique ID
             function generateId() {
                 return '_' + Math.random().toString(36).substr(2, 9);
             }
 
+            // Save chats to localStorage
             function saveChats() {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(chats));
-                localStorage.setItem('xavai_current_chat', currentChatId);
+                try {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(chats));
+                    localStorage.setItem('xavai_current_chat', currentChatId);
+                } catch (e) {
+                    console.error('Error saving chats:', e);
+                }
             }
 
+            // Load chats from localStorage
             function loadChats() {
-                const saved = localStorage.getItem(STORAGE_KEY);
-                if (saved) {
-                    chats = JSON.parse(saved);
-                }
-                
-                const lastId = localStorage.getItem('xavai_current_chat');
-                if (Object.keys(chats).length === 0 || !chats[lastId]) {
+                try {
+                    const saved = localStorage.getItem(STORAGE_KEY);
+                    if (saved) {
+                        chats = JSON.parse(saved);
+                    }
+                    
+                    const lastId = localStorage.getItem('xavai_current_chat');
+                    if (Object.keys(chats).length === 0 || !chats[lastId]) {
+                        createNewChat();
+                    } else {
+                        switchToChat(lastId);
+                    }
+                    
+                    renderChatHistory();
+                } catch (e) {
+                    console.error('Error loading chats:', e);
                     createNewChat();
-                } else {
-                    switchToChat(lastId);
                 }
-                
-                renderChatHistory();
             }
 
+            // Create new chat
             function createNewChat() {
                 const newId = generateId();
                 chats[newId] = [];
@@ -726,6 +766,7 @@
                 renderChat();
             }
 
+            // Switch to specific chat
             function switchToChat(id) {
                 currentChatId = id;
                 renderChat();
@@ -735,6 +776,7 @@
                 }
             }
 
+            // Render chat history
             function renderChatHistory() {
                 chatHistory.innerHTML = '';
                 
@@ -771,11 +813,14 @@
                         <div class="chat-time">${timeString}</div>
                     `;
                     
-                    chatItem.addEventListener('click', () => switchToChat(id));
+                    chatItem.addEventListener('click', function() {
+                        switchToChat(id);
+                    });
                     chatHistory.appendChild(chatItem);
                 });
             }
 
+            // Render chat messages
             function renderChat() {
                 chatContainer.innerHTML = '';
                 
@@ -800,6 +845,7 @@
                 });
             }
 
+            // Add message to chat
             function addMessageToChat(msg) {
                 const messageElement = document.createElement('div');
                 messageElement.className = `message ${msg.sender}`;
@@ -839,18 +885,18 @@
                     content.appendChild(codeContainer);
                     
                     // Event listeners for code actions
-                    codeHeader.querySelector('.view-btn').addEventListener('click', () => {
+                    codeHeader.querySelector('.view-btn').addEventListener('click', function() {
                         modalTitle.textContent = msg.filename || 'code.txt';
                         modalCode.textContent = msg.content;
                         codeModal.style.display = 'flex';
                     });
                     
-                    codeHeader.querySelector('.copy-btn').addEventListener('click', () => {
-                        navigator.clipboard.writeText(msg.content).then(() => {
+                    codeHeader.querySelector('.copy-btn').addEventListener('click', function() {
+                        navigator.clipboard.writeText(msg.content).then(function() {
                             const copyBtn = codeHeader.querySelector('.copy-btn');
                             const originalText = copyBtn.textContent;
                             copyBtn.textContent = 'Tersalin!';
-                            setTimeout(() => {
+                            setTimeout(function() {
                                 copyBtn.textContent = originalText;
                             }, 2000);
                         });
@@ -875,6 +921,7 @@
                 chatContainer.scrollTop = chatContainer.scrollHeight;
             }
 
+            // Show typing indicator
             function showTypingIndicator() {
                 const typingIndicator = document.createElement('div');
                 typingIndicator.className = 'typing-indicator';
@@ -893,6 +940,7 @@
                 chatContainer.scrollTop = chatContainer.scrollHeight;
             }
 
+            // Hide typing indicator
             function hideTypingIndicator() {
                 const typingIndicator = document.getElementById('typing-indicator');
                 if (typingIndicator) {
@@ -900,11 +948,13 @@
                 }
             }
 
+            // Get current time
             function getCurrentTime() {
                 const now = new Date();
                 return now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
             }
 
+            // Get filename from code
             function getFilenameFromCode(code) {
                 if (code.includes('<!DOCTYPE') || code.includes('<html')) return 'index.html';
                 if (code.includes('def ') || code.includes('import ')) return 'script.py';
@@ -914,6 +964,7 @@
                 return 'code.txt';
             }
 
+            // Send message
             async function sendMessage() {
                 const message = inputField.value.trim();
                 if (!message) return;
@@ -1000,51 +1051,67 @@
                 }
             }
 
+            // Adjust textarea height
             function adjustTextareaHeight() {
                 inputField.style.height = 'auto';
                 inputField.style.height = Math.min(inputField.scrollHeight, 120) + 'px';
             }
 
+            // Setup event listeners
             function setupEventListeners() {
                 // Menu toggle
-                menuToggle.addEventListener('click', () => {
-                    sidebar.classList.toggle('open');
-                });
+                if (menuToggle) {
+                    menuToggle.addEventListener('click', function() {
+                        sidebar.classList.toggle('open');
+                    });
+                }
                 
                 // New chat button
-                newChatBtn.addEventListener('click', createNewChat);
+                if (newChatBtn) {
+                    newChatBtn.addEventListener('click', createNewChat);
+                }
                 
                 // Send button
-                sendButton.addEventListener('click', sendMessage);
+                if (sendButton) {
+                    sendButton.addEventListener('click', sendMessage);
+                }
                 
                 // Input field
-                inputField.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault();
-                        sendMessage();
-                    }
-                });
-                
-                inputField.addEventListener('input', adjustTextareaHeight);
+                if (inputField) {
+                    inputField.addEventListener('keydown', function(e) {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                            e.preventDefault();
+                            sendMessage();
+                        }
+                    });
+                    
+                    inputField.addEventListener('input', adjustTextareaHeight);
+                }
                 
                 // Modal close
-                modalClose.addEventListener('click', () => {
-                    codeModal.style.display = 'none';
-                });
+                if (modalClose) {
+                    modalClose.addEventListener('click', function() {
+                        codeModal.style.display = 'none';
+                    });
+                }
                 
-                window.addEventListener('click', (e) => {
+                // Close modal when clicking outside
+                window.addEventListener('click', function(e) {
                     if (e.target === codeModal) {
                         codeModal.style.display = 'none';
                     }
                 });
                 
                 // Handle window resize
-                window.addEventListener('resize', () => {
+                window.addEventListener('resize', function() {
                     if (window.innerWidth > 768) {
                         sidebar.classList.remove('open');
                     }
                 });
             }
+
+            // Initialize the app
+            init();
         });
     </script>
 </body>
