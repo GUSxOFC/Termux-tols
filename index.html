@@ -297,6 +297,7 @@
             gap: 1px;
             -webkit-overflow-scrolling: touch;
             background: transparent;
+            padding-bottom: 90px; /* DIPERBAIKI: Agar pesan tidak tertutup input */
         }
 
         .chat-container::-webkit-scrollbar {
@@ -418,58 +419,6 @@
         .message-time .check-icon {
             font-size: 12px;
             color: var(--wa-blue);
-        }
-
-        /* Code Container */
-        .code-container {
-            margin-top: 8px;
-            border-radius: 8px;
-            overflow: hidden;
-            background-color: #2B2B2B;
-            border: 1px solid #3E3E3E;
-        }
-
-        .code-header {
-            background-color: #3E3E3E;
-            padding: 8px 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 13px;
-            color: #CCCCCC;
-        }
-
-        .code-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .code-actions button {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #CCCCCC;
-            padding: 4px 8px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 11px;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-
-        .code-actions button:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .code-content {
-            padding: 12px;
-            overflow-x: auto;
-            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
-            font-size: 13px;
-            line-height: 1.4;
-            background-color: #2B2B2B;
-            color: #F8F8F2;
-            white-space: pre-wrap;
-            word-wrap: break-word;
         }
 
         /* Typing Indicator */
@@ -618,23 +567,6 @@
             border-radius: 2px;
         }
 
-        .emoji-button {
-            background: none;
-            border: none;
-            color: var(--wa-gray);
-            font-size: 24px;
-            cursor: pointer;
-            transition: all 0.2s;
-            padding: 8px;
-            border-radius: 50%;
-            margin-right: 4px;
-        }
-
-        .emoji-button:hover {
-            background-color: rgba(0, 0, 0, 0.05);
-            color: var(--wa-dark-green);
-        }
-
         .send-button {
             background-color: var(--wa-green);
             color: white;
@@ -664,180 +596,6 @@
             opacity: 0.5;
             cursor: not-allowed;
             transform: scale(1);
-        }
-
-        /* Emoji Picker */
-        .emoji-picker {
-            position: absolute;
-            bottom: 70px;
-            right: 16px;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: var(--wa-shadow-large);
-            padding: 12px;
-            display: none;
-            z-index: 1001;
-            width: 300px;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .emoji-picker.show {
-            display: block;
-            animation: emojiPickerSlideIn 0.2s ease-out;
-        }
-
-        @keyframes emojiPickerSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .emoji-categories {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 12px;
-            border-bottom: 1px solid #E9EDEF;
-            padding-bottom: 8px;
-        }
-
-        .emoji-category {
-            padding: 6px 8px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 18px;
-            transition: background-color 0.2s;
-        }
-
-        .emoji-category:hover {
-            background-color: var(--wa-input-bg);
-        }
-
-        .emoji-category.active {
-            background-color: var(--wa-green);
-            color: white;
-        }
-
-        .emoji-grid {
-            display: grid;
-            grid-template-columns: repeat(8, 1fr);
-            gap: 4px;
-        }
-
-        .emoji-item {
-            padding: 8px;
-            text-align: center;
-            cursor: pointer;
-            border-radius: 6px;
-            font-size: 20px;
-            transition: all 0.2s;
-        }
-
-        .emoji-item:hover {
-            background-color: var(--wa-input-bg);
-            transform: scale(1.2);
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            animation: modalFadeIn 0.3s ease-out;
-        }
-
-        @keyframes modalFadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        .modal-content {
-            background-color: white;
-            width: 90%;
-            max-width: 800px;
-            height: 80%;
-            border-radius: 12px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            box-shadow: var(--wa-shadow-large);
-            animation: modalSlideIn 0.3s ease-out;
-        }
-
-        @keyframes modalSlideIn {
-            from {
-                transform: translateY(50px) scale(0.9);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0) scale(1);
-                opacity: 1;
-            }
-        }
-
-        .modal-header {
-            padding: 16px 20px;
-            background-color: var(--wa-green);
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-title {
-            font-weight: 500;
-            font-size: 18px;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-            padding: 4px;
-            border-radius: 50%;
-            transition: background-color 0.2s;
-        }
-
-        .modal-close:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .modal-body {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .modal-code {
-            background-color: #2B2B2B;
-            padding: 16px;
-            border-radius: 8px;
-            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
-            font-size: 14px;
-            line-height: 1.5;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            color: #F8F8F2;
-            box-shadow: var(--wa-shadow);
         }
 
         /* Floating Action Button */
@@ -874,43 +632,6 @@
             transform: scale(0.95);
         }
 
-        /* iPhone Effects */
-        .ios-bounce {
-            animation: iosBounce 0.6s ease-out;
-        }
-
-        @keyframes iosBounce {
-            0% {
-                transform: scale(0.3);
-                opacity: 0;
-            }
-            50% {
-                transform: scale(1.05);
-            }
-            70% {
-                transform: scale(0.9);
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .ios-slide-up {
-            animation: iosSlideUp 0.4s ease-out;
-        }
-
-        @keyframes iosSlideUp {
-            from {
-                transform: translateY(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
         /* Responsive Design */
         @media (max-width: 768px) {
             .sidebar {
@@ -935,12 +656,6 @@
 
             .fab-container {
                 display: block;
-            }
-
-            .emoji-picker {
-                width: calc(100vw - 32px);
-                right: 16px;
-                left: 16px;
             }
         }
 
@@ -1005,9 +720,6 @@
                 </div>
                 
                 <div class="input-wrapper">
-                    <button class="emoji-button" id="emoji-btn">
-                        <i class="fas fa-smile"></i>
-                    </button>
                     <textarea 
                         class="input-field" 
                         id="input-field" 
@@ -1022,23 +734,6 @@
                     <i class="fas fa-paper-plane"></i>
                 </button>
             </div>
-
-            <!-- Emoji Picker -->
-            <div class="emoji-picker" id="emoji-picker">
-                <div class="emoji-categories">
-                    <div class="emoji-category active" data-category="smileys">😀</div>
-                    <div class="emoji-category" data-category="animals">🐶</div>
-                    <div class="emoji-category" data-category="food">🍔</div>
-                    <div class="emoji-category" data-category="activities">⚽</div>
-                    <div class="emoji-category" data-category="travel">🚗</div>
-                    <div class="emoji-category" data-category="objects">💡</div>
-                    <div class="emoji-category" data-category="symbols">❤️</div>
-                    <div class="emoji-category" data-category="flags">🏳️</div>
-                </div>
-                <div class="emoji-grid" id="emoji-grid">
-                    <!-- Emojis will be dynamically added here -->
-                </div>
-            </div>
         </div>
     </div>
 
@@ -1049,31 +744,7 @@
         </button>
     </div>
 
-    <div class="modal" id="code-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title" id="modal-title">Kode</div>
-                <button class="modal-close" id="modal-close">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="modal-code" id="modal-code"></div>
-            </div>
-        </div>
-    </div>
-
     <script>
-        // Emoji data
-        const emojiData = {
-            smileys: ['😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇', '🙂', '🙃', '😉', '😌', '😍', '🥰', '😘', '😗', '😙', '😚', '😋', '😛', '😜', '🤪', '😝', '🤑', '🤗', '🤭', '🤫', '🤔', '🤐', '🤨', '😐', '😑', '😶', '😏', '😒', '🙄', '😬', '🤥', '😌', '😔', '😪', '🤤', '😴', '😷', '🤒', '🤕', '🤢', '🤮', '🤧', '🥵', '🥶', '🥴', '😵', '🤯', '🤠', '🥳', '😎', '🤓', '🧐'],
-            animals: ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐨', '🐯', '🦁', '🐮', '🐷', '🐽', '🐸', '🐵', '🙈', '🙉', '🙊', '🐒', '🐔', '🐧', '🐦', '🐤', '🐣', '🐥', '🦆', '🦅', '🦉', '🦇', '🐺', '🐗', '🐴', '🦄', '🐝', '🐛', '🦋', '🐌', '🐞', '🐜', '🦟', '🦗', '🕷', '🕸', '🦂', '🐢', '🐍', '🦎', '🦖', '🦕', '🐙', '🦑', '🦐', '🦞', '🦀', '🐡', '🐠', '🐟', '🐬', '🐳', '🐋', '🦈'],
-            food: ['🍏', '🍎', '🍐', '🍊', '🍋', '🍌', '🍉', '🍇', '🍓', '🍈', '🍒', '🍑', '🥭', '🍍', '🥥', '🥝', '🍅', '🍆', '🥑', '🥦', '🥬', '🥒', '🌶', '🌽', '🥕', '🥔', '🍠', '🥐', '🍞', '🥖', '🥨', '🧀', '🥚', '🍳', '🥞', '🥓', '🥩', '🍗', '🍖', '🌭', '🍔', '🍟', '🍕', '🥪', '🥙', '🌮', '🌯', '🥗', '🥘', '🥫', '🍝', '🍜', '🍲', '🍛', '🍣', '🍱', '🥟', '🍤', '🍙', '🍚', '🍘', '🍥', '🥠', '🥮', '🍢', '🍡', '🍧', '🍨', '🍦', '🥧', '🧁', '🍰', '🎂', '🍮', '🍭', '🍬', '🍫', '🍿', '🍩', '🍪'],
-            activities: ['⚽', '🏀', '🏈', '⚾', '🥎', '🎾', '🏐', '🏉', '🥏', '🎱', '🏓', '🏸', '🏒', '🏑', '🥍', '🏏', '🥅', '⛳', '🏹', '🎣', '🤿', '🥊', '🥋', '🎽', '🛹', '🛷', '⛸', '🥌', '🎿', '⛷', '🏂', '🏋️', '🤼', '🤸', '🤺', '🤾', '🏌️', '🏇', '🧘', '🏄', '🏊', '🤽', '🚣', '🧗', '🚴', '🚵', '🎪', '🎭', '🎨', '🎬', '🎤', '🎧', '🎼', '🎹', '🥁', '🎷', '🎺', '🎸', '🪕', '🎻', '🎲', '♟', '🎯', '🎳', '🎮', '🎰', '🧩'],
-            travel: ['🚗', '🚕', '🚙', '🚌', '🚎', '🏎', '🚓', '🚑', '🚒', '🚐', '🛻', '🚚', '🚛', '🚜', '🛵', '🏍', '🚲', '🛴', '🚲', '🛹', '🛼', '🚁', '🛸', '🚀', '✈️', '🛩', '🛫', '🛬', '⛵', '🚤', '🛥', '🚢', '⚓', '⛽', '🚧', '🚦', '🚥', '🚏', '🗺', '🗿', '🗽', '🗼', '🏰', '🏯', '🏟', '🎡', '🎢', '🎠', '⛲', '⛱', '🏖', '🏝', '🏜', '🌋', '⛰', '🏔', '🗻', '🏕', '⛺', '🏠', '🏡', '🏘', '🏚', '🏗', '🏭', '🏢', '🏬', '🏣', '🏤', '🏥', '🏦', '🏨', '🏪', '🏫', '🏩', '💒', '🏛', '⛪', '🕌', '🕍', '🛕', '🕋', '⛩', '🛤', '🛣', '🗾', '🎑', '🏞', '🌅', '🌄', '🌠', '🎇', '🎆', '🌇', '🌆', '🏙', '🌃', '🌌', '🌉', '🌁'],
-            objects: ['⌚', '📱', '📲', '💻', '⌨️', '🖥', '🖨', '🖱', '🖲', '🕹', '🗜', '💽', '💾', '💿', '📀', '📼', '📷', '📸', '📹', '🎥', '📽', '🎞', '📞', '☎️', '📟', '📠', '📺', '📻', '🎙', '🎚', '🎛', '🧭', '⏱', '⏲', '⏰', '🕰', '⌛', '⏳', '📡', '🔋', '🔌', '💡', '🔦', '🕯', '🪔', '🧯', '🛢', '💸', '💵', '💴', '💶', '💷', '💰', '💳', '💎', '⚖️', '🧰', '🔧', '🔨', '⚒', '🛠', '⛏', '🔩', '⚙️', '🧱', '⛓', '🧲', '🔫', '💣', '🧨', '🪓', '🔪', '🗡', '⚔️', '🛡', '🚬', '⚰️', '⚱️', '🏺', '🔮', '📿', '🧿', '💈', '⚗️', '⚗️', '🔭', '🔬', '🕳', '🩹', '🩺', '💊', '💉', '🩸', '🧬', '🦠', '🧫', '🧪', '🌡', '🧹', '🧺', '🧻', '🚽', '🚰', '🚿', '🛁', '🛀', '🧼', '🪒', '🧽', '🧴', '🛎', '🔑', '🗝', '🚪', '🪑', '🛋', '🛏', '🛌', '🧸', '🖼', '🛍', '🎁', '🎈', '🎏', '🎀', '🎊', '🎉', '🎎', '🏮', '🎐', '🧧', '✉️', '📩', '📨', '📧', '💌', '📥', '📤', '📦', '🏷', '📪', '📫', '📬', '📭', '📮', '📯', '📜', '📃', '📄', '📑', '🧾', '📊', '📈', '📉', '🗒', '🗓', '📆', '📅', '🗑', '📇', '🗃', '🗳', '🗄', '📋', '📁', '📂', '🗂', '🗞', '📰', '📓', '📔', '📒', '📕', '📗', '📘', '📙', '📚', '📖', '🔖', '🧷', '🔗', '📎', '🖇', '📐', '📏', '🧮', '📌', '📍', '✂️', '🖊', '🖋', '✒️', '🖌', '🖍', '📝', '✏️', '🔍', '🔎', '🔏', '🔐', '🔒', '🔓'],
-            symbols: ['❤️', '🧡', '💛', '💚', '💙', '💜', '🖤', '🤍', '🤎', '💔', '❣️', '💕', '💞', '💓', '💗', '💖', '💘', '💝', '👁‍🗨', '🛑', '⚠️', '🚸', '⛔', '🚫', '🚳', '🚭', '🚯', '🚱', '🚷', '📵', '🔞', '☢️', '☣️', '⬆️', '↗️', '➡️', '↘️', '⬇️', '↙️', '⬅️', '↖️', '↕️', '↔️', '↩️', '↪️', '⤴️', '⤵️', '🔃', '🔄', '🔙', '🔚', '🔛', '🔜', '🔝', '🛐', '⚛️', '🕉', '✡️', '☸️', '☯️', '✝️', '☦️', '☪️', '☮️', '🕎', '🔯', '♈', '♉', '♊', '♋', '♌', '♍', '♎', '♏', '♐', '♑', '♒', '♓', '🆔', '⚛️', '🉑', '☢️', '☣️', '📴', '📳', '🈶', '🈚', '🈸', '🈺', '🈷️', '✴️', '🆚', '💮', '🉐', '㊙️', '㊗️', '🈴', '🈵', '🈹', '🈲', '🅰️', '🅱️', '🆎', '🆑', '🅾️', '🆘', '❌', '⭕', '🛑', '⛔', '📛', '🚫', '💯', '💢', '♨️', '🚷', '🚯', '🚳', '🚱', '🔞', '📵', '🚭', '❗', '❕', '❓', '❔', '‼️', '⁉️', '🔅', '🔆', '〽️', '⚠️', '🚸', '🔱', '⚜️', '🔰', '♻️', '🈯', '💹', '❇️', '✳️', '❎', '🌐', '💠', 'Ⓜ️', '🌀', '💤', '🏧', '🚾', '♿', '🅿️', '🈳', '🈂️', '🛂', '🛃', '🛄', '🉑', '㊙️', '㊗️', '🈴', '🈵', '🈹', '🈲', '🅰️', '🅱️', '🆎', '🆑', '🅾️', '🆘', '❌', '⭕', '🛑', '⛔', '📛', '🚫', '💯', '💢', '♨️', '🚷', '🚯', '🚳', '🚱', '🔞', '📵', '🚭', '❗', '❕', '❓', '❔', '‼️', '⁉️', '🔅', '🔆', '〽️', '⚠️', '🚸', '🔱', '⚜️', '🔰', '♻️', '🈯', '💹', '❇️', '✳️', '❎', '🌐', '💠', 'Ⓜ️', '🌀', '💤', '🏧', '🚾', '♿', '🅿️', '🈳', '🈂️', '🛂', '🛃', '🛄'],
-            flags: ['🏁', '🚩', '🎌', '🏴', '🏳️', '🏳️‍🌈', '🏳️‍⚧️', '🏴‍☠️', '🇦🇨', '🇦🇩', '🇦🇪', '🇦🇫', '🇦🇬', '🇦🇮', '🇦🇱', '🇦🇲', '🇦🇴', '🇦🇶', '🇦🇷', '🇦🇸', '🇦🇹', '🇦🇺', '🇦🇼', '🇦🇽', '🇦🇿', '🇧🇦', '🇧🇧', '🇧🇩', '🇧🇪', '🇧🇫', '🇧🇬', '🇧🇭', '🇧🇮', '🇧🇯', '🇧🇱', '🇧🇲', '🇧🇳', '🇧🇴', '🇧🇶', '🇧🇷', '🇧🇸', '🇧🇹', '🇧🇻', '🇧🇼', '🇧🇾', '🇧🇿', '🇨🇦', '🇨🇨', '🇨🇩', '🇨🇫', '🇨🇬', '🇨🇭', '🇨🇮', '🇨🇰', '🇨🇱', '🇨🇲', '🇨🇳', '🇨🇴', '🇨🇵', '🇨🇷', '🇨🇺', '🇨🇻', '🇨🇼', '🇨🇽', '🇨🇾', '🇨🇿', '🇩🇪', '🇩🇬', '🇩🇯', '🇩🇰', '🇩🇲', '🇩🇴', '🇩🇿', '🇪🇦', '🇪🇨', '🇪🇪', '🇪🇬', '🇪🇭', '🇪🇷', '🇪🇸', '🇪🇹', '🇪🇺', '🇫🇮', '🇫🇯', '🇫🇰', '🇫🇲', '🇫🇴', '🇫🇷', '🇬🇦', '🇬🇧', '🇬🇩', '🇬🇪', '🇬🇫', '🇬🇬', '🇬🇭', '🇬🇮', '🇬🇱', '🇬🇲', '🇬🇳', '🇬🇵', '🇬🇶', '🇬🇷', '🇬🇸', '🇬🇹', '🇬🇺', '🇬🇼', '🇬🇾', '🇭🇰', '🇭🇲', '🇭🇳', '🇭🇷', '🇭🇹', '🇭🇺', '🇮🇨', '🇮🇩', '🇮🇪', '🇮🇱', '🇮🇲', '🇮🇳', '🇮🇴', '🇮🇶', '🇮🇷', '🇮🇸', '🇮🇹', '🇯🇪', '🇯🇲', '🇯🇴', '🇯🇵', '🇰🇪', '🇰🇬', '🇰🇭', '🇰🇮', '🇰🇲', '🇰🇳', '🇰🇵', '🇰🇷', '🇰🇼', '🇰🇾', '🇰🇿', '🇱🇦', '🇱🇧', '🇱🇨', '🇱🇮', '🇱🇰', '🇱🇷', '🇱🇸', '🇱🇹', '🇱🇺', '🇱🇻', '🇱🇾', '🇲🇦', '🇲🇨', '🇲🇩', '🇲🇪', '🇲🇫', '🇲🇬', '🇲🇭', '🇲🇰', '🇲🇱', '🇲🇲', '🇲🇳', '🇲🇴', '🇲🇵', '🇲🇶', '🇲🇷', '🇲🇸', '🇲🇹', '🇲🇺', '🇲🇻', '🇲🇼', '🇲🇽', '🇲🇾', '🇲🇿', '🇳🇦', '🇳🇨', '🇳🇪', '🇳🇫', '🇳🇬', '🇳🇮', '🇳🇱', '🇳🇴', '🇳🇵', '🇳🇷', '🇳🇺', '🇳🇿', '🇴🇲', '🇵🇦', '🇵🇪', '🇵🇫', '🇵🇬', '🇵🇭', '🇵🇰', '🇵🇱', '🇵🇲', '🇵🇳', '🇵🇷', '🇵🇸', '🇵🇹', '🇵🇼', '🇵🇾', '🇶🇦', '🇷🇪', '🇷🇴', '🇷🇸', '🇷🇺', '🇷🇼', '🇸🇦', '🇸🇧', '🇸🇨', '🇸🇩', '🇸🇪', '🇸🇬', '🇸🇭', '🇸🇮', '🇸🇯', '🇸🇰', '🇸🇱', '🇸🇲', '🇸🇳', '🇸🇴', '🇸🇷', '🇸🇸', '🇸🇹', '🇸🇻', '🇸🇽', '🇸🇾', '🇸🇿', '🇹🇦', '🇹🇨', '🇹🇩', '🇹🇫', '🇹🇬', '🇹🇭', '🇹🇯', '🇹🇰', '🇹🇱', '🇹🇲', '🇹🇳', '🇹🇴', '🇹🇷', '🇹🇹', '🇹🇻', '🇹🇼', '🇹🇿', '🇺🇦', '🇺🇬', '🇺🇲', '🇺🇳', '🇺🇸', '🇺🇾', '🇺🇿', '🇻🇦', '🇻🇨', '🇻🇪', '🇻🇬', '🇻🇮', '🇻🇳', '🇻🇺', '🇼🇫', '🇼🇸', '🇽🇰', '🇾🇪', '🇾🇹', '🇿🇦', '🇿🇲', '🇿🇼']
-        };
-
         // Wait for DOM to be fully loaded
         document.addEventListener('DOMContentLoaded', function() {
             // DOM Elements
@@ -1086,20 +757,12 @@
             const chatHistory = document.getElementById('chat-history');
             const inputField = document.getElementById('input-field');
             const sendButton = document.getElementById('send-button');
-            const emojiBtn = document.getElementById('emoji-btn');
-            const emojiPicker = document.getElementById('emoji-picker');
-            const emojiGrid = document.getElementById('emoji-grid');
-            const codeModal = document.getElementById('code-modal');
-            const modalClose = document.getElementById('modal-close');
-            const modalTitle = document.getElementById('modal-title');
-            const modalCode = document.getElementById('modal-code');
 
             // State
             let chats = {};
             let currentChatId = null;
-            let currentEmojiCategory = 'smileys';
             const STORAGE_KEY = 'xavai_chats';
-            const API_URL = '/api/ai.js'; // DIPERBAIKI: Menggunakan endpoint yang benar
+            const API_URL = '/api/ai.js';
 
             // Initialize
             function init() {
@@ -1107,7 +770,9 @@
                 setupEventListeners();
                 adjustTextareaHeight();
                 checkMobileView();
-                renderEmojiGrid();
+                
+                // Add welcome message
+                addMessage('Halo! Saya XavAi, dibuat oleh GusOfcXD 404. Tiktok saya: @gusofcxd.4.0.4. Ada yang bisa saya bantu?', 'bot');
             }
 
             // Check if mobile view
@@ -1147,7 +812,8 @@
                     if (Object.keys(chats).length === 0 || !chats[lastId]) {
                         createNewChat();
                     } else {
-                        switchToChat(lastId);
+                        currentChatId = lastId;
+                        renderChat();
                     }
                     
                     renderChatHistory();
@@ -1164,7 +830,10 @@
                 currentChatId = newId;
                 saveChats();
                 renderChatHistory();
-                renderChat();
+                
+                // Clear chat container and add welcome message
+                chatContainer.innerHTML = '';
+                addMessage('Halo! Saya XavAi, dibuat oleh GusOfcXD 404. Tiktok saya: @gusofcxd.4.0.4. Ada yang bisa saya bantu?', 'bot');
             }
 
             // Switch to specific chat
@@ -1226,108 +895,79 @@
                 chatContainer.innerHTML = '';
                 
                 if (chats[currentChatId].length === 0) {
-                    const welcomeMessage = document.createElement('div');
-                    welcomeMessage.className = 'message bot';
-                    welcomeMessage.innerHTML = `
-                        <div class="message-avatar">
-                            <i class="fas fa-robot"></i>
-                        </div>
-                        <div class="message-content">
-                            <div class="message-text">Halo! Saya XavAi, dibuat oleh GusOfcXD 404. Tiktok saya: @gusofcxd.4.0.4. Ada yang bisa saya bantu?</div>
-                            <div class="message-time">${getCurrentTime()}</div>
-                        </div>
-                    `;
-                    chatContainer.appendChild(welcomeMessage);
+                    addMessage('Halo! Saya XavAi, dibuat oleh GusOfcXD 404. Tiktok saya: @gusofcxd.4.0.4. Ada yang bisa saya bantu?', 'bot');
                     return;
                 }
                 
                 chats[currentChatId].forEach(msg => {
-                    addMessageToChat(msg);
+                    addMessage(msg.content, msg.sender);
                 });
             }
 
-            // Add message to chat
-            function addMessageToChat(msg) {
-                const messageElement = document.createElement('div');
-                messageElement.className = `message ${msg.sender}`;
-                
-                const avatar = document.createElement('div');
-                avatar.className = 'message-avatar';
-                avatar.innerHTML = msg.sender === 'user' ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>';
-                
-                const content = document.createElement('div');
-                content.className = 'message-content';
-                
-                if (msg.type === 'code') {
-                    const textElement = document.createElement('div');
-                    textElement.className = 'message-text';
-                    textElement.textContent = msg.text || 'Berikut adalah kode yang diminta:';
-                    content.appendChild(textElement);
-                    
-                    const codeContainer = document.createElement('div');
-                    codeContainer.className = 'code-container';
-                    
-                    const codeHeader = document.createElement('div');
-                    codeHeader.className = 'code-header';
-                    codeHeader.innerHTML = `
-                        <span>${msg.filename || 'code.txt'}</span>
-                        <div class="code-actions">
-                            <button class="view-btn">Lihat</button>
-                            <button class="copy-btn">Salin</button>
-                        </div>
-                    `;
-                    
-                    const codeContent = document.createElement('div');
-                    codeContent.className = 'code-content';
-                    codeContent.textContent = msg.content;
-                    
-                    codeContainer.appendChild(codeHeader);
-                    codeContainer.appendChild(codeContent);
-                    content.appendChild(codeContainer);
-                    
-                    // Event listeners for code actions
-                    codeHeader.querySelector('.view-btn').addEventListener('click', function() {
-                        modalTitle.textContent = msg.filename || 'code.txt';
-                        modalCode.textContent = msg.content;
-                        codeModal.style.display = 'flex';
-                    });
-                    
-                    codeHeader.querySelector('.copy-btn').addEventListener('click', function() {
-                        navigator.clipboard.writeText(msg.content).then(function() {
-                            const copyBtn = codeHeader.querySelector('.copy-btn');
-                            const originalText = copyBtn.textContent;
-                            copyBtn.textContent = 'Tersalin!';
-                            setTimeout(function() {
-                                copyBtn.textContent = originalText;
-                            }, 2000);
-                        });
-                    });
-                } else {
-                    const textElement = document.createElement('div');
-                    textElement.className = 'message-text';
-                    textElement.textContent = msg.content;
-                    content.appendChild(textElement);
-                }
-                
-                const timeElement = document.createElement('div');
-                timeElement.className = 'message-time';
-                timeElement.innerHTML = `
-                    ${msg.time || getCurrentTime()}
-                    ${msg.sender === 'user' ? '<i class="fas fa-check check-icon"></i>' : ''}
+            // SOLUSI FIX 1: Fungsi addMessage yang benar
+            function addMessage(text, sender = 'user') {
+                const msg = document.createElement('div');
+                msg.className = `message ${sender}`;
+
+                msg.innerHTML = `
+                    <div class="message-avatar">
+                        <i class="fas ${sender === 'user' ? 'fa-user' : 'fa-robot'}"></i>
+                    </div>
+                    <div class="message-content">
+                        <div class="message-text">${text}</div>
+                        <div class="message-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                    </div>
                 `;
-                content.appendChild(timeElement);
+
+                chatContainer.appendChild(msg);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
                 
-                messageElement.appendChild(avatar);
-                messageElement.appendChild(content);
-                chatContainer.appendChild(messageElement);
-                
-                // Scroll to bottom with smooth animation
-                setTimeout(() => {
-                    chatContainer.scrollTo({
-                        top: chatContainer.scrollHeight,
-                        behavior: 'smooth'
+                // Save message to current chat
+                if (currentChatId) {
+                    chats[currentChatId].push({
+                        sender: sender,
+                        content: text,
+                        time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                        timestamp: new Date().toISOString()
                     });
-                }, 100);
+                    saveChats();
+                }
+            }
+
+            // SOLUSI FIX 2: Fungsi sendMessage yang benar
+            function sendMessage() {
+                const text = inputField.value.trim();
+                if (!text) return;
+
+                addMessage(text, 'user');
+                inputField.value = '';
+                adjustTextareaHeight();
+
+                // Show typing indicator
+                showTypingIndicator();
+
+                // Call API
+                fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        prompt: text,
+                        messages: chats[currentChatId] || []
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    hideTypingIndicator();
+                    const botResponse = data.response || data.data || data.message || data.answer || 'Maaf, saya tidak bisa merespons saat ini.';
+                    addMessage(botResponse, 'bot');
+                })
+                .catch(error => {
+                    hideTypingIndicator();
+                    console.error('Error:', error);
+                    addMessage('Maaf, terjadi kesalahan saat memproses pesan Anda.', 'bot');
+                });
             }
 
             // Show typing indicator
@@ -1363,148 +1003,13 @@
                 }
             }
 
-            // Get current time
-            function getCurrentTime() {
-                const now = new Date();
-                return now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
-            }
-
-            // Get filename from code
-            function getFilenameFromCode(code) {
-                if (code.includes('<!DOCTYPE') || code.includes('<html')) return 'index.html';
-                if (code.includes('def ') || code.includes('import ')) return 'script.py';
-                if (code.includes('public class ')) return 'Main.java';
-                if (code.includes('function ') || code.includes('const ') || code.includes('console.log')) return 'app.js';
-                if (code.includes('<?php')) return 'index.php';
-                return 'code.txt';
-            }
-
-            // Render emoji grid
-            function renderEmojiGrid() {
-                emojiGrid.innerHTML = '';
-                const emojis = emojiData[currentEmojiCategory];
-                
-                emojis.forEach(emoji => {
-                    const emojiItem = document.createElement('div');
-                    emojiItem.className = 'emoji-item';
-                    emojiItem.textContent = emoji;
-                    emojiItem.addEventListener('click', function() {
-                        insertEmoji(emoji);
-                    });
-                    emojiGrid.appendChild(emojiItem);
-                });
-            }
-
-            // Insert emoji into input field
-            function insertEmoji(emoji) {
-                const cursorPosition = inputField.selectionStart;
-                const textBefore = inputField.value.substring(0, cursorPosition);
-                const textAfter = inputField.value.substring(cursorPosition);
-                
-                inputField.value = textBefore + emoji + textAfter;
-                inputField.focus();
-                inputField.setSelectionRange(cursorPosition + emoji.length, cursorPosition + emoji.length);
-                
-                emojiPicker.classList.remove('show');
-            }
-
-            // Send message - DIPERBAIKI
-            async function sendMessage() {
-                const message = inputField.value.trim();
-                if (!message) return;
-                
-                // Add user message to chat
-                const userMessage = {
-                    sender: 'user',
-                    content: message,
-                    time: getCurrentTime(),
-                    timestamp: new Date().toISOString()
-                };
-                
-                chats[currentChatId].push(userMessage);
-                addMessageToChat(userMessage);
-                saveChats();
-                
-                // Clear input field
-                inputField.value = '';
-                adjustTextareaHeight();
-                
-                // Disable send button and show typing indicator
-                sendButton.disabled = true;
-                showTypingIndicator();
-                
-                try {
-                    // DIPERBAIKI: Call API dengan endpoint yang benar
-                    const response = await fetch(API_URL, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ 
-                            prompt: message,
-                            messages: chats[currentChatId] // Kirim history chat untuk context
-                        })
-                    });
-                    
-                    const data = await response.json();
-                    
-                    if (!response.ok) {
-                        throw new Error(data.error || 'Terjadi kesalahan saat memproses permintaan Anda');
-                    }
-                    
-                    // Check if response contains code
-                    let botMessage;
-                    if (message.toLowerCase().startsWith('code:') || message.toLowerCase().startsWith('buatkan kode:')) {
-                        botMessage = {
-                            sender: 'bot',
-                            type: 'code',
-                            content: data.response || data.data || data.message || data.answer,
-                            filename: getFilenameFromCode(data.response || data.data || data.message || data.answer),
-                            time: getCurrentTime(),
-                            timestamp: new Date().toISOString()
-                        };
-                    } else {
-                        botMessage = {
-                            sender: 'bot',
-                            content: data.response || data.data || data.message || data.answer,
-                            time: getCurrentTime(),
-                            timestamp: new Date().toISOString()
-                        };
-                    }
-                    
-                    // Add bot message to chat
-                    chats[currentChatId].push(botMessage);
-                    addMessageToChat(botMessage);
-                    saveChats();
-                    
-                } catch (error) {
-                    console.error('Error:', error);
-                    
-                    // Add error message to chat
-                    const errorMessage = {
-                        sender: 'bot',
-                        content: `Maaf, terjadi kesalahan: ${error.message}`,
-                        time: getCurrentTime(),
-                        timestamp: new Date().toISOString()
-                    };
-                    
-                    chats[currentChatId].push(errorMessage);
-                    addMessageToChat(errorMessage);
-                    saveChats();
-                } finally {
-                    // Enable send button and hide typing indicator
-                    sendButton.disabled = false;
-                    hideTypingIndicator();
-                }
-            }
-
             // Adjust textarea height
             function adjustTextareaHeight() {
                 inputField.style.height = 'auto';
                 inputField.style.height = Math.min(inputField.scrollHeight, 100) + 'px';
             }
 
-            // Setup event listeners - DIPERBAIKI
+            // Setup event listeners
             function setupEventListeners() {
                 // Menu toggle
                 if (menuToggle) {
@@ -1523,12 +1028,12 @@
                     fabNewChat.addEventListener('click', createNewChat);
                 }
                 
-                // Send button
+                // SOLUSI FIX 3: Event listener untuk tombol kirim
                 if (sendButton) {
                     sendButton.addEventListener('click', sendMessage);
                 }
                 
-                // Input field
+                // SOLUSI FIX 4: Event listener untuk Enter key
                 if (inputField) {
                     inputField.addEventListener('keydown', function(e) {
                         if (e.key === 'Enter' && !e.shiftKey) {
@@ -1539,44 +1044,6 @@
                     
                     inputField.addEventListener('input', adjustTextareaHeight);
                 }
-                
-                // Emoji button
-                if (emojiBtn) {
-                    emojiBtn.addEventListener('click', function() {
-                        emojiPicker.classList.toggle('show');
-                    });
-                }
-                
-                // Emoji categories
-                document.querySelectorAll('.emoji-category').forEach(category => {
-                    category.addEventListener('click', function() {
-                        document.querySelectorAll('.emoji-category').forEach(c => c.classList.remove('active'));
-                        this.classList.add('active');
-                        currentEmojiCategory = this.dataset.category;
-                        renderEmojiGrid();
-                    });
-                });
-                
-                // Close emoji picker when clicking outside
-                document.addEventListener('click', function(e) {
-                    if (!emojiPicker.contains(e.target) && e.target !== emojiBtn) {
-                        emojiPicker.classList.remove('show');
-                    }
-                });
-                
-                // Modal close
-                if (modalClose) {
-                    modalClose.addEventListener('click', function() {
-                        codeModal.style.display = 'none';
-                    });
-                }
-                
-                // Close modal when clicking outside
-                window.addEventListener('click', function(e) {
-                    if (e.target === codeModal) {
-                        codeModal.style.display = 'none';
-                    }
-                });
                 
                 // Handle window resize
                 window.addEventListener('resize', function() {
