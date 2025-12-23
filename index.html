@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>XavAi</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -452,7 +452,7 @@
             }
         }
 
-        /* Input Area */
+        /* Input Area - PERBAIKAN UTAMA */
         .input-area {
             padding: 15px;
             background-color: var(--input-bg);
@@ -462,7 +462,8 @@
             flex-shrink: 0;
             position: sticky;
             bottom: 0;
-            z-index: 5;
+            z-index: 1000;
+            width: 100%;
         }
 
         .input-wrapper {
@@ -606,7 +607,7 @@
             border: 1px solid #e9ecef;
         }
 
-        /* Responsive Design */
+        /* Responsive Design - PERBAIKAN UTAMA */
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -618,15 +619,101 @@
 
             .chat-area {
                 margin-left: 0;
+                width: 100%;
             }
 
             .chat-header .menu-toggle {
                 display: block;
             }
+
+            /* Menyembunyikan tombol New Chat di HP */
+            .new-chat-btn {
+                display: none;
+            }
+        }
+
+        /* Anti Desktop Mode - PERBAIKAN UTAMA */
+        .desktop .mobile-only {
+            display: none;
+        }
+
+        .mobile .desktop-only {
+            display: none;
+        }
+
+        /* Floating Action Button untuk HP */
+        .fab-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: none;
+        }
+
+        .fab {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .fab:hover {
+            background-color: var(--secondary-color);
+            transform: scale(1.05);
+        }
+
+        .fab:active {
+            transform: scale(0.95);
+        }
+
+        .mobile .fab-container {
+            display: block;
+        }
+
+        /* Alert untuk mode desktop di HP */
+        .desktop-mode-alert {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #ff9800;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            z-index: 2000;
+            display: none;
+        }
+
+        .desktop-mode-alert.show {
+            display: block;
+        }
+
+        .desktop-mode-alert button {
+            background: none;
+            border: 1px solid white;
+            color: white;
+            padding: 5px 10px;
+            margin-left: 10px;
+            border-radius: 4px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
+    <div class="desktop-mode-alert" id="desktop-mode-alert">
+        <span>Mode desktop tidak didukung di perangkat mobile. Silakan gunakan mode mobile untuk pengalaman terbaik.</span>
+        <button id="close-alert">Tutup</button>
+    </div>
+
     <div class="app-container">
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
@@ -635,7 +722,7 @@
                 </div>
                 <h2>XavAi</h2>
             </div>
-            <button class="new-chat-btn" id="new-chat-btn">
+            <button class="new-chat-btn desktop-only" id="new-chat-btn">
                 <i class="fas fa-plus"></i>
                 Obrolan Baru
             </button>
@@ -646,7 +733,7 @@
 
         <div class="chat-area">
             <div class="chat-header">
-                <button class="menu-toggle" id="menu-toggle">
+                <button class="menu-toggle mobile-only" id="menu-toggle">
                     <i class="fas fa-bars"></i>
                 </button>
                 <div class="chat-avatar">
@@ -678,6 +765,13 @@
         </div>
     </div>
 
+    <!-- Floating Action Button untuk HP -->
+    <div class="fab-container mobile-only">
+        <button class="fab" id="fab-new-chat">
+            <i class="fas fa-plus"></i>
+        </button>
+    </div>
+
     <div class="modal" id="code-modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -697,6 +791,7 @@
             const sidebar = document.getElementById('sidebar');
             const menuToggle = document.getElementById('menu-toggle');
             const newChatBtn = document.getElementById('new-chat-btn');
+            const fabNewChat = document.getElementById('fab-new-chat');
             const chatContainer = document.getElementById('chat-container');
             const chatHistory = document.getElementById('chat-history');
             const inputField = document.getElementById('input-field');
@@ -705,6 +800,8 @@
             const modalClose = document.getElementById('modal-close');
             const modalTitle = document.getElementById('modal-title');
             const modalCode = document.getElementById('modal-code');
+            const desktopModeAlert = document.getElementById('desktop-mode-alert');
+            const closeAlertBtn = document.getElementById('close-alert');
 
             // State
             let chats = {};
@@ -712,8 +809,37 @@
             const STORAGE_KEY = 'xavai_chats';
             const API_URL = '/api/ai';
 
+            // DETECT DESKTOP MODE - PERBAIKAN UTAMA
+            function detectDeviceMode() {
+                const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                
+                if (isMobile) {
+                    document.body.classList.add('mobile');
+                    
+                    // Cek jika user mencoba menggunakan mode desktop di HP
+                    if (window.innerWidth > 900) {
+                        desktopModeAlert.classList.add('show');
+                        
+                        // Opsi 1: Tampilkan peringatan
+                        setTimeout(() => {
+                            desktopModeAlert.classList.remove('show');
+                        }, 5000);
+                        
+                        // Opsi 2: Paksa reload ke mode mobile (opsional, aktifkan jika diperlukan)
+                        // setTimeout(() => {
+                        //     if (window.innerWidth > 900) {
+                        //         location.reload();
+                        //     }
+                        // }, 5000);
+                    }
+                } else {
+                    document.body.classList.add('desktop');
+                }
+            }
+
             // Initialize
             function init() {
+                detectDeviceMode();
                 loadChats();
                 setupEventListeners();
                 adjustTextareaHeight();
@@ -771,7 +897,7 @@
                 currentChatId = id;
                 renderChat();
                 renderChatHistory();
-                if (window.innerWidth <= 768) {
+                if (document.body.classList.contains('mobile')) {
                     sidebar.classList.remove('open');
                 }
             }
@@ -1071,6 +1197,11 @@
                     newChatBtn.addEventListener('click', createNewChat);
                 }
                 
+                // FAB New Chat button for mobile
+                if (fabNewChat) {
+                    fabNewChat.addEventListener('click', createNewChat);
+                }
+                
                 // Send button
                 if (sendButton) {
                     sendButton.addEventListener('click', sendMessage);
@@ -1095,6 +1226,13 @@
                     });
                 }
                 
+                // Close alert button
+                if (closeAlertBtn) {
+                    closeAlertBtn.addEventListener('click', function() {
+                        desktopModeAlert.classList.remove('show');
+                    });
+                }
+                
                 // Close modal when clicking outside
                 window.addEventListener('click', function(e) {
                     if (e.target === codeModal) {
@@ -1104,6 +1242,7 @@
                 
                 // Handle window resize
                 window.addEventListener('resize', function() {
+                    detectDeviceMode();
                     if (window.innerWidth > 768) {
                         sidebar.classList.remove('open');
                     }
